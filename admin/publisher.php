@@ -88,6 +88,15 @@ if(isset($_POST["insert_publisher"])){
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+    <style>
+        .hide {
+            display: none;
+        }
+        .show{
+            display: flex;
+        }
+    </style>
+
 </head>
 
 <body id="page-top">
@@ -120,7 +129,7 @@ if(isset($_POST["insert_publisher"])){
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-bordered table-hover" id="dataTable">
                                         <thead>
                                             
                                             <tr>
@@ -136,32 +145,19 @@ if(isset($_POST["insert_publisher"])){
                                                 <th>E/D</th>
                                             </tr>
                                         </thead>
-                                        <!-- <tfoot>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
-                                            </tr>
-                                        </tfoot> -->
-
+                                        <tbody >
+                                    
                                         <?php 
                                             $sql = "select * from publisher";
                                             $result = mysqli_query($conn, $sql);
                                             
                                             while ($row = mysqli_fetch_assoc($result)) {?>
                                             
-                                                <tbody >
-                                                    <style>
-                                                       
-                                                    </style>
-                                                    <tr id="t_body">
+                                                    <tr>
                                                         <style>
                                                             td{
                                                                text-align: center;
-                                                               font-size: 15px;
+                                                               font-size: 12px;
                                                             }
                                                         </style>
                                                         <td><img style="width:100px ;height:100px" src="#" alt="Not Found"></td>
@@ -182,17 +178,17 @@ if(isset($_POST["insert_publisher"])){
                                                                 <a href="publisher/unblockPublisher.php?id=<?php echo $row['id'] ?>" name="unblock" title="Want to unblock ?" class="btn btn-success btn-sm"> <i class="fas fa-check"></i> Unblock</a>
                                                             <?php } ?>
                                                         </td>
-                                                        <td id="t_wrapper" class="d-flex justify-content-center align-items-center">
-                                                            <div class="d-flex">
+                                                        <td >
+                                                            <div class="d-flex" id="t_button">
                                                                 <a href="publisher/delete.php?id=<?php echo  $row["id"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                                <a href="publisher/update.php?id=<?php echo  $row["id"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
+                                                                <a href="publisher/update.php?id=<?php echo  $row["id"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen"></i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     
-                                                </tbody>
-
+                                                    
                                             <?php } ?>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -270,6 +266,10 @@ if(isset($_POST["insert_publisher"])){
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+
+    <script>
+        document.getElementById("t_button").classlist.add("hide");
+    </script>
 
 </body>
 

@@ -62,7 +62,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
 
                 <!-- Begin Page Content -->
                 <div class="row p-1">
-                    <div class="col-9" >
+                    <div class="col-lg-9" >
                         <div class="card">
                             <div class="card-header">
                                 <h6 class="m-0 font-weight-bold text-primary">Category Data</h6>
@@ -105,10 +105,11 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                         td{
                                                             text-align: left;
                                                             color:black;
+                                                            font-size: 13px;
                                                         }
                                                     </style>
                                                     
-                                                    <td><?php echo $row["name"] ?></td>
+                                                    <td> <a href="/coderbees/admin/category_view?category=<?php echo $row["id"]?>"><?php echo $row["name"] ?></a> </td>
                                                     <td><?php echo $row["slug"] ?></td>
                                                     <td><img style="width:50px; height:50px" src="uploads/image/<?php echo $row["image"] ?>" alt="Not Found"></td>
                                                     <td><?php echo $row["created_at"] ?></td>
@@ -139,7 +140,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                     
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-lg-3">
                         <div class="card">
                             <div class="card-header">
                                 <h6 class="m-0 font-weight-bold text-primary">Add Category</h6>
@@ -154,6 +155,49 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                         <button type="submit" class="btn btn-primary btn-sm" name="category_add">Add</button>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="m-0 font-weight-bold text-primary">Category Statistics View</h6>
+                            </div>
+                            <div class="card-body">
+                                <div style="display: grid; grid-template-columns:1fr 1fr; text-align:center; grid-template-rows: 1fr 1fr; grid-row-gap: 2px; grid-column-gap: 2px; color:white;">
+                                    <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
+                                        <strong class="text-bold">Category</strong>
+                                        
+                                        <p>01</p>
+                                    </div>
+                                    <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
+                                        <strong class="text-bold">Active</strong>
+                                        
+                                        <p>01</p>
+                                    </div>
+                                    
+                                    <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
+                                        <strong class="text-bold">Muted</strong>
+                                        
+                                        <p>01</p>
+                                    </div>
+                                    <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
+                                        <strong class="text-bold">Author</strong>
+                                        
+                                        <p>01</p>
+                                    </div>
+                                    <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
+                                        <strong class="text-bold">Most Post</strong>
+                                        
+                                        <p>01</p>
+                                    </div>
+                                    
+                                    <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
+                                        <strong class="text-bold">Deleted</strong>
+                                        
+                                        <p>01</p>
+                                    </div>
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>

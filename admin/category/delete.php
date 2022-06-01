@@ -1,0 +1,31 @@
+<?php 
+include "../connection.php";
+
+$id = $_GET["id"];
+
+//get all caegory by id
+$cat = getCategory($id);
+
+//sever delete
+$sql = "DELETE FROM category where id = '$id'";
+$result = mysqli_query($conn, $sql);
+
+//force delete image from file
+@unlink('uploads/image/'.$cat['image']);
+
+if ($result ){
+    ?>
+        <script>
+            alert("Successfully Deleted !");
+            window.location.href = "index.php";
+        </script>
+    <?php
+}else {
+    ?>
+        <script>
+            alert("Not Deleted !");
+            window.location.href = "index.php"
+        </script>
+    <?php
+}
+

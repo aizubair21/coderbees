@@ -178,11 +178,14 @@ if(isset($_POST["insert_publisher"])){
                                                                 <a href="publisher/unblockPublisher.php?id=<?php echo $row['id'] ?>" name="unblock" title="Want to unblock ?" class="btn btn-success btn-sm"> <i class="fas fa-check"></i> Unblock</a>
                                                             <?php } ?>
                                                         </td>
-                                                        <td >
-                                                            <div class="d-flex" id="t_button">
-                                                                <a href="publisher/delete.php?id=<?php echo  $row["id"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                                <a href="publisher/update.php?id=<?php echo  $row["id"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen"></i></a>
+                                                        <td id="action">
+                                                               
+                                                          
+                                                            <div class="d-block">
+                                                                <a href="publisher/delete.php?id=<?php echo  $row["id"] ?>" title="Delete" ><i ></i>Delete</a>
+                                                                <a href="publisher/update.php?id=<?php echo  $row["id"] ?>" title="Update" ><i ></i>Update</a>
                                                             </div>
+
                                                         </td>
                                                     </tr>
                                                     
@@ -246,6 +249,7 @@ if(isset($_POST["insert_publisher"])){
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js.map"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -268,7 +272,7 @@ if(isset($_POST["insert_publisher"])){
     <script src="js/demo/datatables-demo.js"></script>
 
     <script>
-        document.getElementById("t_button").classlist.add("hide");
+        
     </script>
 
 </body>

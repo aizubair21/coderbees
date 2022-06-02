@@ -2,7 +2,7 @@
 include "connection.php";
 
 if(!isset($_SESSION["publisher_key"])){
-    //header("location: login.php");
+    //header("location: ../login.php");
 }
 
 $key = $_SESSION["publisher_key"] ?? "";
@@ -162,37 +162,7 @@ $key = $_SESSION["publisher_key"] ?? "";
 
                     <!-- Content Row -->
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6 class="m-0 font-weight-bold text-primary">Posts Data</h6>
-                                </div>
-                                <div class="card-body">
-                                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Title</th>
-                                                <th>Category</th>
-                                                <th>Author</th>
-                                                <th>Status</th>
-                                                <th>Comments</th>
-                                                <th>Image</th>
-                                                <th>Post time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   
 
                 </div>
                 <!-- /.container-fluid -->

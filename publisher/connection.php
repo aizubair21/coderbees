@@ -6,7 +6,7 @@ $conn = mysqli_connect('localhost','root','','coderbees');
 $key = $_SESSION["publisher_key"] ?? '';
 
 if ($key) {
-    $GLOBALS['auth_publisher'] = getData($key);
+    $GLOBALS['auth_publisher'] = GetPublisher($key);
 }
 
 
@@ -20,7 +20,7 @@ define('CATEGORY_PATH', ROOT_PATH."category/");
 
 function getData($key){
     $conn = mysqli_connect('localhost','root','','users');
-    $data = "SELECT * FROM user WHERE id='$key'";
+    $data = "SELECT * FROM publisher WHERE id='$key'";
     $result = mysqli_query($conn, $data);
     if(mysqli_num_rows($result) > 0) {
         return $row = mysqli_fetch_assoc($result);
@@ -51,13 +51,12 @@ function getAllPublisher(){
      
 }
 
-function getCurd($key){
+function getPosts(){
     $conn = mysqli_connect('localhost','root','','coderbees');
-    $data = "SELECT * FROM crud WHERE id='$key'";
+    $data = "SELECT * FROM posts";
     $result = mysqli_query($conn, $data);
     if(mysqli_num_rows($result) > 0) {
-        return $row = mysqli_fetch_assoc($result);
-       
+        return mysqli_fetch_assoc($result);
     }else {
         return "Not found !";
     }

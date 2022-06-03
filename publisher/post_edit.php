@@ -6,7 +6,12 @@ if(!isset($_SESSION["publisher_key"])){
 }
 
 $key = $_SESSION["publisher_key"] ?? "";
+$postId = $_REQUEST["id"];
 
+
+
+//get upldated datq
+$post = getSingleData("posts",$postId);
 
 ?>
 
@@ -32,7 +37,8 @@ $key = $_SESSION["publisher_key"] ?? "";
 
     <!-- Custom styles for this template-->
     <link href="<?php PUBLISHER_PATH?>css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <style>
         td{
             text-align: center;
@@ -68,99 +74,73 @@ $key = $_SESSION["publisher_key"] ?? "";
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Publisher CP</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Short Overview</a>
+                        <h1 class="h3 mb-0 text-gray-800">Update and Edit post</h1>
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Posts</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-blogger-b fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Publisher</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-users fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Comments
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Waitting For Approval</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                   
                     <!-- Content Row -->
+
+                    <form action="" method="post" class="card text-dark" enctype="multipart/form-data" >
+                        
+                        <div class="row p-2 card-body">
+                            <div class="col-lg-8">
+                                <label for="title">Post Title :</label>
+                                <input type="text" name="title" id="title" placeholder="post title.." class="form-control" value=" <?php echo $post["postTitle"] ?>">
+                                <div class="form-text">
+                                    give your post a meaningfull and unique title
+                                    <p><?php $name_erro ?? "" ?></p>
+                                </div>
+                                
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="category">Category</label>
+                                <select name="category" id="category"  class="form-select form-control" aria-label="Default select example" >
+                                    <option > Select category </option>
+                                    <?php 
+                                        
+                                        $result = getCategories();
+                                        while ($row = mysqli_fetch_array($result)) {?>
+
+                                            <option <?php echo '($row["catId"] == $post["postCategory"]) ? SELECTED : ""' ?> ><?php echo $row["catName"] ?></option>
+
+                                        <?php }
+                                    ?>
+                                </select>
+                                <div class="form-text">
+                                    it is required to select a category. it is make easier to find post.
+                                    <p><?php $cat_error ?? "" ?></p>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 my-2">
+                                <label for="description">Post Details </label>
+                                <input type="text" class="form-control" name="description" id="summernote" value="<?php echo $post["post"]?>">
+                                <div class="form-text">
+                                    Describe your post
+                                </div>
+                            </div><hr>
+
+                            <div class="col-lg-6">
+                                <label for="tab">Tag</label>
+                                <input type="text" name="tag" id="tag" class="form-control" placeholder="ex : intetainment" value="<?php echo $post["postTag"] ?>">
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label for="image">Post Image</label><br>
+                                <img src="uploads/image/<?php $post["postImage"] ?>" alt="Not Found">
+                                <br>
+                                <input type="file" name="image" id="image" class="form-control form-input">
+                                <div>
+                                    Feature imag
+                                    <p><?php echo $image_error ?? "" ?></p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 float-end">
+                                <input  type="submit" name="post" class="btn btn-primary btn-md float-end" value="Update">
+                            </div>
+
+                        </div>
+                    </form>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -201,12 +181,15 @@ $key = $_SESSION["publisher_key"] ?? "";
     <script src="<?php PUBLISHER_PATH?>js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="<?php PUBLISHER_PATH?>vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="<?php PUBLISHER_PATH?>js/demo/chart-area-demo.js"></script>
-    <script src="<?php ROOT_PATH?>js/demo/chart-pie-demo.js"></script>
-    <script src="<?php PUBLISHER_PATH?>js/demo/datatables-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+      $('#summernote').summernote({
+        tabsize: 3,
+        height: 200
+      });
+    </script>
 
 </body>
 

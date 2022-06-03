@@ -5,11 +5,12 @@ if(!isset($_SESSION["publisher_key"])){
     //header("location: /coderbee/login.php");
 }
 
-$status = 1;
+$postStatus = 1;
 $key = $_SESSION["publisher_key"] ?? "";
+
 $post = "SELECT * FROM posts";
 $total_post = mysqli_num_rows(mysqli_query($conn, $post));
-$post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE status = '$status'"));
+$post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postStatus = '$postStatus'"));
  
 
 ?>
@@ -26,16 +27,18 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>All Posts - Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="<?php PUBLISHER_PATH?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="<?php PUBLISHER_PATH?>css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    
+    <link href="<?php PUBLISHER_PATH ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <style>
         td{
@@ -105,7 +108,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Approved</div>
+                                                Active</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $post_approved  ?></div>
                                         </div>
                                         <div class="col-auto">
@@ -171,7 +174,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                     <h6 class="m-0 font-weight-bold text-white">Posts Data</h6>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered table-hover" style="background-color: rgba(0,0,0,.1);" id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-bordere"  id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <style>
                                                 th {
@@ -179,40 +182,51 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                 }
                                             </style>
                                             <tr>
-                                                <th>Title</th>
-                                                <th>Category</th>
-                                                <th>Author</th>
-                                                <th>Status</th>
-                                                <th>Comments</th>
-                                                <th>Image</th>
-                                                <th>Post time</th>
+                                                <th>Post Title</th>
+                                                <th>Post Category</th>
+                                                <th>Post Author</th>
+                                                <th>publisher Status</th>
+                                                <th>Post Comments</th>
+                                                <th>Feature Image</th>
+                                                <th>Post Date</th>
                                                 <th>E/D</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $post = "SELECT * FROM posts";
+                                                $post = "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory";
                                                 $result = mysqli_query($conn, $post);
 
                                                 while ($row = mysqli_fetch_assoc($result)) {?>
                                                     
                                                     <tr>
-                                                        <td class="text-left"> <?php echo  $row["title"] ?> </td>
-                                                        <td class="text-left"><?php echo  $row["category"] ?></td>
-                                                        <td class="text-left"><?php echo  $row["author"] ?></td>
+                                                        <td class="text-left"> <a href="/coderbees/posts?id=<?php echo  $row["postId"] ?>"> <i class="fas fa-caret-right"></i> <?php echo  $row["postTitle"] ?> </a></td>
+                                                        <td class="text-left"><?php echo  $row["catName"] ?></td>
+                                                        <td class="text-left"> 
+                                                            <?php
+
+                                                                $category = getPublisher();
+                                                                while ($cat = mysqli_fetch_assoc($category)) {
+                                                                    if( $cat['publisherId'] == $row["postPublisher"] ){
+                                                                        echo $cat["publisherName"];
+                                                                    }
+                                                                }
+
+                                                            ?>
+                                                        </td>
                                                         <td>
                                                             <?php 
                                                             
-                                                                echo $row["status"] != 1 ? "<strong class='text text-danger'>waiting</strong>" : "<strong class='text text-success'>Approved</strong>";
+                                                                echo $row["postStatus"] != 1 ? "<strong class='text text-danger'>waiting</strong>" : "<strong class='text text-success'>Approved</strong>";
                                                             ?> 
                                                         </td>
                                                         <td></td>
-                                                        <td><img style="width:70px" src="uploads/post/<?php echo $row["image"] ?>" alt="Not Fount"></td>
-                                                        <td><?php echo $row["created_at"] ?></td>
+                                                        <td><img style="width:70px" src="uploads/post/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
+                                                        <td><?php echo $row["postCreated_at"] ?></td>
                                                         <td  class="d-flex justify-content-center align-items-center">
                                                             <div class="d-flex">
-                                                                <a href="delete.php?id=<?php echo  $row["id"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                                <a href="update.php?id=<?php echo  $row["id"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
+                                                                <a href="post_delete.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                                <a href="post_edit.php?id=<?php echo  $row["postId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -246,22 +260,27 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
 
 
     <!-- Bootstrap core JavaScript-->
-    <script src="<?php PUBLISHER_PATH?>vendor/jquery/jquery.min.js"></script>
-    <script src="<?php PUBLISHER_PATH?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="<?php PUBLISHER_PATH?>vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="<?php PUBLISHER_PATH?>js/sb-admin-2.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="<?php PUBLISHER_PATH?>vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="<?php PUBLISHER_PATH?>js/demo/chart-area-demo.js"></script>
-    <script src="<?php ROOT_PATH?>js/demo/chart-pie-demo.js"></script>
-    <script src="<?php PUBLISHER_PATH?>js/demo/datatables-demo.js"></script>
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+    
+    <!-- Page level plugins -->
+    <script src="<?php PUBLISHER_PATH ?>vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?php PUBLISHER_PATH ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
+
 
 </body>
 

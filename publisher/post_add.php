@@ -5,14 +5,15 @@ if(!isset($_SESSION["publisher_key"])){
     //header("location: login.php");
 }
 
-$publisher = $_SESSION["publisher_key"] ?? "";
+$key = $_SESSION["publisher_key"];
+
 
 
 
 if(isset($_POST["post"])){
 
     $title = $_POST["title"];
-    $author = $auth_publisher["id"];
+    $author = $auth_publisher["publisherId"];
     $category = $_POST["category"];
     $tag = $_POST["tag"];
     $description = $_POST["description"];
@@ -21,7 +22,7 @@ if(isset($_POST["post"])){
 
     //echo $created_at;
     //add post
-    $sql = "INSERT INTO posts (title, author, category, tag, description, image, created_at) VALUES ('$title','$author','$category','$tag','$description','$image','$created_at')";
+    $sql = "INSERT INTO posts (postTitle, postAuthor, postCategory, postTag, post, postImage, postCreated_at) VALUES ('$title','$author','$category','$tag','$description','$image','$created_at')";
     if (mysqli_query($conn, $sql)) {
 
         //upload post image to server
@@ -87,7 +88,7 @@ if(isset($_POST["post"])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Control - Dashboard</title>
+    <title> Add post - CB Control</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?php PUBLISHER_PATH?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

@@ -15,7 +15,7 @@ $password_error = "";
 $error = '';
 
 
-if (isset($_POST['register'])) {
+if (isset($_POST['register']) && $_POST["user_name"] != "" && $_POST["email"] != "" && $_POST["password"] != "" ) {
 
     $name = $_POST["name"];
     $user_name = $_POST["user_name"];
@@ -35,7 +35,7 @@ if (isset($_POST['register'])) {
         $password_error = 'Required fill ';
     }else {
 
-        $data = "SELECT * FROM admin WHERE email='$email'";
+        $data = "SELECT adminEmail FROM admin WHERE adminEmail='$email'";
         $result = mysqli_query($conn, $data);
         $row = mysqli_fetch_assoc($result);
         if(mysqli_num_rows($result) > 0){
@@ -49,7 +49,7 @@ if (isset($_POST['register'])) {
             if(strlen($_POST['password']) < 8 ){
                 $password_error = "Password at lest 8 digit.";
             }else {
-               $sql = "INSERT INTO admin (name, user_name, email, phone, password, address, created_at) VALUES ('$name','$user_name','$email','$phone','$password','$address','$created_at')";
+               $sql = "INSERT INTO admin (adminName, adminUser_name, adminEmail, adminphone, adminPassword, adminAddress, adminCreated_at) VALUES ('$name','$user_name','$email','$phone','$password','$address','$created_at')";
                if (mysqli_query($conn, $sql)) {
                     $_SESSION["register"] = "register";
                     header("location: login.php");

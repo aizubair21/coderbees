@@ -6,7 +6,7 @@ $id = $_REQUEST["id"];
 $row = getPublisher($id);
 $value = 1;
 
-    $sql = "UPDATE publisher SET status='$value' where id ='$id'";
+    $sql = "UPDATE publisher SET publisherStatus='$value' where publisherId ='$id'";
     if (mysqli_query($conn, $sql)){
         header("location: ../publisher.php");
     }else {

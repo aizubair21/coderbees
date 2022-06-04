@@ -11,10 +11,10 @@ define('CATEGORY_PATH', ROOT_PATH."category/");
 
 $conn = mysqli_connect('localhost','root','','coderbees');
 
-$key = $_SESSION["key"] ?? '';
+$key = $_SESSION["admin_key"] ?? '';
 
 if ($key) {
-    $GLOBALS['auth_user'] = getData($key);
+    $GLOBALS['auth_admin'] = getData($key);
 }
 
 
@@ -22,7 +22,7 @@ if ($key) {
 
 function getData($key){
     $conn = mysqli_connect('localhost','root','','coderbees');
-    $data = "SELECT * FROM publisher WHERE id='$key'";
+    $data = "SELECT * FROM publisher WHERE publisherId='$key'";
     $result = mysqli_query($conn, $data);
     if(mysqli_num_rows($result) > 0) {
         return $row = mysqli_fetch_assoc($result);
@@ -33,7 +33,7 @@ function getData($key){
 }
 function getCategory($key){
     $conn = mysqli_connect('localhost','root','','coderbees');
-    $data = "SELECT * FROM category WHERE id='$key'";
+    $data = "SELECT * FROM category WHERE catId='$key'";
     $result = mysqli_query($conn, $data);
     if(mysqli_num_rows($result) > 0) {
         return mysqli_fetch_assoc($result);
@@ -45,10 +45,10 @@ function getCategory($key){
 
 function getPublisher($key){
     $conn = mysqli_connect('localhost','root','','coderbees');
-    $data = "SELECT * FROM publisher WHERE id='$key'";
+    $data = "SELECT * FROM publisher WHERE publisherId='$key'";
     $result = mysqli_query($conn, $data);
     if(mysqli_num_rows($result) > 0) {
-        return $row = mysqli_fetch_assoc($result);
+        return  mysqli_fetch_assoc($result);
        
     }else {
         return "Not found !";
@@ -80,7 +80,7 @@ function getCurd($key){
 
 function isInAdminDatabase ($user_name) {
     $conn = mysqli_connect('localhost','root','','coderbees');
-    $data = "SELECT * FROM admin WHERE user_name='$user_name'";
+    $data = "SELECT * FROM admin WHERE adminUser_name='$user_name'";
     $result = mysqli_query($conn, $data);
     if(mysqli_num_rows($result) > 0) {
         return mysqli_fetch_assoc($result);

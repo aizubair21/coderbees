@@ -4,7 +4,7 @@
 include "connection.php";
 
  $id = $_REQUEST['id'] ?? "";
-
+//echo $id;
 if(isset($_POST["caegory_update"])){
     
     $name_error = "";
@@ -21,14 +21,12 @@ if(isset($_POST["caegory_update"])){
     $description = $_POST["description"];
     $uid = $_POST["update_id"];
 
-    //print_r($row);
-    //echo $created_at;
     if(!$_FILES["image"]['name']){
 
-        $sql = "UPDATE category SET catName='$name', catSlug='$slug', catAuthor='$author',catDescription='$description' WHERE catId = '$id'";
+        $sql = "UPDATE `category` SET `catName`='$name',`catSlug`='$slug',`catAuthor`='$author',`catDescription`='$description' WHERE catId = '$id'";
         if (mysqli_query($conn, $sql)) {
             header("location: category_index.php");
-            echo "without image";
+            //echo "done";
             $name = '';
             $slug = '';
             $author = '';
@@ -40,7 +38,7 @@ if(isset($_POST["caegory_update"])){
     }else {
         $sql = "UPDATE category SET catName='$name', catSlug='$slug', catAuthor='$author', catImage ='$image',catDescription='$description' WHERE catId = '$id'";
         if (mysqli_query($conn, $sql)) {
-            //@unlink('../image/category/'.$row['image']);
+            @unlink('../image/category/'.$row['image']);
             if ($_FILES["image"]['name'] != ''){
 
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
@@ -49,7 +47,6 @@ if(isset($_POST["caegory_update"])){
                         ?>
                             <script>
                                 alert("Image Name Too long. Please short it !");
-                                window.location.href = "category_index.php";
                             </script>
                         <?php
                    }else {
@@ -59,7 +56,8 @@ if(isset($_POST["caegory_update"])){
                                     alert("Success, Upload done.");
                                 </script>
                             <?php
-                            header("location: index.php");
+                            header("location: categpry_index.php");
+                            //echo "upload done";
 
                         }else {
                             ?>
@@ -156,7 +154,7 @@ if(isset($_POST["caegory_update"])){
                             
                                 <div class="card-body">
 
-                                    <form action="category_update.php" method="POST" enctype="multipart/form-data">
+                                    <form action="" method="POST" enctype="multipart/form-data">
                                         <div>
                                             <input type="hidden" name="update_id" value="<?php echo ($_REQUEST['id']) ?>">
 
@@ -191,7 +189,7 @@ if(isset($_POST["caegory_update"])){
                                            
 
                                             <div class="d-flex justify-content-between align-items-baseline">
-                                                <a class="btn btn-danger" href="index.php">Cancel</a>
+                                                <a class="btn btn-danger" href="category_index.php">Cancel</a>
                                                 <strong>OR</strong>
                                                 <button type="submit" name="caegory_update"  class="btn btn-primary">Update</button>
                                             </div>

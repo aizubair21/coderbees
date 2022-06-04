@@ -2,9 +2,9 @@
 
 
 include "../connection.php";
- $id = $_GET['id'];
+ $id = $_GET['id'] ?? "";
 
-if(isset($_POST["Update_publisher"])){
+if(isset($_POST["Update_publisher"]) && $_POST["publisher_email"] != "" && $_POST["publisher_username"] != "" ){
         
     $name_error = "";
     $user_name_error = "";
@@ -21,33 +21,19 @@ if(isset($_POST["Update_publisher"])){
     $country = $_POST["publisher_country"];
     //echo $created_at;
 
+    $update = "UPDATE publisher SET publisherName='$name',publisherUser_name='$user_name',publisherEmail='$email',publisherPhone='$phone',publisherCountry='$country' WHERE publisherId = '$id'";
+    if (mysqli_query($conn, $update)) {
+        header("location: ../publisher.php");
+  
 
-    if ($user_name == '') {
-        $user_name_error = 'Required fill ';
-    }elseif($name == ''){
-        $name_error = 'Required fill ';
-    }elseif($email == ''){
-        $email_error = 'Required fill ';
-    }else {
-       
-        $sql = "UPDATE publisher SET name='$name', user_name='$user_name', email='$email', phone='$phone',country='$country' WHERE id = '$id'";
-        if (mysqli_query($conn, $sql)) {
-            header("location: ../publisher.php");
-
-            $name = '';
-            $user_name = '';
-            $email = '';
-            $phone = '';
-        }else{
-            echo mysqli_error($conn);
-        }
-
-            
+        $name = '';
+        $user_name = '';
+        $email = '';
+        $phone = '';
+    }else{
+        echo mysqli_error($conn);
     }
-    
-    
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -61,7 +47,7 @@ if(isset($_POST["Update_publisher"])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Admin: publisher update - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -401,7 +387,7 @@ if(isset($_POST["Update_publisher"])){
                                 </div>
 
                                 <?php 
-                                    $sql = "SELECT * FROM publisher where id = '$id'";
+                                    $sql = "SELECT * FROM publisher where publisherId = '$id'";
                                     $result = mysqli_query($conn, $sql);
                                     $row = mysqli_fetch_assoc($result);
 
@@ -410,33 +396,33 @@ if(isset($_POST["Update_publisher"])){
                             
                                 <div class="card-body">
 
-                                    <form action="" method="POST" enctype="multipart/form-data">
+                                    <form action="update.php" method="POST" enctype="multipart/form-data">
                                         <div>
                                             <input type="hidden" name="update_id" value="<?php echo ($_REQUEST['id']) ?>">
 
                                             <div>
                                                 <label class="form-label" for="name ">Name :</label>
-                                                <input type="text" name="publisher_name" value="<?php echo $row['name'] ?>" id="name" placeholder="Nname..." class="form-control">
+                                                <input type="text" name="publisher_name" value="<?php echo $row['publisherName'] ?>" id="name" placeholder="Nname..." class="form-control">
                                             </div><br>
 
                                             <div>
                                                 <label class="form-label" for="Username ">Username :</label>
-                                                <input type="text" name="publisher_username" value="<?php echo $row['user_name'] ?>" id="Username" placeholder="Username..." class="form-control">
+                                                <input type="text" name="publisher_username" value="<?php echo $row['publisherUser_name'] ?>" id="Username" placeholder="Username..." class="form-control">
                                             </div><hr>
 
                                             <div>
                                                 <label class="form-label" for="phone ">Phone :</label>
-                                                <input type="phone" name="publisher_phone" value="<?php echo $row['phone'] ?>" id="phone" placeholder="phone..." class="form-control">
+                                                <input type="phone" name="publisher_phone" value="<?php echo $row['publisherPhone'] ?>" id="phone" placeholder="phone..." class="form-control">
                                             </div><hr>
 
                                             <div>
                                                 <label class="form-label" for="email ">email :</label>
-                                                <input type="email" name="publisher_email" value="<?php echo $row['email'] ?>" id="email" placeholder="email..." class="form-control">
+                                                <input type="email" name="publisher_email" value="<?php echo $row['publisherEmail'] ?>" id="email" placeholder="email..." class="form-control">
                                             </div><hr>
 
                                             <div>
                                                 <label class="form-label" for="country ">country :</label>
-                                                <input type="text" name="publisher_country" value="<?php echo $row['country'] ?>" id="country" placeholder="country..." class="form-control">
+                                                <input type="text" name="publisher_country" value="<?php echo $row['publisherCountry'] ?>" id="country" placeholder="country..." class="form-control">
                                             </div><hr>
                                            
 

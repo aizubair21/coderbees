@@ -5,11 +5,11 @@ include "connection.php";
 
  $id = $_REQUEST['id'] ?? "";
 
-if(isset($_POST["category_insert"])){
+if(isset($_POST["category_insert"]) && ($_POST["name"] != "")){
 
     $name = $_POST["name"];
     $slug = $slug = strtolower(str_replace(" ","-",$name));
-    $author = $auth_user["publisherId"];
+    $author = $auth_publisher["publisherId"];
     $image = $_FILES["image"]["name"];
     $description = $_POST["description"];
     $created_at = date("y-m-d");
@@ -34,7 +34,7 @@ if(isset($_POST["category_insert"])){
 
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
                    
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "uploads/category/". $_FILES["image"]['name'])) {
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/category/". $_FILES["image"]['name'])) {
                         header("location: category_index.php");
 
                     }else {

@@ -6,11 +6,15 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
     $name = $_POST["name"];
     $slug = strtolower(str_replace(" ","-",$name)) ;
     //print_r($auth_user['id']);
-    $author = $auth_user["id"];
+    $author = $auth_publisher["publisherId"];
 
     $sql = "INSERT INTO category (catName, catSlug, catAuthor) VALUES('$name','$slug','$author')";
     if(mysqli_query($conn, $sql)){
-        //header("location: index.php");
+        ?>
+            <script>
+                alert("category added.");
+            </script>
+        <?php
     }
 }
 
@@ -112,7 +116,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                     <td><?php echo $category["catId"] ?></td>
                                                     <td> <a href="/coderbees/admin/category_view?category=<?php echo $category["catId"]?>"><?php echo $category["catName"] ?></a> </td>
                                                     <td><?php echo $category["catSlug"] ?></td>
-                                                    <td><img style="width:50px; height:50px" src="uploads/image/<?php echo $category["catImage"] ?>" alt="Not Found"></td>
+                                                    <td><img style="width:50px; height:50px" src="../image/category/<?php echo $category["catImage"] ?>" alt="Not Found"></td>
                                                     <td><?php echo $category["catCreated_at"] ?></td>
                                                     <td>
                                                         <?php 
@@ -156,7 +160,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                 <h6 class="m-0 font-weight-bold text-primary">Add Category</h6>
                             </div>
                             <div class="card-body">
-                                <form action="index.php" method="POST">
+                                <form action="category_index.php" method="POST">
                                     <div>
                                         <label for="name">Category Name :</label>
                                         <input type="text" name="name" id="name" placeholder="Category Name" class="form-control form-input">

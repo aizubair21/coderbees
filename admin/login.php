@@ -2,33 +2,36 @@
 <?php
 require 'connection.php';
 require "link.php";
+print_r($_SESSION);
+echo "<br>";
+print_r($_POST);
 //include "auth.php";
 
 
 
 
-if (isset($_SESSION['key'])) {
+if (isset($_SESSION['admin_key'])) {
     header("location: index.php");
 }
 
 $email_error = '';
 $pass_error = '';
 
-if (isset($_POST["login"])) {
+if (isset($_POST["login"]) ) {
     $email = $_POST['email'];
     $password = $_POST['password'];
+    echo $password;
 
-
-    $data = "SELECT * FROM admin WHERE email='$email'";
+    $data = "SELECT adminId, adminPassword FROM admin WHERE adminEmail='$email'";
     $result = mysqli_query($conn, $data);
     $count = mysqli_num_rows($result);
     $row = mysqli_fetch_assoc($result);
     
     if($count == 1){
         
-        $db_password = $row['password'] ;
-        if (password_verify($password, $row["password"]) || $password == $row["password"]) {
-            $_SESSION["key"] = $row["id"];
+        $db_password = $row['adminPassword'] ;
+        if (password_verify($password, $row["adminPassword"]) || $password == $row["adminPassword"]) {
+            $_SESSION["admin_key"] = $row["adminId"];
             header("location: index.php");
         }else {
             $pass_error = "Password not matched !";
@@ -38,7 +41,7 @@ if (isset($_POST["login"])) {
        $email_error = "Username not register yet. <a class='text text-info' href='register.php'> register now</a>";
     }
 
- }
+}
 
 ?>
 

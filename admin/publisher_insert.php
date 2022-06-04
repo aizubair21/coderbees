@@ -20,7 +20,7 @@ if(isset($_POST["insert_publisher"])){
     $created_at = date("Y-m-d");
     //echo $created_at;
 
-    $data = "SELECT * FROM publisher WHERE email='$email'";
+    $data = "SELECT publisherEmail FROM publisher WHERE publisherEmail='$email'";
     $result = mysqli_query($conn, $data);
     $row = mysqli_fetch_assoc($result);
     if(mysqli_num_rows($result) > 0){
@@ -34,7 +34,7 @@ if(isset($_POST["insert_publisher"])){
         if(strlen($_POST['publisher_password']) < 8 ){
             $password_error = "Password at lest 8 digit.";
         }else {
-            $sql = "INSERT INTO publisher (name, user_name, email, phone, password, created_at, country) VALUES ('$name','$user_name','$email','$phone','$password','$created_at','$country')";
+            $sql = "INSERT INTO publisher (publisherName, publisherUser_name, publisherEmail, publisherPhone, publisherPassword, publisherCreated_at, publisherCountry) VALUES ('$name','$user_name','$email','$phone','$password','$created_at','$country')";
             if (mysqli_query($conn, $sql)) {
                 header("location: publisher.php");
 
@@ -58,11 +58,11 @@ if(isset($_POST["insert_publisher"])){
 <?php
 
 
-if(!isset($_SESSION["key"])){
+if(!isset($_SESSION["admin_key"])){
     header("location: login.php");
 }
 
-$key = $_SESSION["key"] ?? "";
+$key = $_SESSION["admin_key"] ?? "";
 
 
 ?>

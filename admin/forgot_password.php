@@ -27,8 +27,10 @@ if(isset($_POST['confirm'])) {
 
     if ($_POST['user_name'] != '' && $_POST['email'] != "") {
         if($row = isInAdminDatabase($user_name)){
-            $id = $row["id"];
-            if($row['email'] == $email) {
+
+            $id = $row["adminId"];
+
+            if($row['adminEmail'] == $email) {
                 $_SESSION['is_confirm'] = "$id";
             }else {
                 $email_error = "This email isn't registered with this username.";
@@ -57,12 +59,11 @@ if(isset($_POST['reset']) && isset($_SESSION['is_confirm'])) {
 
             $id= $_SESSION['is_confirm'];
             $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
-            $update = "UPDATE admin SET password = '$password' WHERE id = '$id'";
+            $update = "UPDATE admin SET adminPassword = '$password_hash' WHERE adminId = '$id'";
             $result = mysqli_query($conn,$update);
             if ($result) {
-                echo "ok";
                 $password = '';
-                session_destroy();
+                session_unset('is_confirm');
                 header("location: login.php");
             }
             
@@ -79,16 +80,7 @@ if(isset($_POST['reset']) && isset($_SESSION['is_confirm'])) {
 ?>
 
 <pre>
-    <!-- <?php 
-    
-    print_r($_POST); 
-    
-    echo "<br>";
 
-    print_r($_SESSION);
-    ?> -->
-
-    
 </pre>
 <!DOCTYPE html>
 <html lang="en">

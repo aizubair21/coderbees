@@ -4,7 +4,7 @@
 include dirname(__DIR__)."/connection.php";
 
  $id = $_REQUEST['id'] ?? "";
-
+echo $id;
 if(isset($_POST["caegory_update"])){
     
     $name_error = "";
@@ -25,7 +25,7 @@ if(isset($_POST["caegory_update"])){
     //echo $created_at;
     if(!$_FILES["image"]['name']){
 
-        $sql = "UPDATE category SET name='$name', slug='$slug', author='$author',description='$description' WHERE id = '$uid'";
+        $sql = "UPDATE category SET catName='$name', catSlug='$slug', catAuthor='$author',catDescription='$description' WHERE catId = '$id'";
         if (mysqli_query($conn, $sql)) {
             header("location: index.php");
             echo "without image";
@@ -38,9 +38,9 @@ if(isset($_POST["caegory_update"])){
         }
 
     }else {
-        $sql = "UPDATE category SET name='$name', slug='$slug', author='$author', image ='$image',description='$description' WHERE id = '$uid'";
+        $sql = "UPDATE category SET catName='$name', catSlug='$slug', catAuthor='$author', catImage ='$image',catDescription='$description' WHERE catId = '$id'";
         if (mysqli_query($conn, $sql)) {
-            @unlink('uploads/image/'.$row['image']);
+            @unlink('../image/category'.$row['catImage']);
             if ($_FILES["image"]['name'] != ''){
 
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
@@ -53,7 +53,7 @@ if(isset($_POST["caegory_update"])){
                             </script>
                         <?php
                    }else {
-                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "uploads/image/". $_FILES["image"]['name'])) {
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/category". $_FILES["image"]['name'])) {
                             ?>
                                 <script>
                                     alert("Success, Upload done.");
@@ -444,7 +444,7 @@ if(isset($_POST["caegory_update"])){
                                 </div>
 
                                 <?php 
-                                    $sql = "SELECT * FROM category where id = '$id'";
+                                    $sql = "SELECT * FROM category where catId = '$id'";
                                     $result = mysqli_query($conn, $sql);
                                     $row = mysqli_fetch_assoc($result);
                                 ?>
@@ -458,12 +458,12 @@ if(isset($_POST["caegory_update"])){
 
                                             <div>
                                                 <label class="form-label" for="name ">Name :</label>
-                                                <input type="text" name="name" value="<?php echo $row['name'] ?>" id="name" placeholder="Nname..." class="form-control">
+                                                <input type="text" name="name" value="<?php echo $row['catName'] ?>" id="name" placeholder="Nname..." class="form-control">
                                             </div><br>
 
                                             <div>
                                                 <label class="form-label" for="slug ">Slug :</label>
-                                                <input type="text" name="slug" value="<?php echo $row['slug'] ?>" id="slug" placeholder="slug..." class="form-control">
+                                                <input type="text" name="slug" value="<?php echo $row['catSlug'] ?>" id="slug" placeholder="slug..." class="form-control">
                                             </div><hr>
 
                                             <div>
@@ -473,19 +473,19 @@ if(isset($_POST["caegory_update"])){
                                                    $pub = "SELECT * FROM publisher";
                                                    $result = mysqli_query($conn, $pub);
                                                     while ($author = mysqli_fetch_assoc($result)) {?>
-                                                        <option <?php if($author["id"] == $row["author"]) {?> selected <?php }?> value="<?php echo $author["id"];?>"><?php echo $author["user_name"] ?></option>
+                                                        <option <?php if($author["publisherId"] == $row["catAuthor"]) {?> selected <?php }?> value="<?php echo $author["publisherId"];?>"><?php echo $author["publisherUser_name"] ?></option>
                                                     <?php } ?>
                                                     </select>
                                             </div><hr>
 
                                             <div>
                                                 <label class="form-label" for="description ">Description :</label>
-                                                <input type="text" name="description" value="<?php echo $row['description'] ?? "" ?>" id="description" placeholder="category description..." class="form-control">
+                                                <input type="text" name="description" value="<?php echo $row['catDescription'] ?? "" ?>" id="description" placeholder="category description..." class="form-control">
                                             </div><hr>
 
                                             <div>
                                                 <label class="form-label" for="image ">image :</label>
-                                                <input type="file" name="image" value="image/<?php echo $row['image'] ?>" id="image" placeholder="image..." class="form-control form-upload">
+                                                <input type="file" name="image" value="image/<?php echo $row['catImage'] ?>" id="image" placeholder="image..." class="form-control form-upload">
                                             </div><hr>
                                            
 

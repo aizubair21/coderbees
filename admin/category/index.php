@@ -109,24 +109,24 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                         }
                                                     </style>
                                                     
-                                                    <td> <a href="/coderbees/admin/category_view?category=<?php echo $row["id"]?>"><?php echo $row["name"] ?></a> </td>
-                                                    <td><?php echo $row["slug"] ?></td>
-                                                    <td><img style="width:50px; height:50px" src="uploads/image/<?php echo $row["image"] ?>" alt="Not Found"></td>
-                                                    <td><?php echo $row["created_at"] ?></td>
+                                                    <td> <a href="/coderbees/admin/category_view?category=<?php echo $row["catId"]?>"><?php echo $row["catName"] ?></a> </td>
+                                                    <td><?php echo $row["catSlug"] ?></td>
+                                                    <td><img style="width:50px; height:50px" src="../image/category<?php echo $row["catImage"] ?>" alt="Not Found"></td>
+                                                    <td><?php echo $row["catCreated_at"] ?></td>
                                                     <td>
                                                         <?php 
 
-                                                            $auth_id = $row["author"];
-                                                            $pub = "SELECT * FROM publisher where id='$auth_id'";
+                                                            $auth_id = $row["catAuthor"];
+                                                            $pub = "SELECT * FROM publisher where publisherId='$auth_id'";
                                                             $publisher = mysqli_fetch_assoc(mysqli_query($conn, $pub));
-                                                            echo $publisher["user_name"] ?? "";
+                                                            echo $publisher["publisherUser_name"] ?? "";
                                                         ?>
                                                     </td>
                                                     <td>01</td>
                                                     <td  class="d-flex justify-content-center align-items-center">
                                                         <div class="d-flex">
-                                                            <a href="delete.php?id=<?php echo  $row["id"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                            <a href="update.php?id=<?php echo  $row["id"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
+                                                            <a href="delete.php?id=<?php echo  $row["catId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="update.php?id=<?php echo  $row["catId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
                                                         </div>
                                                     </td>
                                                 </tr>

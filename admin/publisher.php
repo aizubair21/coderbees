@@ -161,29 +161,29 @@ if(isset($_POST["insert_publisher"])){
                                                             }
                                                         </style>
                                                         <td><img style="width:100px ;height:100px" src="#" alt="Not Found"></td>
-                                                        <td style="text-align:left"><?php echo $row["user_name"] ?></td>
-                                                        <td style="text-align:left"><?php echo $row["email"] ?></td>
-                                                        <td style="text-align:left"><?php echo $row["phone"] ?></td>
-                                                        <th style="text-align:left"><?php echo $row['country'] ?></th>
+                                                        <td style="text-align:left"><?php echo $row["publisherUser_name"] ?></td>
+                                                        <td style="text-align:left"><?php echo $row["publisherEmail"] ?></td>
+                                                        <td style="text-align:left"><?php echo $row["publisherPhone"] ?></td>
+                                                        <th style="text-align:left"><?php echo $row['publisherCountry'] ?></th>
                                                         <td></td>
-                                                        <td><?php echo $row["created_at"] ?></td>
+                                                        <td><?php echo $row["publisherCreated_at"] ?></td>
                                                         <td>
-                                                            <?php echo $row["status"] == 0 ? "<span title=' This publisher is banned now. A banned user uncapable to to any thing.' class='btn btn-danger btn-sm'><i class='fas fa-ban'></i> </span>" : "<span title='Publisher are capable his work.' class='btn btn-success btn-sm'> <i class='fas fa-check-circle'></i> </span>"; ?>
+                                                            <?php echo $row["publisherStatus"] == 0 ? "<span title=' This publisher is banned now. A banned user uncapable to to any thing.' class='btn btn-danger btn-sm'><i class='fas fa-ban'></i> </span>" : "<span title='Publisher are capable his work.' class='btn btn-success btn-sm'> <i class='fas fa-check-circle'></i> </span>"; ?>
                                                         
                                                         </td>
                                                         <td>
-                                                            <?php  if($row["status"] == 1){?>
-                                                                <a href="publisher/blockPublisher.php?id=<?php echo $row['id'] ?>" title="Want to block this publisher ?" class="btn btn-danger btn-sm"> <i class="fas fa-ban"></i> Block ?</a>
+                                                            <?php  if($row["publisherStatus"] == 1){?>
+                                                                <a href="publisher/blockPublisher.php?id=<?php echo $row['publisherId'] ?>" title="Want to block this publisher ?" class="btn btn-danger btn-sm"> <i class="fas fa-ban"></i> Block ?</a>
                                                             <?php } else {?>
-                                                                <a href="publisher/unblockPublisher.php?id=<?php echo $row['id'] ?>" name="unblock" title="Want to unblock ?" class="btn btn-success btn-sm"> <i class="fas fa-check"></i> Unblock</a>
+                                                                <a href="publisher/unblockPublisher.php?id=<?php echo $row['publisherId'] ?>" name="unblock" title="Want to unblock ?" class="btn btn-success btn-sm"> <i class="fas fa-check"></i> Unblock</a>
                                                             <?php } ?>
                                                         </td>
                                                         <td id="action">
                                                                
                                                           
                                                             <div class="d-block">
-                                                                <a href="publisher/delete.php?id=<?php echo  $row["id"] ?>" title="Delete" ><i ></i>Delete</a>
-                                                                <a href="publisher/update.php?id=<?php echo  $row["id"] ?>" title="Update" ><i ></i>Update</a>
+                                                                <a style="border-right:3px solid gray; padding-right:3px" href="publisher/delete.php?id=<?php echo  $row["publisherId"] ?>" title="Delete" ><i ></i>Delete</a>
+                                                                <a href="publisher/update.php?id=<?php echo  $row["publisherId"] ?>" title="Update" ><i ></i>Update</a>
                                                             </div>
 
                                                         </td>

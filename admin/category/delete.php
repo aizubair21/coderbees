@@ -7,11 +7,11 @@ $id = $_GET["id"];
 $cat = getCategory($id);
 
 //sever delete
-$sql = "DELETE FROM category where id = '$id'";
+$sql = "DELETE FROM category where catid = '$id'";
 $result = mysqli_query($conn, $sql);
 
 //force delete image from file
-@unlink('uploads/image/'.$cat['image']);
+@unlink('../image/category/'.$cat['image']);
 
 if ($result ){
     ?>

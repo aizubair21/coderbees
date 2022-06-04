@@ -1,11 +1,11 @@
 <?php
 include "connection.php";
 
-if(!isset($_SESSION["key"])){
+if(!isset($_SESSION["admin_key"])){
     header("location: login.php");
 }
 
-$key = $_SESSION["key"] ?? "";
+$key = $_SESSION["admin_key"] ?? "";
 
 
 
@@ -24,7 +24,7 @@ $key = $_SESSION["key"] ?? "";
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>coderbees - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?php ADMIN_PATH?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

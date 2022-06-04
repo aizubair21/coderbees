@@ -1,10 +1,10 @@
 <?php
+include "connection.php";
+if(!isset($_SESSION["admin_key"])){
+    header("location: login.php");
+}
 
-// if(!isset($_SESSION["key"])){
-//     header("location: login.php");
-// }
-
-//$key = $_SESSION["key"] ?? "";
+$key = $_SESSION["admin_key"] ?? "";
 
 
 ?>
@@ -59,7 +59,7 @@
 
                         </div>
                         <?php 
-                            if (isset($key)){ ?>
+                            if (isset($admin_key)){ ?>
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>

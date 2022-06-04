@@ -70,7 +70,7 @@ function getAuthPublisher($publisherId){
 
     if ($count == 1){
 
-        return $publisher = mysqli_fetch_assoc($result);
+        return mysqli_fetch_assoc($result);
 
     }
 

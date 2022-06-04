@@ -5,7 +5,7 @@ include dirname(__DIR__)."/connection.php";
 
  $id = $_REQUEST['id'] ?? "";
 
-if(isset($_POST["caegory_update"])){
+if(isset($_POST["publisher`.`publisherId"])){
     
     $name_error = "";
     $user_name_error = "";
@@ -23,7 +23,7 @@ if(isset($_POST["caegory_update"])){
 
     if(!$_FILES["image"]['name']){
 
-        $sql = "INSERT INTO category (name, slug, author, created_at, description) VALUES('$name','$slug','$author','$created_at','$description')";
+        $sql = "INSERT INTO category (catName, catSlug, catAuthor, catCreated_at, catDescription) VALUES('$name','$slug','$author','$created_at','$description')";
         if (mysqli_query($conn, $sql)) {
             header("location: index.php");
             $name = '';
@@ -35,13 +35,13 @@ if(isset($_POST["caegory_update"])){
         }
 
     }else {
-        $sql = "INSERT INTO category (name, slug, author,created_at, image, description) VALUES('$name','$slug','$author','$created_at','$image','$description')";
+        $sql = "INSERT INTO category (catName, catSlug, catAuthor,catCreated_at, catImage, catDescription) VALUES('$name','$slug','$author','$created_at','$image','$description')";
         if (mysqli_query($conn, $sql)) {
             if ($_FILES["image"]['name'] != ''){
 
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
                    
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "uploads/image/". $_FILES["image"]['name'])) {
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/category". $_FILES["image"]['name'])) {
                         header("location: index.php");
 
                     }else {
@@ -159,7 +159,7 @@ if(isset($_POST["caegory_update"])){
                                             <div class="d-flex justify-content-between align-items-baseline">
                                                 <a class="btn btn-danger" href="index.php">Cancel</a>
                                                 <strong>OR</strong>
-                                                <button type="submit" name="caegory_update"  class="btn btn-primary">Update</button>
+                                                <button type="submit" name="category_insert"  class="btn btn-primary">Update</button>
                                             </div>
 
                                     </form>

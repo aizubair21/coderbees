@@ -1,11 +1,11 @@
 <?php
 include "connection.php";
 
-if(!isset($_SESSION["key"])){
+if(!isset($_SESSION["admin_key"])){
     header("location: login.php");
 }
 
-$key = $_SESSION["key"] ?? "";
+$key = $_SESSION["admin_key"] ?? "";
 
 
 

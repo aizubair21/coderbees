@@ -5,9 +5,7 @@ if(!isset($_SESSION["publisher_key"])){
     //header("location: login.php");
 }
 
-$key = $_SESSION["publisher_key"];
-
-
+$key = $_SESSION["publisher_key"] ?? "";
 
 
 if(isset($_POST["post"])){
@@ -22,7 +20,7 @@ if(isset($_POST["post"])){
 
     //echo $created_at;
     //add post
-    $sql = "INSERT INTO posts (postTitle, postAuthor, postCategory, postTag, post, postImage, postCreated_at) VALUES ('$title','$author','$category','$tag','$description','$image','$created_at')";
+    $sql = "INSERT INTO posts (postTitle, postPublisher, postCategory, postTag, post, postImage, postCreated_at) VALUES ('$title','$author','$category','$tag','$description','$image','$created_at')";
     if (mysqli_query($conn, $sql)) {
 
         //upload post image to server
@@ -38,7 +36,7 @@ if(isset($_POST["post"])){
                         </script>
                     <?php
             }else {
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "uploads/post/". $_FILES["image"]['name'])) {
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/". $_FILES["image"]['name'])) {
                         
                     }else {
                         ?>
@@ -88,7 +86,7 @@ if(isset($_POST["post"])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> Add post - CB Control</title>
+    <title> Add post - coderbees publisher Control</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?php PUBLISHER_PATH?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -154,10 +152,10 @@ if(isset($_POST["post"])){
                                 <select name="category" id="category"  class="form-select form-control" aria-label="Default select example">
                                     <option > Select category </option>
                                     <?php 
-                                        $cat = "SELECT * FROM category";
-                                        $result = mysqli_query($conn,$cat);
+                                        
+                                        $result = getCategories();
                                         while ($row = mysqli_fetch_array($result)) {
-                                            echo "<option value='".$row['id']."'>".$row['name']."</option>";
+                                            echo "<option value='".$row['catId']."'>".$row['catName']."</option>";
                                         }
                                     ?>
                                 </select>

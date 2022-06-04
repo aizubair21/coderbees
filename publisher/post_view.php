@@ -13,6 +13,20 @@ $total_post = mysqli_num_rows(mysqli_query($conn, $post));
 $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postStatus = '$postStatus'"));
  
 
+
+
+$postId =$_GET['id'];
+if (isset($postId)) {
+    $post = getPosts();
+    $delete = "DELETE FROM posts WHERE postId='$postId'";
+    $post = getPosts();
+    if (mysqli_query($conn, $delete)) {
+        @unlink('../image/'.$post['image']);
+    }
+    
+} 
+
+
 ?>
 
 
@@ -27,7 +41,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>All Posts - Dashboard</title>
+    <title>All Posts - Coderbees publisher control</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -39,6 +53,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     
     <link href="<?php PUBLISHER_PATH ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../bootstrap-5.1.0-dist/css/bootstrap-utilities.min.css">
 
     <style>
         td{
@@ -170,11 +185,11 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
-                                <div class="card-header bg-primary">
+                                <div class="card-header bg-primary " style="overflow:scroll">
                                     <h6 class="m-0 font-weight-bold text-white">Posts Data</h6>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordere"  id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-bordered table-responsive"  id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <style>
                                                 th {
@@ -182,27 +197,42 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                 }
                                             </style>
                                             <tr>
-                                                <th>Post Title</th>
-                                                <th>Post Category</th>
-                                                <th>Post Author</th>
-                                                <th>publisher Status</th>
-                                                <th>Post Comments</th>
+                                                <th>ID</th>
+                                                <th>Title</th>
+                                                <th>Category</th>
+                                                <th>Tag</th>
+                                                <th>Author</th>
+                                                <th>Status</th>
+                                                <th>Comments</th>
                                                 <th>Feature Image</th>
                                                 <th>Post Date</th>
+                                                <th>Update</th></th>
                                                 <th>E/D</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $post = "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory";
+                                                $post = "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory ORDER BY `postId` ASC";
                                                 $result = mysqli_query($conn, $post);
 
                                                 while ($row = mysqli_fetch_assoc($result)) {?>
+                                                    <style>
+                                                        td {
+                                                            font-size: 11px;
+                                                            padding: 0;
+                                                        }
+                                                    </style>
                                                     
                                                     <tr>
-                                                        <td class="text-left"> <a href="/coderbees/posts?id=<?php echo  $row["postId"] ?>"> <i class="fas fa-caret-right"></i> <?php echo  $row["postTitle"] ?> </a></td>
-                                                        <td class="text-left"><?php echo  $row["catName"] ?></td>
-                                                        <td class="text-left"> 
+                                                        <td style="padding:0px;">
+                                                        
+                                                            <?php echo $row["postId"] ?>
+                                                        
+                                                        </td>
+                                                        <td style="padding:0px;" class="text-left"> <a href="/coderbees/posts?id=<?php echo  $row["postId"] ?>"> <?php echo  $row["postTitle"] ?> </a></td>
+                                                        <td style="padding:0px;" class="text-left"><?php echo  $row["catName"] ?></td>
+                                                        <td style="padding:0px;"><?php echo $row["postTag"] ?></td>
+                                                        <td style="padding:0px;" class="text-left"> 
                                                             <?php
 
                                                                 $category = getPublisher();
@@ -214,18 +244,19 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
 
                                                             ?>
                                                         </td>
-                                                        <td>
+                                                        <td style="padding:0px;">
                                                             <?php 
                                                             
                                                                 echo $row["postStatus"] != 1 ? "<strong class='text text-danger'>waiting</strong>" : "<strong class='text text-success'>Approved</strong>";
                                                             ?> 
                                                         </td>
-                                                        <td></td>
-                                                        <td><img style="width:70px" src="uploads/post/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
-                                                        <td><?php echo $row["postCreated_at"] ?></td>
-                                                        <td  class="d-flex justify-content-center align-items-center">
+                                                        <td style="padding:0px;"></td>
+                                                        <td style="padding:0px;"><img style="width:70px" src="../image/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
+                                                        <td style="padding:0px;"><?php echo $row["postCreated_at"] ?></td>
+                                                        <td style="padding:0px;"><?php echo $row["postUpdate_at"] ?></td>
+                                                        <td style="padding:0px;"  class="d-flex justify-content-center align-items-center">
                                                             <div class="d-flex">
-                                                                <a href="post_delete.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                                <a href="post_view.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                                 <a href="post_edit.php?id=<?php echo  $row["postId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
                                                             </div>
                                                         </td>

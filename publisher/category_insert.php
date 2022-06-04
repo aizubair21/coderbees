@@ -5,27 +5,20 @@ include "connection.php";
 
  $id = $_REQUEST['id'] ?? "";
 
-if(isset($_POST["caegory_update"])){
-    
-    $name_error = "";
-    $user_name_error = "";
-    $email_error = "";
-    $phone_error = "";
-    $password_error = "";
-    $error = '';
+if(isset($_POST["category_insert"])){
 
     $name = $_POST["name"];
     $slug = $slug = strtolower(str_replace(" ","-",$name));
-    $author = $auth_user["id"];
+    $author = $auth_user["publisherId"];
     $image = $_FILES["image"]["name"];
     $description = $_POST["description"];
     $created_at = date("y-m-d");
 
     if(!$_FILES["image"]['name']){
 
-        $sql = "INSERT INTO category (name, slug, author, created_at, description) VALUES('$name','$slug','$author','$created_at','$description')";
+        $sql = "INSERT INTO category (catName, catSlug, catAuthor, catCreated_at, catDescription) VALUES('$name','$slug','$author','$created_at','$description')";
         if (mysqli_query($conn, $sql)) {
-            header("location: index.php");
+            header("location: category_index.php");
             $name = '';
             $slug = '';
             $author = '';
@@ -35,14 +28,14 @@ if(isset($_POST["caegory_update"])){
         }
 
     }else {
-        $sql = "INSERT INTO category (name, slug, author,created_at, image, description) VALUES('$name','$slug','$author','$created_at','$image','$description')";
+        $sql = "INSERT INTO category (catName, catSlug, catAuthor, catCreated_at, catDescription, catImage) VALUES('$name','$slug','$author','$created_at','$image','$description')";
         if (mysqli_query($conn, $sql)) {
             if ($_FILES["image"]['name'] != ''){
 
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
                    
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "uploads/image/". $_FILES["image"]['name'])) {
-                        header("location: index.php");
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "uploads/category/". $_FILES["image"]['name'])) {
+                        header("location: category_index.php");
 
                     }else {
                         ?>
@@ -134,7 +127,7 @@ if(isset($_POST["caegory_update"])){
 
                                 <div class="card-body">
 
-                                    <form action="" method="POST" enctype="multipart/form-data">
+                                    <form action="category_insert.php" method="POST" enctype="multipart/form-data">
                                         <div>
 
                                             <div>
@@ -158,7 +151,7 @@ if(isset($_POST["caegory_update"])){
                                             <div class="d-flex justify-content-between align-items-baseline">
                                                 <a class="btn btn-danger" href="index.php">Cancel</a>
                                                 <strong>OR</strong>
-                                                <button type="submit" name="caegory_update"  class="btn btn-primary">Update</button>
+                                                <button type="submit" name="category_insert"  class="btn btn-primary">Add</button>
                                             </div>
 
                                     </form>

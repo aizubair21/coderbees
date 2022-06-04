@@ -22,7 +22,7 @@ $key = $_SESSION["publisher_key"] ?? "";
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title> Dashboard - coderbees </title>
 
     <!-- Custom fonts for this template-->
     <link href="<?php PUBLISHER_PATH?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

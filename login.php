@@ -1,11 +1,11 @@
 
 <?php
 require 'connection.php';
-
+session_start();
 //include "auth.php";
 
 if (isset($_SESSION['publisher_key'])) {
-    header("location: /coderbees/publisher/dashboard.php");
+    header("location: /coderbees/publisher/index.php");
 }
 
 $email_error = '';
@@ -16,17 +16,17 @@ if (isset($_POST["Publisher_login"])) {
     $password = $_POST['password'];
 
 
-    $data = "SELECT * FROM publisher WHERE email='$email'";
+    $data = "SELECT * FROM publisher WHERE publisherEmail='$email'";
     $result = mysqli_query($conn, $data);
     $count = mysqli_num_rows($result);
     $row = mysqli_fetch_assoc($result);
     
     if($count == 1){
         
-        $db_password = $row['password'] ;
-        if (password_verify($password, $row["password"]) || $password == $row["password"]) {
-            $_SESSION["publisher_key"] = $row["id"];
-            header("location: /coderbees/publisher/dashboard.php");
+        $db_password = $row['publisherPassword'] ;
+        if (password_verify($password, $row["publisherPassword"]) || $password == $row["publisherPassword"]) {
+            $_SESSION["publisher_key"] = $row["publisherId"];
+            //header("location: /coderbees/publisher/index.php");
         }else {
             $pass_error = "Password not matched !";
         }

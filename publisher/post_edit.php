@@ -13,6 +13,95 @@ $postId = $_REQUEST["id"];
 //get upldated datq
 $post = getSingleData("posts",$postId);
 
+
+//post update 
+
+if(isset($_POST["post_update"])){
+    
+    $name_error = "";
+    $user_name_error = "";
+    $email_error = "";
+    $phone_error = "";
+    $password_error = "";
+    $error = '';
+
+    $name = $_POST["title"];
+    $tag = $_POST["tag"];
+    $author = $auth_publisher["publisherId"];
+    $image = $_FILES["image"]["name"];
+    $description = $_POST["description"];
+    $update = date("y-m-d");
+    $category = $_POST["category"];
+    $status = 0;
+
+    if(!$_FILES["image"]['name']){
+
+        $sql = "UPDATE posts SET postTitle='$name', postTag='$tag',postStatus='$status', postCategory='$category', postPublisher='$author', post='$description', postUpdate_at='$update' WHERE postId = '$postId'";
+        if (mysqli_query($conn, $sql)) {
+            header("location: post_view.php");
+            $name = '';
+            $slug = '';
+            $author = '';
+            $description = '';
+        }else{
+            echo mysqli_error($conn);
+        }
+
+    }else {
+        $sql = "UPDATE `posts` SET `postTitle`='$name',`postPublisher`='$author',`postImage`='$image',`postCategory`='$category',`postTag`='$tag',`postStatus`='$status',`post`='$description',`postUpdate_at`='$update' WHERE postId = '$postId'";
+        if (mysqli_query($conn, $sql)) {
+            @unlink('../image/'.$row['image']);
+            if ($_FILES["image"]['name'] != ''){
+
+                if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
+                   
+                   if(strlen($_FILES["image"]["name"]) > 100){
+                        ?>
+                            <script>
+                                alert("Image Name Too long. Please short it !");
+                                window.location.href = "post_view.php";
+                            </script>
+                        <?php
+                   }else {
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/". $_FILES["image"]['name'])) {
+                            ?>
+                                <script>
+                                    alert("Success, Upload done.");
+                                </script>
+                            <?php
+                            header("location: post_view.php");
+
+                        }else {
+                            ?>
+                                <script>
+                                    alert("Faild to upload ! !");
+                                </script>
+                            <?php
+                        }
+                   }
+        
+                }else {
+                    ?>
+                        <script>
+                            alert("Only jpg, png, jpeg file support !");
+                        </script>
+                    <?php
+                }
+        
+            };
+
+            $name = '';
+            $slug = '';
+            $author = '';
+            $description = '';
+        }else{
+            echo mysqli_error($conn);
+        }
+    }
+       
+    
+    
+}
 ?>
 
 
@@ -27,7 +116,7 @@ $post = getSingleData("posts",$postId);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Post Edit - Coderbees publisher control</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?php PUBLISHER_PATH?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -102,7 +191,7 @@ $post = getSingleData("posts",$postId);
                                         $result = getCategories();
                                         while ($row = mysqli_fetch_array($result)) {?>
 
-                                            <option <?php echo '($row["catId"] == $post["postCategory"]) ? SELECTED : ""' ?> ><?php echo $row["catName"] ?></option>
+                                            <option <?php echo '($row["catId"] == $post["postCategory"]) ? SELECTED : ""' ?> value="<?php echo $row["catId"] ?>" ><?php echo $row["catName"] ?></option>
 
                                         <?php }
                                     ?>
@@ -114,29 +203,38 @@ $post = getSingleData("posts",$postId);
                             </div>
                             <div class="col-lg-12 my-2">
                                 <label for="description">Post Details </label>
-                                <input type="text" class="form-control" name="description" id="summernote" value="<?php echo $post["post"]?>">
+                                <textarea type="text" class="form-control" name="description" id="summernote"><?php echo $post["post"]?></textarea>
                                 <div class="form-text">
                                     Describe your post
                                 </div>
                             </div><hr>
-
-                            <div class="col-lg-6">
-                                <label for="tab">Tag</label>
-                                <input type="text" name="tag" id="tag" class="form-control" placeholder="ex : intetainment" value="<?php echo $post["postTag"] ?>">
-                            </div>
-
-                            <div class="col-lg-6">
-                                <label for="image">Post Image</label><br>
-                                <img src="uploads/image/<?php $post["postImage"] ?>" alt="Not Found">
-                                <br>
-                                <input type="file" name="image" id="image" class="form-control form-input">
-                                <div>
-                                    Feature imag
-                                    <p><?php echo $image_error ?? "" ?></p>
+                            <div class="col-md-12">
+                                <div class="row align-items-start">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="tab">Tag</label>
+                                            <input type="text" name="tag" id="tag" class="form-control" placeholder="ex : intetainment" value="<?php echo $post["postTag"] ?>">
+                                        </div><br>
+            
+                                        <div>
+                                            <label for="image">Post Image</label><br>
+                                            <input type="file" name="image" id="image" class="form-control form-input">
+                                            <div>
+                                                <p><?php echo $image_error ?? "" ?></p>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-md-6 text-align-center p-2 border " >
+                                        <div>
+                                            <label for="image">Feature Image</label>
+                                        </div>
+                                        <img width="30%" style="box-sizing: border-box;" src="uploads/post/<?php echo $post["postImage"] ?>" alt="Not Found" id="image">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 float-end">
-                                <input  type="submit" name="post" class="btn btn-primary btn-md float-end" value="Update">
+                                <input  type="submit" name="post_update" class="btn btn-primary btn-md float-end" value="Update">
                             </div>
 
                         </div>

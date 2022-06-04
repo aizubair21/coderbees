@@ -73,6 +73,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                         <thead>
                                             
                                             <tr>
+                                                <th>ID</th>
                                                 <th>Name</th>
                                                 <th>Slug</th>
                                                 <th>Image</th>
@@ -98,7 +99,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                             $sql = "SELECT * FROM category";
                                             $result = mysqli_query($conn, $sql);
                                             
-                                            while ($row = mysqli_fetch_assoc($result)) {?>
+                                            while ($category = mysqli_fetch_assoc($result)) {?>
                                             
                                                 <tr>
                                                     <style>
@@ -108,25 +109,34 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                             font-size: 13px;
                                                         }
                                                     </style>
-                                                    
-                                                    <td> <a href="/coderbees/admin/category_view?category=<?php echo $row["catId"]?>"><?php echo $row["catName"] ?></a> </td>
-                                                    <td><?php echo $row["slug"] ?></td>
-                                                    <td><img style="width:50px; height:50px" src="uploads/image/<?php echo $row["catImage"] ?>" alt="Not Found"></td>
-                                                    <td><?php echo $row["catCreated_at"] ?></td>
+                                                    <td><?php echo $category["catId"] ?></td>
+                                                    <td> <a href="/coderbees/admin/category_view?category=<?php echo $category["catId"]?>"><?php echo $category["catName"] ?></a> </td>
+                                                    <td><?php echo $category["catSlug"] ?></td>
+                                                    <td><img style="width:50px; height:50px" src="uploads/image/<?php echo $category["catImage"] ?>" alt="Not Found"></td>
+                                                    <td><?php echo $category["catCreated_at"] ?></td>
                                                     <td>
                                                         <?php 
 
-                                                            $auth_id = $row["author"];
-                                                            $pub = "SELECT * FROM publisher where id='$auth_id'";
+                                                            $auth_id = $category["catAuthor"];
+                                                            $pub = "SELECT * FROM publisher where publisherId='$auth_id'";
                                                             $publisher = mysqli_fetch_assoc(mysqli_query($conn, $pub));
-                                                            echo $publisher["catUser_name"] ?? "";
+                                                            echo $publisher["publisherUser_name"] ?? "";
                                                         ?>
                                                     </td>
-                                                    <td>01</td>
+                                                    <td>
+
+                                                        <?php 
+                                                            $catid = $category["catId"];
+                                                            $post = mysqli_query($conn,"SELECT postCategory FROM posts WHERE postCategory = '$catid'");
+                                                            $count = mysqli_num_rows($post);
+                                                            echo $count;
+                                                        ?>
+
+                                                    </td>
                                                     <td  class="d-flex justify-content-center align-items-center">
                                                         <div class="d-flex">
-                                                            <a href="delete.php?id=<?php echo  $row["catId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                            <a href="update.php?id=<?php echo  $row["catId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
+                                                            <a href="category_delete.php?id=<?php echo  $category["catId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="category_update.php?id=<?php echo  $category["catId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
                                                         </div>
                                                     </td>
                                                 </tr>

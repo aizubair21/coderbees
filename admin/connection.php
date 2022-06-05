@@ -22,7 +22,7 @@ if ($key) {
 
 function getData($key){
     $conn = mysqli_connect('localhost','root','','coderbees');
-    $data = "SELECT * FROM publisher WHERE publisherId='$key'";
+    $data = "SELECT adminId FROM admin WHERE adminId='$key'";
     $result = mysqli_query($conn, $data);
     if(mysqli_num_rows($result) > 0) {
         return $row = mysqli_fetch_assoc($result);

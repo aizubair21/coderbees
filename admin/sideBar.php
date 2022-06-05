@@ -75,16 +75,16 @@
 
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
-<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-    aria-expanded="true" aria-controls="collapseUtilities">
+<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities2"
+    aria-expanded="true" aria-controls="collapseUtilities2">
     <i class="fas fa-caret-square-o-left"></i>
     <span>Posts</span>
 </a>
-<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+<div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities"
     data-parent="#accordionSidebar">
     <div class=" text-white collapse-inner rounded">
-        <a class="collapse-item" href="/coderbees/admin/category/index.php">Posts Controls</a>
-        <a class="collapse-item" href="/coderbees/admin/category/insert.php">Post Add</a>
+        <a class="collapse-item" href="/coderbees/admin/posts/post_view.php">Posts Controls</a>
+        <a class="collapse-item" href="/coderbees/admin/posts/post_add.php">Post Add</a>
     </div>
 </div>
 </li>

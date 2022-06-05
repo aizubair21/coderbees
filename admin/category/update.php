@@ -20,7 +20,7 @@ if(isset($_POST["caegory_update"])){
     $image = $_FILES["image"]["name"];
     $description = $_POST["description"];
     $uid = $_POST["update_id"];
-    $row = getCategory($uid);
+    $row = getCategory($id);
     //print_r($row);
     //echo $created_at;
     if(!$_FILES["image"]['name']){

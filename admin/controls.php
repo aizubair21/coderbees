@@ -67,145 +67,109 @@ $key = $_SESSION["admin_key"] ?? "";
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Site Controlls Panel</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> General Report</a>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Posts</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-blogger-b fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Publisher</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-users fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Comments
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+            
                     <!-- Content Row -->
 
                     <div class="row">
 
                         <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
+                        <div class="col-xl-12 col-lg-12">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    Publisher overview
+                                    Post Request
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <table class="table table-bordered table-hover table-responsive" style="width:100%">
+                                    <table class="table table-bordered  table-responsive" style="width:100%">
                                         <thead>
+                                            <style>
+                                                #publisher_details_modal{
+                                                    position: fixed;
+                                                    top:-100%;
+                                                    left:50%;
+                                                    width:300px;
+                                                    height:300px;
+                                                    padding:3px;
+                                                    background-color: rgba(0,0,0,.2);
+                                                    box-shadow:0px 0px 2px 0px black;
+                                                    transition: all linear .3s;
+                                                    border-radius: 5px;
+                                                    
+                                                }
+                                                #publisher:hover {
+                                                    cursor: pointer;
+                                                }
+                                                #publisher:hover~#publisher_details_modal{
+                                                    top:-0%;
+                                                    transition: all linear .3s;
+
+                                                }
+                                                tr:hover > #block_button {
+                                                    opacity: 0;
+                                                }
+                                            </style>
                                             <tr>
-                                                <th>Controls</th>
-                                                <th>Total</th>
-                                                <th>Active</th>
-                                                <th>Block</th>
-                                                <th>Pending</th>
+                                                <th>Post Id</th>
+                                                <th>Publisher</th>
+                                                <th>Title</th>
+                                                <th>Post</th>
+                                                <th>Category</th>
+                                                <th>Post Time</th>
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th>Publisher</th>
-                                                <td>10</td>
-                                                <td>9</td>
-                                                <td>1</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Posts</th>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Comments</th>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                            <?php
+                                                $result_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category  ON catId = postCategory LEFT JOIN publisher ON publisherId=postPublisher WHERE postStatus IS NULL");
+                                                while ($req_post = mysqli_fetch_assoc($result_qry)) {?>
+
+
+
+                                                    <tr>
+                                                        
+                                                        <td><?php echo $req_post["postId"] ?></td>
+
+                                                        <td >
+                                                            <strong id="publisher"><?php echo $req_post["publisherUser_name"] ?></strong>
+                                                            
+                                                            <div id="publisher_details_modal"> 
+                                                                <div class="card">
+                                                                    <div class="">
+                                                                        <img width="100%" src="/coderbees/publisher/uploads/image/<?php echo $req_post["publisherImage"] ?>" alt="Not Found !">
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <hr>
+                                                                            <div class="">
+                                                                                <h3><?php echo $req_post["publisherUser_name"] ?></h3>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                
+                                                            <hr>
+                                                                <a id="block_button" class="text text-danger" href="#">Block Publisher</a>
+                                                        </td>
+                                                        <td><?php echo $req_post["postTitle"] ?></td>
+                                                        <td>
+                                                            <?php echo $req_post["post"] ?>
+                                                            <hr>
+                                                            <div id="admin_button">
+                                                                <a class="text text-danger" href='reject_post.php?post=<?php echo $req_post["postId"] ?>'>Delete</a>
+                                                                <a class="text text-success px-3" href='post/approve_post.php?post=<?php echo $req_post["postId"] ?>'>Approve</a>
+                                                                <a class="text text-secoundry" href='#'>View</a>
+                                                            </div>
+                                                        </td>
+                                                        <td><?php echo $req_post["catName"] ?></td>
+                                                        <td><?php echo $req_post["postCreated_at"] ?></td>
+                                                       
+                                                        
+                                                    </tr>;
+
+                                                <?php }
+                                            ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -213,7 +177,7 @@ $key = $_SESSION["admin_key"] ?? "";
                         </div>
 
                         <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
+                        <!-- <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
@@ -252,7 +216,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <!-- Content Row -->

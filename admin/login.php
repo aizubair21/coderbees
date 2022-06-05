@@ -2,9 +2,7 @@
 <?php
 require 'connection.php';
 require "link.php";
-print_r($_SESSION);
-echo "<br>";
-print_r($_POST);
+
 //include "auth.php";
 
 

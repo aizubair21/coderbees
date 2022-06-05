@@ -2,7 +2,7 @@
 
 include "connection.php";
 
-if(isset($_POST["insert_publisher"])){
+if(isset($_POST["insert_publisher"]) && $_POST["publisherUser_name"] != "" && $_POST["publisher_email"]!= "" && $_POST["publisher_possword"] != ""){
         
     $name_error = "";
     $user_name_error = "";

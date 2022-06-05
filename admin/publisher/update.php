@@ -4,7 +4,7 @@
 include "../connection.php";
  $id = $_GET['id'] ?? "";
 
-if(isset($_POST["Update_publisher"]) && $_POST["publisher_email"] != "" && $_POST["publisher_username"] != "" ){
+if(isset($_POST["Update_publisher"]) ){
         
     $name_error = "";
     $user_name_error = "";
@@ -24,7 +24,6 @@ if(isset($_POST["Update_publisher"]) && $_POST["publisher_email"] != "" && $_POS
     $update = "UPDATE publisher SET publisherName='$name',publisherUser_name='$user_name',publisherEmail='$email',publisherPhone='$phone',publisherCountry='$country' WHERE publisherId = '$id'";
     if (mysqli_query($conn, $update)) {
         header("location: ../publisher.php");
-  
 
         $name = '';
         $user_name = '';
@@ -396,7 +395,7 @@ if(isset($_POST["Update_publisher"]) && $_POST["publisher_email"] != "" && $_POS
                             
                                 <div class="card-body">
 
-                                    <form action="update.php" method="POST" enctype="multipart/form-data">
+                                    <form action="/coderbees/admin/publisher/update.php" method="POST" enctype="multipart/form-data">
                                         <div>
                                             <input type="hidden" name="update_id" value="<?php echo ($_REQUEST['id']) ?>">
 

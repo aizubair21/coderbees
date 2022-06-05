@@ -2,7 +2,6 @@
 include "link.php";
 require "connection.php";
 
-
 $email_error = '';
 $name_error = '';
 $pass_confirm_error = '';
@@ -58,14 +57,24 @@ if(isset($_POST['reset']) && isset($_SESSION['is_confirm'])) {
         if ($password == $password_confirmation) {
 
             $id= $_SESSION['is_confirm'];
-            $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
-            $update = "UPDATE admin SET adminPassword = '$password_hash' WHERE adminId = '$id'";
-            $result = mysqli_query($conn,$update);
-            if ($result) {
-                $password = '';
-                session_unset('is_confirm');
-                header("location: login.php");
+            $password_hash = password_hash("$password", PASSWORD_DEFAULT);
+
+            if (password_verify("$password","$password_hash")) {
+
+                $update = "UPDATE admin SET adminPassword = '$password_hash' WHERE adminId = '$id'";
+                $result = mysqli_query($conn,$update);
+                if ($result) {
+                    $password = '';
+                    unset($_SESSION['is_confirm']);
+                    header("location: login.php");
+                }
+            }else {
+                echo "not mathc";
             }
+
+
+
+           
             
         }else {
             $pass_confirm_error = "Password not match ";

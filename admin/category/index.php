@@ -2,6 +2,10 @@
 
 include"../connection.php";
 
+if(!isset($_SESSION["admin_key"])){
+    header("location: ../index.php");
+}
+
 if(isset($_POST["category_add"]) && $_POST["name"] != ""){
     $name = $_POST["name"];
     $slug = strtolower(str_replace(" ","-",$name)) ;

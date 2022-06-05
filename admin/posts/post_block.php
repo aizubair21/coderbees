@@ -2,7 +2,7 @@
 include "../connection.php";
 
 if (!$_SESSION["admin_key"]) {
-    //header("location: post_view.php");
+    header("location: ../index.php");
 }else{
 
     $postId = $_GET["post"];

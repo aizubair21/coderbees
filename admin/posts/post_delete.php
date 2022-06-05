@@ -2,10 +2,10 @@
 
 
 include "./connection.php";
-if(!$_SESSION["admin_key"]){
-    //
-}
 
+if(!isset($_SESSION["admin_key"])){
+    header("location: ../index.php");
+}
 
 $postid = $_GET["id"];
 $delete = "DELETE FROM posts WHERE postId='$postId'";

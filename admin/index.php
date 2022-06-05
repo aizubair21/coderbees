@@ -6,7 +6,10 @@ if(!isset($_SESSION["admin_key"])){
 }
 
 $key = $_SESSION["admin_key"] ?? "";
-
+$post = "SELECT * FROM posts";
+$total_post = mysqli_num_rows(mysqli_query($conn, $post));
+$post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postStatus = '1'"));
+ 
 
 
 
@@ -85,11 +88,11 @@ $key = $_SESSION["admin_key"] ?? "";
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                               Total Posts</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts")) ?></div>
+                                                Posts</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_post?></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-blogger-b fa-2x text-gray-300"></i>
+                                            <i class="fas fa-blog fa-2x text-primary"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -103,11 +106,17 @@ $key = $_SESSION["admin_key"] ?? "";
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Publisher</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM publisher WHERE publisherStatus = 1")) ?></div>
+                                                Category</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php
+                                                    $category_qry = mysqli_num_rows(mysqli_query($conn, "SELECT catId FROM category"));
+                                                    echo $category_qry;    
+                                                ?>
+                                                
+                                            </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                                            <i class="fas fa-id-card fa-2x text-success"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -120,23 +129,24 @@ $key = $_SESSION["admin_key"] ?? "";
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Comments
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Publisher
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                                    
+                                                        <?php 
+                                                            $block = '1';
+                                                            $block_post = mysqli_num_rows(mysqli_query($conn, "SELECT publisherId FROM publisher WHERE publisherStatus = '$block'"));
+                                                            echo $block_post;
+                                                        ?>
                                                     </div>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            <i class="fas fa-users  fa-2x text-info"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -150,17 +160,19 @@ $key = $_SESSION["admin_key"] ?? "";
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Post Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postStatus IS NULL")) ?></div>
-                                        </div>
+                                               Visitor</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                               
+                                            </div>
+                                    </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                            <i class="fas fa-user-circle fa-2x text-warning"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        </div>
 
                     <!-- Content Row -->
 
@@ -170,29 +182,101 @@ $key = $_SESSION["admin_key"] ?? "";
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Recent Request</h6>
+                                    
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
+                                    <table class="table table-bordered  table-responsive" style="width:100%">
+                                        <thead>
+                                            <style>
+                                                #publisher_details_modal{
+                                                    position: fixed;
+                                                    top:-100%;
+                                                    left:50%;
+                                                    width:300px;
+                                                    height:300px;
+                                                    padding:3px;
+                                                    background-color: rgba(0,0,0,.2);
+                                                    box-shadow:0px 0px 2px 0px black;
+                                                    transition: all linear .3s;
+                                                    border-radius: 5px;
+                                                    
+                                                }
+                                                #publisher:hover {
+                                                    cursor: pointer;
+                                                }
+                                                #publisher:hover~#publisher_details_modal{
+                                                    top:-0%;
+                                                    transition: all linear .3s;
+
+                                                }
+                                                tr:hover > #block_button {
+                                                    opacity: 0;
+                                                }
+                                            </style>
+                                            <tr>
+                                                <th>Post Id</th>
+                                                <th>Publisher</th>
+                                                <th>Title</th>
+                                                <th>Post</th>
+                                                <th>Category</th>
+                                                <th>Post Time</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                                $result_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category  ON catId = postCategory LEFT JOIN publisher ON publisherId=postPublisher WHERE postStatus IS NULL");
+                                                while ($req_post = mysqli_fetch_assoc($result_qry)) {?>
+
+                                                    <tr>
+                                                        
+                                                        <td><?php echo $req_post["postId"] ?></td>
+
+                                                        <td >
+                                                            <strong id="publisher"><?php echo $req_post["publisherUser_name"] ?></strong>
+                                                            
+                                                            <div id="publisher_details_modal"> 
+                                                                <div class="card">
+                                                                    <div class="">
+                                                                        <img width="100%" src="/coderbees/publisher/uploads/image/<?php echo $req_post["publisherImage"] ?>" alt="Not Found !">
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <hr>
+                                                                            <div class="">
+                                                                                <h3><?php echo $req_post["publisherUser_name"] ?></h3>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                
+                                                            <hr>
+                                                                <a id="block_button" class="text text-danger" href="#">Block Publisher</a>
+                                                        </td>
+                                                        <td><?php echo $req_post["postTitle"] ?></td>
+                                                        <td>
+                                                            <?php echo $req_post["post"] ?>
+                                                            <hr>
+                                                            <div id="admin_button">
+                                                                <a class="text text-danger" href='posts/reject_post.php?post=<?php echo $req_post["postId"] ?>'>Delete</a>
+                                                                <a class="text text-success px-3" href='posts/approve_post.php?post=<?php echo $req_post["postId"] ?>'>Approve</a>
+                                                                <a class="text text-secoundry" href='#'>View</a>
+                                                            </div>
+                                                        </td>
+                                                        <td><?php echo $req_post["catName"] ?></td>
+                                                        <td><?php echo $req_post["postCreated_at"] ?></td>
+                                                       
+                                                        
+                                                    </tr>
+
+                                                <?php }
+                                            ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

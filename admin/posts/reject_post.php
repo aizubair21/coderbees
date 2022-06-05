@@ -1,13 +1,11 @@
 <?php 
-include "connection.php";
+include "../connection.php";
+if(!isset($_SESSION["admin_key"])){
+    header("location: ../index.php");
+}
 
-if($_SESSION["admin_key"]){
-    $post = $_REQUEST["post"];
+    $post = $_GET["post"];
     $approve_qry = "DELETE FROM posts WHERE postId = '$post'";
     if (mysqli_query($conn, $approve_qry)) {
-        header("location: controls.php");
+        header("location: post_view.php");
     }
-
-}else{
-    header("location: login.php");
-}

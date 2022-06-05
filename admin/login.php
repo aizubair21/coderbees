@@ -5,9 +5,6 @@ require "link.php";
 
 //include "auth.php";
 
-
-
-
 if (isset($_SESSION['admin_key'])) {
     header("location: index.php");
 }
@@ -16,21 +13,20 @@ $email_error = '';
 $pass_error = '';
 
 if (isset($_POST["login"]) ) {
+
     $email = $_POST['email'];
     $password = $_POST['password'];
-    echo $password;
 
-    $data = "SELECT adminId, adminPassword FROM admin WHERE adminEmail='$email'";
-    $result = mysqli_query($conn, $data);
+    $result = mysqli_query($conn, "SELECT adminId, adminPassword FROM admin WHERE adminEmail='$email'");
     $count = mysqli_num_rows($result);
     $row = mysqli_fetch_assoc($result);
-    
+
     if($count == 1){
         
-        $db_password = $row['adminPassword'] ;
-        if (password_verify($password, $row["adminPassword"]) || $password == $row["adminPassword"]) {
+        $db_password = $row['adminPassword'];
+        if( password_verify($password,$db_password) ) {
             $_SESSION["admin_key"] = $row["adminId"];
-            header("location: index.php");
+            //header("location: index.php");
         }else {
             $pass_error = "Password not matched !";
         }
@@ -77,7 +73,7 @@ if (isset($_POST["login"]) ) {
                                 </div>
 
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+                                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" autocomplete="off">
                                     <label for="floatingPassword">Password</label>
                                     <strong class="text text-danger">
                                         <?php echo $pass_error ?>

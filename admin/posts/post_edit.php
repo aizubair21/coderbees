@@ -2,7 +2,7 @@
 include "../connection.php";
 
 if(!isset($_SESSION["admin_key"])){
-    //header("location: login.php");
+    header("location: ../index.php");
 }
 
 $key = $_SESSION["admin_key"] ?? "";

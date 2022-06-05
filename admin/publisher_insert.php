@@ -2,6 +2,10 @@
 
 include "connection.php";
 
+if (!isset($_SESSION['admin_key'])) {
+    header("location: index.php");
+}
+
 if(isset($_POST["insert_publisher"]) && $_POST["publisherUser_name"] != "" && $_POST["publisher_email"]!= "" && $_POST["publisher_possword"] != ""){
         
     $name_error = "";

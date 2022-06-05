@@ -2,7 +2,7 @@
 include "../connection.php";
 
 if(!isset($_SESSION["admin_key"])){
-    //header("location: /coderbee/login.php");
+    header("location: ../index.php");
 }
 
 $postStatus = 1;
@@ -243,14 +243,13 @@ if (isset($postId)) {
                                                         <td style="padding:0px;">
                                                             <?php 
                                                                 if ($row["postStatus"] == NULL) {
-                                                                    echo "<strong class='text text-danger'>waiting</strong>";
+                                                                    echo "<strong class='text text-warning btn-sm'>Pending</strong>";
                                                                 }elseif($row["postStatus"] == 1){?>
                                                                     <a href='post_unapprove.php?post=<?php echo $row["postId"] ?>' class='text text-success'>Unapprove</a>
-                                                                <?php }else {?>
-                                                                    <a href='post_unblock.php?post=<?php echo $row["postId"] ?>' class='text text-success btn-sm'>Unblock</a>
+                                                                <?php } else {?>
+                                                                    <a href='post_unblock.php?post=<?php echo $row["postId"] ?>' class='btn btn-danger btn-sm'>Unblock</a>
                                                                 <?php }
-                                                            e
-                                                               
+   
                                                             ?> 
                                                         </td>
                                                         <td style="padding:0px;"></td>
@@ -260,7 +259,7 @@ if (isset($postId)) {
                                                         <td style="padding:0px;"  class="d-flex justify-content-center align-items-center">
                                                             <div class="d-flex">
                                                                 <a href="post_view.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                                <a href="post_edit.php?id=<?php echo  $row["postId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
+                                                                
                                                             </div>
                                                         </td>
                                                     </tr>

@@ -164,13 +164,13 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                     echo ($total_post - ($block_post+$post_approved));
                                                 ?>
                                             </div>
-                            eae            </div>
+                                       </div>
                                         <div class="col-auto">
                                             <i class="fas fa-pause fa-2x text-warningee"></i>
                                         </div>
                                     </div>
                                 </div>
-                            </div>eeeeeeeeeeeeeeeeeeeeeeeee
+                            </div>
                         </div>
                     </div>
 
@@ -211,28 +211,29 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                     <style>
                                                         td {
                                                             font-size: 11px;
-                                                            padding: 0;
+                                                            padding:20;
+
                                                         }
                                                     </style>
                                                     
                                                     <tr>
-                                                        <td style="padding:0px;">
+                                                        <td style="padding:2px;">
                                                         
                                                             <?php echo $row["postId"] ?>
                                                         
                                                         </td>
-                                                        <td style="padding:0px;" class="text-left"> <a href="/coderbees/posts?id=<?php echo  $row["postId"] ?>"> <?php echo  $row["postTitle"] ?> </a></td>
-                                                        <td style="padding:0px;" class="text-left"><?php echo  $row["catName"] ?></td>
-                                                        <td style="padding:0px;"><?php echo $row["postTag"] ?></td>
-                                                        <td style="padding:0px;" class="text-left"> 
+                                                        <td style="padding:2px;" class="text-left"> <a href="/coderbees/posts?id=<?php echo  $row["postId"] ?>"> <?php echo  $row["postTitle"] ?> </a></td>
+                                                        <td style="padding:2px;" class="text-left"><?php echo  $row["catName"] ?></td>
+                                                        <td style="padding:2px;"><?php echo $row["postTag"] ?></td>
+                                                        <td style="padding:2px;" class="text-left"> 
                                                             
                                                             <?php echo $row["publisherUser_name"] ?>
                                                         </td>
-                                                        <td style="padding:0px;">
+                                                        <td style="padding:2px;">
 
                                                             <?php 
                                                                  if ($row["postStatus"] == NULL) {
-                                                                    echo "<strong class='text text-danger'>waiting</strong>";
+                                                                    echo "<strong class='btn btn-danger disabled btn-sm'>Pending</strong>";
                                                                 }elseif($row["postStatus"] == 1){
                                                                     echo "<strong class='text text-success'>Approved</strong>";
                                                                 }else {
@@ -241,11 +242,11 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                             ?>
 
                                                         </td>
-                                                        <td style="padding:0px;"></td>
-                                                        <td style="padding:0px;"><img style="width:70px" src="../image/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
-                                                        <td style="padding:0px;"><?php echo $row["postCreated_at"] ?></td>
-                                                        <td style="padding:0px;"><?php echo $row["postUpdate_at"] ?></td>
-                                                        <td style="padding:0px;"  class="d-flex justify-content-center align-items-center">
+                                                        <td style="padding:2px;"></td>
+                                                        <td style="padding:2px;"><img style="width:50px; height:50px" src="../image/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
+                                                        <td style="padding:2px;"><?php echo $row["postCreated_at"] ?></td>
+                                                        <td style="padding:2px;"><?php echo $row["postUpdate_at"] ?></td>
+                                                        <td style="padding:2px;"  class="d-flex justify-content-center align-items-center">
                                                             <div  class="d-flex">
                                                                 <a href="post_delete.php?id=<?php echo $row["postId"] ?>&postPublisher=<?php echo $row["publisherId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                                 <a href="post_edit.php?id=<?php echo $row["postId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>

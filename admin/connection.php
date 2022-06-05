@@ -17,7 +17,6 @@ if ($key) {
     $GLOBALS['auth_admin'] = getData($key);
 }
 
-
 //echo $auth_user["user_name"];
 
 function getData($key){

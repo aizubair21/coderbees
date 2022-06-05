@@ -1,5 +1,5 @@
 <?php 
 
 session_start();
-session_unset("admin_key");
+unset($_SESSION['admin_key']);
 header("location: ../index.php");

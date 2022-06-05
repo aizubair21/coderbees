@@ -3,7 +3,7 @@
 include  "link.php";
 include 'connection.php';
 //session_unset();
-if (isset($_SESSION['key'])) {
+if (isset($_SESSION['admin_key'])) {
     header("location: index.php");
 }
 

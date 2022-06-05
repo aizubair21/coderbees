@@ -4,6 +4,10 @@
 include "../connection.php";
  $id = $_GET['id'] ?? "";
 
+ if (!isset($_SESSION['admin_key'])) {
+    header("location: index.php");
+}
+
 if(isset($_POST["Update_publisher"]) ){
         
     $name_error = "";

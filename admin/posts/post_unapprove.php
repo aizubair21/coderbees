@@ -1,9 +1,12 @@
 <?php 
 include "../connection.php";
+if(!isset($_SESSION["admin_key"])){
+    header("location: ../index.php");
+}
 
     $post = $_GET["post"];
-    $status = '0';
-    $approve_qry = "UPDATE posts SET postStatus = '$status' WHERE postId = '$post'";
+    $status = NULL;
+    $approve_qry = "UPDATE posts SET postStatus = NULL WHERE postId = '$post'";
     if (mysqli_query($conn, $approve_qry)) {
-        header("location: ../controls.php");
+        header("location: post_view.php");
     }

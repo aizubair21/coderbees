@@ -1,5 +1,8 @@
 <?php 
 include "../connection.php";
+if (!isset($_SESSION['admin_key'])) {
+    header("location: index.php");
+}
 
 $id = $_GET["id"];
 

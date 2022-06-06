@@ -60,7 +60,7 @@ if(isset($_POST["caegory_update"])){
                                     alert("Success, Upload done.");
                                 </script>
                             <?php
-                            header("location: categpry_index.php");
+                            header("location: category_index.php");
                             //echo "upload done";
 
                         }else {

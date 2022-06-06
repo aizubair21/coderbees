@@ -92,8 +92,14 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Posts</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_post?></div>
+                                                Your Posts</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php  
+                                                    $auth_pub =  $auth_publisher["publisherId"];
+                                                    echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub"));
+                                                ?>
+                                                
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-blog fa-2x text-primary"></i>
@@ -111,7 +117,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Approved</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $post_approved  ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php  echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub AND postStatus = 1"))  ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-check-circle fa-2x text-success"></i>
@@ -134,9 +140,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
                                                        
                                                         <?php 
-                                                            $block = 0;
-                                                            $block_post = mysqli_num_rows(mysqli_query($conn, "SELECT postId FROM posts WHERE postStatus = '$block'"));
-                                                            echo $block_post;
+                                                             echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub AND postStatus = 0"))
                                                         ?>
                                                     </div>
                                                 </div>
@@ -161,7 +165,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                 Waitting For Approval</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 <?php
-                                                    echo ($total_post - ($block_post+$post_approved));
+                                                     echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub AND postStatus IS NULL"))
                                                 ?>
                                             </div>
                                        </div>
@@ -193,7 +197,6 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                 <th>Title</th>
                                                 <th>Category</th>
                                                 <th>Tag</th>
-                                                <th>Author</th>
                                                 <th>Status</th>
                                                 <th>Comments</th>
                                                 <th>Feature Image</th>
@@ -203,7 +206,8 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $post = "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisherId=postPublisher ORDER BY `postId` ASC";
+                                            $auth_publisher = $auth_publisher["publisherId"];
+                                                $post = "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisher.publisherId = posts.postPublisher WHERE posts.postPublisher = $auth_publisher ORDER BY postId ASC ";
                                                 $result = mysqli_query($conn, $post);
 
                                                 while ($row = mysqli_fetch_assoc($result)) {?>
@@ -224,10 +228,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                         <td style="padding:2px;" class="text-left"> <a href="/coderbees/posts?id=<?php echo  $row["postId"] ?>"> <?php echo  $row["postTitle"] ?> </a></td>
                                                         <td style="padding:2px;" class="text-left"><?php echo  $row["catName"] ?></td>
                                                         <td style="padding:2px;"><?php echo $row["postTag"] ?></td>
-                                                        <td style="padding:2px;" class="text-left"> 
-                                                            
-                                                            <?php echo $row["publisherUser_name"] ?>
-                                                        </td>
+                 
                                                         <td style="padding:2px;">
 
                                                             <?php 

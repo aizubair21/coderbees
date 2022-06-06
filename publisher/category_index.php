@@ -1,5 +1,4 @@
 <?php
-
 include "connection.php";
 if(!isset($_SESSION["publisher_key"])){
     header("location: ../login.php");
@@ -33,7 +32,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Category view - Publisher Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?php PUBLISHER_PATH ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -85,7 +84,6 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                 <th>Slug</th>
                                                 <th>Image</th>
                                                 <th>Created At</th>
-                                                <th>Author</th>
                                                 <th>Posts</th>
                                                 <th>E/D</th>
                                             </tr>
@@ -102,11 +100,12 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                         </tfoot> -->
                                         <tbody >
 
-                                            <?php 
-                                            $sql = "SELECT * FROM category";
-                                            $result = mysqli_query($conn, $sql);
+                                            <?php
+                                            $auth_pub = $auth_publisher["publisherId"];
+                                            $cat_qry = "SELECT * FROM category WHERE catAuthor = $auth_pub";
+                                            $cate_result = mysqli_query($conn, $cat_qry);
                                             
-                                            while ($category = mysqli_fetch_assoc($result)) {?>
+                                            while ($category = mysqli_fetch_assoc($cate_result)) {?>
                                             
                                                 <tr>
                                                     <style>
@@ -117,19 +116,11 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                         }
                                                     </style>
                                                     <td><?php echo $category["catId"] ?></td>
-                                                    <td> <a href="/coderbees/admin/category_view?category=<?php echo $category["catId"]?>"><?php echo $category["catName"] ?></a> </td>
+                                                    <td><?php echo $category["catName"] ?> </td>
                                                     <td><?php echo $category["catSlug"] ?></td>
                                                     <td><img style="width:50px; height:50px" src="../image/category/<?php echo $category["catImage"] ?>" alt="Not Found"></td>
                                                     <td><?php echo $category["catCreated_at"] ?></td>
-                                                    <td>
-                                                        <?php 
-
-                                                            $auth_id = $category["catAuthor"];
-                                                            $pub = "SELECT * FROM publisher where publisherId='$auth_id'";
-                                                            $publisher = mysqli_fetch_assoc(mysqli_query($conn, $pub));
-                                                            echo $publisher["publisherUser_name"] ?? "";
-                                                        ?>
-                                                    </td>
+                                                   
                                                     <td>
 
                                                         <?php 

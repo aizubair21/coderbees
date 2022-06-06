@@ -221,7 +221,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                 }
                                                 #post_modal {
                                                     position: fixed;
-                                                    top:-100%;
+                                                    top:-300%;
                                                     left: 50%;
                                                     transform: translate(-50%);
                                                     background-color: white;

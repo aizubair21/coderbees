@@ -82,7 +82,7 @@
                         while($category = mysqli_fetch_assoc($cat_result)){?>
 
                             <div class="position-relative overflow-hidden mb-3" style="height: 80px;">
-                                <img class="img-fluid w-100 h-100" src="image/<?php echo $category["catImage"] ?>" style="object-fit: cover;">
+                                <img class="img-fluid w-100 h-100" src="image/category/<?php echo $category["catImage"] ?>" style="object-fit: cover;">
                                 <a href="" class="overlay align-items-center justify-content-center h4 m-0 text-white text-decoration-none">
                                     <?php echo $category["catName"] ?>
                                 </a>
@@ -104,19 +104,28 @@
                 <h3 class="m-0">Featured</h3>
                 <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
             </div>
-            <div class="owl-carousel owl-carousel-2 carousel-item-4 position-relative">
-                <div class="position-relative overflow-hidden" style="height: 300px;">
-                    <img class="img-fluid w-100 h-100" src="img/news-300x300-1.jpg" style="object-fit: cover;">
-                    <div class="overlay">
-                        <div class="mb-1" style="font-size: 13px;">
-                            <a class="text-white" href="">Technology</a>
-                            <span class="px-1 text-white">/</span>
-                            <a class="text-white" href="">January 01, 2045</a>
-                        </div>
-                        <a class="h4 m-0 text-white" href="">Sanctus amet sed ipsum lorem</a>
-                    </div>
-                </div>
-                <div class="position-relative overflow-hidden" style="height: 300px;">
+
+            <div class="owl-carousel owl-carousel-2 carousel-item-2 position-relative">
+                <?php
+                    $featured_qry = (mysqli_query($conn, "SELECT * FROM posts   LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 1 ORDER BY posts.postId DESC LIMIT 2 "));
+                    while ($featured = mysqli_fetch_array($featured_qry)) {?>
+                  
+                        <div class="position-relative overflow-hidden" style="height: 300px;">
+                            <img class="img-fluid w-100 h-100" src="/coderbees/image/<?php echo $featured["postImage"] ?>" style="object-fit: cover;">
+                            <div class="overlay">
+                                <div class="mb-1" style="font-size: 13px;">
+                                    <a class="text-white" href=""><?php echo $featured["catName"] ?></a>
+                                    <span class="px-1 text-white">/</span>
+                                    <a class="text-white" href=""><?php echo $featured["postCreated_at"] ?></a>
+                                </div>
+                                <a class="h4 m-0 text-white" href=""><?php echo $featured["postTitle"] ?></a>
+                            </div>
+                        </div>  
+                
+                    <?php }
+                ?>
+
+                <!-- <div class="position-relative overflow-hidden" style="height: 300px;">
                     <img class="img-fluid w-100 h-100" src="img/news-300x300-2.jpg" style="object-fit: cover;">
                     <div class="overlay">
                         <div class="mb-1" style="font-size: 13px;">
@@ -159,7 +168,7 @@
                         </div>
                         <a class="h4 m-0 text-white" href="">Sanctus amet sed ipsum lorem</a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -627,7 +636,3 @@
     <!-- Footer Start -->
         <?php include "footer.php"?>
     <!-- Footer End -->
-
-</body>
-
-</html>

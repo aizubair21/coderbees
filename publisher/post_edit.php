@@ -32,11 +32,10 @@ if(isset($_POST["post_update"])){
     $description = $_POST["description"];
     $update = date("y-m-d");
     $category = $_POST["category"];
-    $status = 0;
 
     if(!$_FILES["image"]['name']){
 
-        $sql = "UPDATE posts SET postTitle='$name', postTag='$tag',postStatus='$status', postCategory='$category', postPublisher='$author', post='$description', postUpdate_at='$update' WHERE postId = '$postId'";
+        $sql = "UPDATE posts SET postTitle='$name', postTag='$tag', postCategory='$category', postPublisher='$author', post='$description', postUpdate_at='$update' WHERE postId = '$postId'";
         if (mysqli_query($conn, $sql)) {
             header("location: post_view.php");
             $name = '';
@@ -285,7 +284,8 @@ if(isset($_POST["post_update"])){
     <script>
       $('#summernote').summernote({
         tabsize: 3,
-        height: 200
+        height: 500,
+        
       });
     </script>
 

@@ -88,7 +88,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                         </div>
                     </div>
 
-                    <div class="col-xl-3 col-md-6 mb-4" title="Category are empty. Not posted yet those category.">
+                    <!-- <div class="col-xl-3 col-md-6 mb-4" title="Category are empty. Not posted yet those category.">
                         <div class="card border-left-success shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -96,9 +96,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                         <div  class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                         Empty</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            <?php 
-                                            $active = 1;
-                                            echo mysqli_num_rows(mysqli_query($conn, "SELECT publisherId FROM publisher WHERE publisherStatus = '$active'")) ?>
+                                            <?php  ?>
                                         </div>
                                 </div>
                                     <div class="col-auto">
@@ -107,63 +105,16 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-danger shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                            Block Publisher</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            <?php
-                                                $status = 0;
-                                                $category_qry = mysqli_num_rows(mysqli_query($conn, "SELECT publisherId FROM publisher WHERE publisherStatus = '$status'"));
-                                                echo $category_qry;    
-                                            ?>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-ban fa-2x text-danger"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   
+                
 
                     <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-info shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">New In
-                                        </div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                                
-                                                    <?php 
-                                                        $block_post = mysqli_num_rows(mysqli_query($conn, "SELECT publisherId FROM publisher WHERE publisherStatus IS NULL"));
-                                                        echo $block_post;
-                                                    ?>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-users  fa-2x text-info"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                     <!-- Pending Requests Card Example -->
-                    </div>
+                </div>
 
                 <!-- Begin Page Content -->
                 <div class="row p-1">
@@ -200,7 +151,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                         <tbody >
 
                                             <?php 
-                                            $sql = "SELECT * FROM category LEFT JOIN publisher ON publisher.publisherId = category.catAuthor";
+                                            $sql = "SELECT category.catId, category.catName, category.catSlug, category.catCreated_at, category.catImage, publisher.publisherUser_name FROM category LEFT JOIN publisher ON publisher.publisherId = category.catAuthor";
                                             $result = mysqli_query($conn, $sql);
                                             
                                             while ($row = mysqli_fetch_assoc($result)) {?>
@@ -223,7 +174,13 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                             echo $row["publisherUser_name"] ?? "";
                                                         ?>
                                                     </td>
-                                                    <td>01</td>
+                                                    <td> 
+                                                        <?php 
+                                                            $catId = $row["catId"];
+                                                            $active = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts  WHERE postCategory = $catId AND postStatus = 1"));
+                                                            echo $active;
+                                                        ?> 
+                                                    </td>
                                                     <td  class="d-flex justify-content-center align-items-center">
                                                         <div class="d-flex">
                                                             <a href="delete.php?id=<?php echo  $row["catId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>

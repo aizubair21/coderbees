@@ -10,11 +10,11 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
     $name = $_POST["name"];
     $slug = strtolower(str_replace(" ","-",$name)) ;
     //print_r($auth_user['id']);
-    $author = $auth_user["id"];
+    $author = $auth_admin["adminId"];
 
-    $sql = "INSERT INTO category (name, slug, author) VALUES('$name','$slug','$author')";
+    $sql = "INSERT INTO category (catName, catSlug, catAuthor) VALUES('$name','$slug','$author')";
     if(mysqli_query($conn, $sql)){
-        //header("location: index.php");
+        header("location: index.php");
     }
 }
 
@@ -30,7 +30,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Category View - Admin Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -49,7 +49,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <?php include ADMIN_PATH."sideBar.php"; ?>
+            <?php include "../sideBar.php"; ?>
         <!-- End of Sidebar -->
 
 
@@ -61,8 +61,109 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
             <div id="content">
 
                 <!-- Topbar -->
-                    <?php include ADMIN_PATH."topBar.php"; ?>
+                    <?php include "../topBar.php"; ?>
                 <!-- End of Topbar -->
+
+                <div class="row px-2">
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Total Category</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php 
+                                                echo mysqli_num_rows(mysqli_query($conn, "SELECT catId FROM category"))
+                                            ?>
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-users fa-2x text-primary"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4" title="Category are empty. Not posted yet those category.">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div  class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Empty</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php 
+                                            $active = 1;
+                                            echo mysqli_num_rows(mysqli_query($conn, "SELECT publisherId FROM publisher WHERE publisherStatus = '$active'")) ?>
+                                        </div>
+                                </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-check-circle fa-2x text-success"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                            Block Publisher</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php
+                                                $status = 0;
+                                                $category_qry = mysqli_num_rows(mysqli_query($conn, "SELECT publisherId FROM publisher WHERE publisherStatus = '$status'"));
+                                                echo $category_qry;    
+                                            ?>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-ban fa-2x text-danger"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">New In
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                                
+                                                    <?php 
+                                                        $block_post = mysqli_num_rows(mysqli_query($conn, "SELECT publisherId FROM publisher WHERE publisherStatus IS NULL"));
+                                                        echo $block_post;
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-users  fa-2x text-info"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending Requests Card Example -->
+                    </div>
 
                 <!-- Begin Page Content -->
                 <div class="row p-1">
@@ -99,7 +200,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                         <tbody >
 
                                             <?php 
-                                            $sql = "SELECT * FROM category";
+                                            $sql = "SELECT * FROM category LEFT JOIN publisher ON publisher.publisherId = category.catAuthor";
                                             $result = mysqli_query($conn, $sql);
                                             
                                             while ($row = mysqli_fetch_assoc($result)) {?>
@@ -115,15 +216,11 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                     
                                                     <td> <a href="/coderbees/admin/category_view?category=<?php echo $row["catId"]?>"><?php echo $row["catName"] ?></a> </td>
                                                     <td><?php echo $row["catSlug"] ?></td>
-                                                    <td><img style="width:50px; height:50px" src="../image/category<?php echo $row["catImage"] ?>" alt="Not Found"></td>
+                                                    <td><img style="width:50px; height:50px" src="../../image/category<?php echo $row["catImage"] ?>" alt="Not Found"></td>
                                                     <td><?php echo $row["catCreated_at"] ?></td>
                                                     <td>
                                                         <?php 
-
-                                                            $auth_id = $row["catAuthor"];
-                                                            $pub = "SELECT * FROM publisher where publisherId='$auth_id'";
-                                                            $publisher = mysqli_fetch_assoc(mysqli_query($conn, $pub));
-                                                            echo $publisher["publisherUser_name"] ?? "";
+                                                            echo $row["publisherUser_name"] ?? "";
                                                         ?>
                                                     </td>
                                                     <td>01</td>

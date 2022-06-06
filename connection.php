@@ -6,7 +6,7 @@ $conn = mysqli_connect('localhost','root','','coderbees');
 $key = $_SESSION["publisher_key"] ?? '';
 
 if ($key) {
-    $GLOBALS['auth_publisher'] = getData($key);
+    $GLOBALS['auth_publisher'] = getPublisher($key);
 }
 
 
@@ -18,17 +18,7 @@ define('CATEGORY_PATH', ROOT_PATH."category/");
 
 //echo $auth_user["user_name"];
 
-function getData($key){
-    $conn = mysqli_connect('localhost','root','','users');
-    $data = "SELECT * FROM user WHERE id='$key'";
-    $result = mysqli_query($conn, $data);
-    if(mysqli_num_rows($result) > 0) {
-        return $row = mysqli_fetch_assoc($result);
-       
-    }else {
-        return "Not found !";
-    }
-}
+
 
 function getPublisher($key){
     $conn = mysqli_connect('localhost','root','','users');

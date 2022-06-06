@@ -1,6 +1,8 @@
 <?php
-include "link.php";
+
 require "connection.php";
+$title = "Reset Your Password | coderbees";
+include "header.php";
 
 
 $email_error = '';
@@ -17,7 +19,7 @@ $password_confirmation = $_POST['password_confirmation'] ?? '';
 //confirm
 if(isset($_POST['confirm'])) {
     if($_POST['user_name'] == "") {
-        $email_error = "Required field !";
+        $name_error = "Required field !";
     }
 
 
@@ -26,14 +28,30 @@ if(isset($_POST['confirm'])) {
     }
 
     if ($_POST['user_name'] != '' && $_POST['email'] != "") {
-        if($row = isInAdminDatabase($user_name)){
-            $id = $row["id"];
-            if($row['email'] == $email) {
-                $_SESSION['is_confirm'] = "$id";
-            }else {
-                $email_error = "This email isn't registered with this username.";
+        $block = 0;
+        $active = 1;
+        $pub_qry = mysqli_query($conn, "SELECT * FROM publisher WHERE publisherEmail = '$email'");
+        if($row = mysqli_fetch_assoc($pub_qry)){
+
+            if($row["publisherStatus"] == $active && ($row["publisherStatus"] == $block || $row["publisherStatus"] == NULL)){
+
+                $name_error = "This pertiqular email is blocked from this site !";
+
+            }else{
+
+                $id = $row["publisherId"];
+                if($row['publisherEmail'] == $email) {
+
+                    $_SESSION['is_confirm'] = "$id";
+
+                }else {
+                    $email_error = "This email isn't registered with this username.";
+                }
             }
+
+           
         }else {
+
             $name_error = "Not a valid username !";
             $email = '';
         }
@@ -57,12 +75,11 @@ if(isset($_POST['reset']) && isset($_SESSION['is_confirm'])) {
 
             $id= $_SESSION['is_confirm'];
             $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
-            $update = "UPDATE admin SET password = '$password' WHERE id = '$id'";
+            $update = "UPDATE publisher SET publisherPassword = '$password' WHERE publisherId = '$id'";
             $result = mysqli_query($conn,$update);
             if ($result) {
-                echo "ok";
                 $password = '';
-                session_destroy();
+                unset($_SESSION['is_confirm']);
                 header("location: login.php");
             }
             
@@ -96,10 +113,10 @@ if(isset($_POST['reset']) && isset($_SESSION['is_confirm'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Reset Password</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="padding-bottom: 100px;" >
         <div class="row">
             <div class="col-3">
                 
@@ -173,7 +190,7 @@ if(isset($_POST['reset']) && isset($_SESSION['is_confirm'])) {
                                         </div><br>
                                         <div class="d-flex justify-content-between">
                                             
-                                            <a href="/admin/index.php" class="btn btn-danger btn-md">Back</a>
+                                            <a href="login.php" class="btn btn-danger btn-md">Login</a>
                                             <button class="btn btn-outline-primary btn-md" name="confirm" type="submit">Confirm</button>
 
                                         </div>
@@ -186,7 +203,8 @@ if(isset($_POST['reset']) && isset($_SESSION['is_confirm'])) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     </div>
+    <?php include "footer.php"?>
 </body>
 </html>

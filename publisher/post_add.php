@@ -2,7 +2,7 @@
 include "connection.php";
 
 if(!isset($_SESSION["publisher_key"])){
-    //header("location: login.php");
+    header("location: ../login.php");
 }
 
 $key = $_SESSION["publisher_key"] ?? "";
@@ -28,7 +28,7 @@ if(isset($_POST["post"])){
 
             if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
             
-            if(strlen($_FILES["image"]["name"]) > 50){
+            if(strlen($_FILES["image"]["name"]) > 100){
                     ?>
                         <script>
                             alert("Image Name Too long. Please short it !");

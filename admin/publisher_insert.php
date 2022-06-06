@@ -6,7 +6,7 @@ if (!isset($_SESSION['admin_key'])) {
     header("location: index.php");
 }
 
-if(isset($_POST["insert_publisher"]) && $_POST["publisherUser_name"] != "" && $_POST["publisher_email"]!= "" && $_POST["publisher_possword"] != ""){
+if(isset($_POST["insert_publisher"]) && $_POST["publisher_username"] != "" && $_POST["publisher_email"]!= "" && $_POST["publisher_password"] != ""){
         
     $name_error = "";
     $user_name_error = "";
@@ -83,7 +83,7 @@ $key = $_SESSION["admin_key"] ?? "";
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Insert publisher - Admin Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

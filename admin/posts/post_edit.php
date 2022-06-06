@@ -9,10 +9,10 @@ $key = $_SESSION["admin_key"] ?? "";
 $postId = $_REQUEST["id"];
 
 
-
 //get upldated datq
+$row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT postImage FROM posts WHERE postId = '$postId'"));
 
-$post = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM posts"));
+
 
 
 //post update 
@@ -51,7 +51,7 @@ if(isset($_POST["post_update"])){
     }else {
         $sql = "UPDATE `posts` SET `postTitle`='$name',`postPublisher`='$author',`postImage`='$image',`postCategory`='$category',`postTag`='$tag',`postStatus`='$status',`post`='$description',`postUpdate_at`='$update' WHERE postId = '$postId'";
         if (mysqli_query($conn, $sql)) {
-            @unlink('/coderbees/image/'.$row['image']);
+            @unlink('../../image/'.$row['postImage']);
             if ($_FILES["image"]['name'] != ''){
 
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
@@ -64,7 +64,7 @@ if(isset($_POST["post_update"])){
                             </script>
                         <?php
                    }else {
-                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "/coderbees/image/". $_FILES["image"]['name'])) {
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/". $_FILES["image"]['name'])) {
                             ?>
                                 <script>
                                     alert("Success, Upload done.");

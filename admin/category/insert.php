@@ -10,7 +10,7 @@ if(!isset($_SESSION["admin_key"])){
 
  $id = $_REQUEST['id'] ?? "";
 
-if(isset($_POST["publisher`.`publisherId"])){
+if(isset($_POST["category_insert"])){
     
     $name_error = "";
     $user_name_error = "";
@@ -21,10 +21,11 @@ if(isset($_POST["publisher`.`publisherId"])){
 
     $name = $_POST["name"];
     $slug = $slug = strtolower(str_replace(" ","-",$name));
-    $author = $auth_user["id"];
+    $author = $auth_admin["admin_id"];
     $image = $_FILES["image"]["name"];
     $description = $_POST["description"];
     $created_at = date("y-m-d");
+    $cat = mysqli_fetch_assoc(mysqli_query($conn, "SELECT catImage FROM category WHERE catId = '$id'"));
 
     if(!$_FILES["image"]['name']){
 
@@ -46,15 +47,21 @@ if(isset($_POST["publisher`.`publisherId"])){
 
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
                    
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/category". $_FILES["image"]['name'])) {
-                        header("location: index.php");
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/category". $_FILES["image"]['name'])) {
+                        @unlink("../../image/category/".$cat["catImage"]);
+                        ?>
+                            <script>
+                                alert("Successfully inserted ");
+                                window.location.href = "index.php";
+                            </script>
+                        <?php
 
                     }else {
                         ?>
                             <script>
                                 alert("Faild to upload ! !");
                             </script>
-                    <?php
+                        <?php
                     }
         
                 }else {
@@ -93,7 +100,7 @@ if(isset($_POST["publisher`.`publisherId"])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Category Insert - Admin Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -164,7 +171,7 @@ if(isset($_POST["publisher`.`publisherId"])){
                                             <div class="d-flex justify-content-between align-items-baseline">
                                                 <a class="btn btn-danger" href="index.php">Cancel</a>
                                                 <strong>OR</strong>
-                                                <button type="submit" name="category_insert"  class="btn btn-primary">Update</button>
+                                                <button type="submit" name="category_insert"  class="btn btn-primary">Insert</button>
                                             </div>
 
                                     </form>

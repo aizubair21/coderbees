@@ -1,6 +1,9 @@
 <?php
 
 include "connection.php";
+if(!isset($_SESSION["publisher_key"])){
+    header("location: ../login.php");
+}
 
 if(isset($_POST["category_add"]) && $_POST["name"] != ""){
     $name = $_POST["name"];

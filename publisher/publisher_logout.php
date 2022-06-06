@@ -1,4 +1,5 @@
 <?php
 session_start();
-session_unset("publisher_key");
+unset($_SESSION["publisher_key"]);
+
 header("lcoation: ../index.php");

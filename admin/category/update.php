@@ -8,9 +8,9 @@ if(!isset($_SESSION["admin_key"])){
 }
 
 
- $id = $_REQUEST['id'] ?? "";
-echo $id;
-if(isset($_POST["caegory_update"])){
+$id = $_REQUEST['id'] ?? "";
+
+if(isset($_POST["category_update"])){
     
     $name_error = "";
     $user_name_error = "";
@@ -33,7 +33,7 @@ if(isset($_POST["caegory_update"])){
         $sql = "UPDATE category SET catName='$name', catSlug='$slug', catAuthor='$author',catDescription='$description' WHERE catId = '$id'";
         if (mysqli_query($conn, $sql)) {
             header("location: index.php");
-            echo "without image";
+            //echo "without image";
             $name = '';
             $slug = '';
             $author = '';
@@ -45,12 +45,12 @@ if(isset($_POST["caegory_update"])){
     }else {
         $sql = "UPDATE category SET catName='$name', catSlug='$slug', catAuthor='$author', catImage ='$image',catDescription='$description' WHERE catId = '$id'";
         if (mysqli_query($conn, $sql)) {
-            @unlink('../image/category'.$row['catImage']);
+            @unlink('../../image/category'.$row['catImage']);
             if ($_FILES["image"]['name'] != ''){
 
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
                    
-                   if(strlen($_FILES["image"]["name"]) > 50){
+                   if(strlen($_FILES["image"]["name"]) > 100){
                         ?>
                             <script>
                                 alert("Image Name Too long. Please short it !");
@@ -58,7 +58,7 @@ if(isset($_POST["caegory_update"])){
                             </script>
                         <?php
                    }else {
-                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/category". $_FILES["image"]['name'])) {
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/category". $_FILES["image"]['name'])) {
                             ?>
                                 <script>
                                     alert("Success, Upload done.");
@@ -111,7 +111,7 @@ if(isset($_POST["caegory_update"])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Category edit - Admin Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -139,18 +139,12 @@ if(isset($_POST["caegory_update"])){
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">CB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">CB Admin</div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="../index.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Controll</span></a>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -189,37 +183,6 @@ if(isset($_POST["caegory_update"])){
                     <a class="collapse-item" href="insert.php">Category Add</a>
                 </div>
             </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Category</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Site Control
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
             </li>
 
             </ul>
@@ -457,7 +420,7 @@ if(isset($_POST["caegory_update"])){
                             
                                 <div class="card-body">
 
-                                    <form action="update.php" method="POST" enctype="multipart/form-data">
+                                    <form action="" method="POST" enctype="multipart/form-data">
                                         <div>
                                             <input type="hidden" name="update_id" value="<?php echo ($_REQUEST['id']) ?>">
 
@@ -488,16 +451,21 @@ if(isset($_POST["caegory_update"])){
                                                 <input type="text" name="description" value="<?php echo $row['catDescription'] ?? "" ?>" id="description" placeholder="category description..." class="form-control">
                                             </div><hr>
 
-                                            <div>
-                                                <label class="form-label" for="image ">image :</label>
-                                                <input type="file" name="image" value="image/<?php echo $row['catImage'] ?>" id="image" placeholder="image..." class="form-control form-upload">
+                                            <div class="row">
+                                               <div>
+                                                   <img width="20%" src="../../image/<?php echo $row["catImage"] ?>" alt="">
+                                               </div>
+                                               <div>    
+                                                    <label class="form-label" for="image ">image :</label>
+                                                    <input type="file" name="image" id="image" placeholder="image..." class="form-control form-upload">
+                                               </div>
                                             </div><hr>
                                            
 
                                             <div class="d-flex justify-content-between align-items-baseline">
                                                 <a class="btn btn-danger" href="index.php">Cancel</a>
                                                 <strong>OR</strong>
-                                                <button type="submit" name="caegory_update"  class="btn btn-primary">Update</button>
+                                                <button type="submit" name="category_update"  class="btn btn-primary">Update</button>
                                             </div>
 
                                     </form>

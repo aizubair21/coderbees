@@ -25,10 +25,10 @@ if(isset($_POST["Update_publisher"]) ){
     $country = $_POST["publisher_country"];
     //echo $created_at;
 
-    $update = "UPDATE publisher SET publisherName='$name',publisherUser_name='$user_name',publisherEmail='$email',publisherPhone='$phone',publisherCountry='$country' WHERE publisherId = '$id'";
-    if (mysqli_query($conn, $update)) {
-        header("location: ../publisher.php");
-
+    $update_qry = "UPDATE publisher SET publisherName='$name',publisherUser_name='$user_name',publisherEmail='$email',publisherPhone='$phone',publisherCountry='$country' WHERE publisherId = '$id'";
+    if (mysqli_query($conn, $update_qry)) {
+        //header("location: ../publisher.php");
+        echo "done";
         $name = '';
         $user_name = '';
         $email = '';
@@ -50,7 +50,7 @@ if(isset($_POST["Update_publisher"]) ){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin: publisher update - Dashboard</title>
+    <title>Publisher update - Admin Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

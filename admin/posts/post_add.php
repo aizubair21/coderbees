@@ -36,7 +36,7 @@ if(isset($_POST["post"])){
                         </script>
                     <?php
             }else {
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/". $_FILES["image"]['name'])) {
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/". $_FILES["image"]['name'])) {
                         
                     }else {
                         ?>

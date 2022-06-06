@@ -2,10 +2,9 @@
 <?php
 require 'connection.php';
 session_start();
-//include "auth.php";
 
 if (isset($_SESSION['publisher_key'])) {
-    header("location: /coderbees/publisher/index.php");
+    header("location: index.php");
 }
 
 $email_error = '';
@@ -26,7 +25,7 @@ if (isset($_POST["Publisher_login"])) {
         $db_password = $row['publisherPassword'] ;
         if (password_verify($password, $row["publisherPassword"]) || $password == $row["publisherPassword"]) {
             $_SESSION["publisher_key"] = $row["publisherId"];
-            //header("location: /coderbees/publisher/index.php");
+            header("location: /coderbees/publisher/index.php");
         }else {
             $pass_error = "Password not matched !";
         }

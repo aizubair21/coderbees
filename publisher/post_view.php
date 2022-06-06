@@ -2,7 +2,7 @@
 include "connection.php";
 
 if(!isset($_SESSION["publisher_key"])){
-    //header("location: /coderbee/login.php");
+    header("location: ../login.php");
 }
 
 $postStatus = 1;
@@ -198,7 +198,6 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                 <th>Comments</th>
                                                 <th>Feature Image</th>
                                                 <th>Post Date</th>
-                                                <th>Update</th></th>
                                                 <th>E/D</th>
                                             </tr>
                                         </thead>
@@ -245,7 +244,6 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                         <td style="padding:2px;"></td>
                                                         <td style="padding:2px;"><img style="width:50px; height:50px" src="../image/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
                                                         <td style="padding:2px;"><?php echo $row["postCreated_at"] ?></td>
-                                                        <td style="padding:2px;"><?php echo $row["postUpdate_at"] ?></td>
                                                         <td style="padding:2px;"  class="d-flex justify-content-center align-items-center">
                                                             <div  class="d-flex">
                                                                 <a href="post_delete.php?id=<?php echo $row["postId"] ?>&postPublisher=<?php echo $row["publisherId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>

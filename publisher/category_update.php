@@ -3,6 +3,10 @@
 
 include "connection.php";
 
+if(!isset($_SESSION["publisher_key"])){
+    header("location: ../login.php");
+}
+
  $id = $_REQUEST['id'] ?? "";
 //echo $id;
 if(isset($_POST["caegory_update"])){

@@ -172,7 +172,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                 </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
 
                     <!-- Content Row -->
 
@@ -191,12 +191,16 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                     <table class="table table-bordered  table-responsive" style="width:100%">
                                         <thead>
                                             <style>
+                                                body {
+                                                    overflow-x: hidden;
+                                                    position: absolute;
+                                                    box-sizing: border-box;;
+                                                }
                                                 #publisher_details_modal{
                                                     position: fixed;
                                                     top:-100%;
                                                     left:50%;
                                                     width:300px;
-                                                    height:300px;
                                                     padding:3px;
                                                     background-color: rgba(0,0,0,.2);
                                                     box-shadow:0px 0px 2px 0px black;
@@ -215,6 +219,24 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                 tr:hover > #block_button {
                                                     opacity: 0;
                                                 }
+                                                #post_modal {
+                                                    position: fixed;
+                                                    top:-100%;
+                                                    left: 50%;
+                                                    transform: translate(-50%);
+                                                    background-color: white;
+                                                    text-align: justify;
+                                                    box-shadow: 0px 0px 2px black;
+                                                    border-radius: 5px;
+                                                    z-index: 9999;
+                                                }
+                                                
+                                                #modal_img {
+                                                    width:50px;
+                                                    height:50%;
+                                                    border-radius: 30%;
+                                                }
+                            
                                             </style>
                                             <tr>
                                                 <th>Post Id</th>
@@ -238,16 +260,27 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                         <td >
                                                             <strong id="publisher"><?php echo $req_post["publisherUser_name"] ?></strong>
                                                             
-                                                            <div id="publisher_details_modal"> 
+                                                            <div id="publisher_details_modal" style="text-align:left;"> 
                                                                 <div class="card">
                                                                     <div class="">
                                                                         <img width="100%" src="/coderbees/publisher/uploads/image/<?php echo $req_post["publisherImage"] ?>" alt="Not Found !">
                                                                     </div>
                                                                     <div class="card-body">
                                                                         <hr>
-                                                                            <div class="">
-                                                                                <h3><?php echo $req_post["publisherUser_name"] ?></h3>
-
+                                                                            <div class="d-flex justify-content-between align-items-baseline">
+                                                                                <h5>
+                                                                                    <?php echo $req_post["publisherUser_name"] ?>
+                                                                                    <strong style="font-size: 12px;"><?php echo $req_post["publisherEmail"] ?></strong>
+                                                                                </h5>
+                                                                                
+                                                                                <span style="font-size: 12px;"><?php echo $req_post["publisherCreated_at"] ?></span>
+                                                                            </div>
+                                                                            <div class="d-flex justify-content-between align-items-baseline">
+                                                                                <?php if($req_post["publisherStatus"] = 1){ ?>  <button class="btn btn-success btn-sm disabled">Active</button>  <?php }else{ echo "<button class='btn btn-danger btn-sm disabled' >Block</button>"; }?>
+                                                                            </div>
+                                                                            <hr>
+                                                                            <div>
+                                                                                <strong>Posts : <?php ?></strong>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -259,12 +292,31 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                         </td>
                                                         <td><?php echo $req_post["postTitle"] ?></td>
                                                         <td>
-                                                            <?php echo $req_post["post"] ?>
+                                                            <?php  echo substr_replace($req_post["post"],'...',200)  ?>
                                                             <hr>
                                                             <div id="admin_button">
                                                                 <a class="text text-danger" href='posts/reject_post.php?post=<?php echo $req_post["postId"] ?>'>Delete</a>
                                                                 <a class="text text-success px-3" href='posts/approve_post.php?post=<?php echo $req_post["postId"] ?>'>Approve</a>
-                                                                <a class="text text-secoundry" href='#'>View</a>
+                                                                <button id="post_modal_button" onclick="openPostModal()" class="text text-secoundry" >View</button>
+                                                                <div id="post_modal">
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                                <div>
+                                                                                    <h3><?php echo $req_post["postTitle"] ?></h3>
+                                                                                    <div>
+                                                                                        <img id="modal_img" src="../image/<?php echo $req_post["publisherImage"] ?>" alt="<?php echo $req_post["publisherUser_name"] ?>">
+                                                                                        <strong class="px-3"><?php echo $req_post["postCreated_at"] ?></strong>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <hr>
+                                                                                <div>
+                                                                                    <?php echo $req_post["post"] ?>
+                                                                                </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button style="float:right; margin:2px" onclick="closePostModal()" class="btn btn-danger btn-close">X</button>
+
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td><?php echo $req_post["catName"] ?></td>
@@ -541,6 +593,14 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
     <script src="<?php ADMIN_PATH?>js/demo/chart-area-demo.js"></script>
     <script src="<?php ADMIN_PATH?>js/demo/chart-pie-demo.js"></script>
     <script src="<?php ADMIN_PATH?>js/demo/datatables-demo.js"></script>
+    <script>
+        function openPostModal () {
+            document.getElementById("post_modal").style.top = 0+"px";
+        }
+        function closePostModal () {
+            document.getElementById("post_modal").style.top = -100+"%";
+        }
+    </script>
 
 </body>
 

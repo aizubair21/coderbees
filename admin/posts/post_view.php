@@ -255,7 +255,7 @@ if (isset($postId)) {
                                                         <td style="padding:0px;"></td>
                                                         <td style="padding:0px;"><img style="width:70px" src="../image/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
                                                         <td style="padding:0px;"><?php echo $row["postCreated_at"] ?></td>
-                                                        <td style="padding:0px;"><?php echo $row["postUpdate_at"] ?></td>
+                                                        <td style="padding:0px;"><?php echo $row["postUpdated_at"] ?></td>
                                                         <td style="padding:0px;"  class="d-flex justify-content-center align-items-center">
                                                             <div class="d-flex">
                                                                 <a href="post_view.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>

@@ -11,6 +11,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
     $slug = strtolower(str_replace(" ","-",$name)) ;
     //print_r($auth_user['id']);
     $author = $auth_admin["adminId"];
+    $created_at = date("y-m-d");
 
     $sql = "INSERT INTO category (catName, catSlug, catAuthor) VALUES('$name','$slug','$author')";
     if(mysqli_query($conn, $sql)){

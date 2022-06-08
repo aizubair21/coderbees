@@ -11,7 +11,7 @@ $key = $_SESSION["admin_key"] ?? "";
 if(isset($_POST["post"])){
 
     $title = $_POST["title"];
-    $author = $auth_publisher["publisherId"];
+    $author = $auth_admin["adminId"];
     $category = $_POST["category"];
     $tag = $_POST["tag"];
     $description = $_POST["description"];
@@ -20,7 +20,7 @@ if(isset($_POST["post"])){
 
     //echo $created_at;
     //add post
-    $sql = "INSERT INTO posts (postTitle, postPublisher, postCategory, postTag, post, postImage, postCreated_at) VALUES ('$title','$author','$category','$tag','$description','$image','$created_at')";
+    $sql = "INSERT INTO posts (postTitle, postPublisher, postCategory, postTag, post, postImage, postCreated_at, postStatus) VALUES ('$title','$author','$category','$tag','$description','$image','$created_at',1)";
     if (mysqli_query($conn, $sql)) {
 
         //upload post image to server
@@ -153,7 +153,7 @@ if(isset($_POST["post"])){
                                     <option > Select category </option>
                                     <?php 
                                         
-                                        $result = mysqli_query($conn, "SELEFT * FROM category");
+                                        $result = mysqli_query($conn, "SELECT * FROM category");
                                         while ($row = mysqli_fetch_array($result)) {
                                             echo "<option value='".$row['catId']."'>".$row['catName']."</option>";
                                         }

@@ -1,105 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+    $active = "category";
+    $title = "Categories - coderbees";
+    include "header.php";
+    include "connection.php";
 
-<head>
-    <meta charset="utf-8">
-    <title>NEWSROOM - Free Bootstrap Magazine Template</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
-
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">   
-
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-</head>
-
-<body>
-    <!-- Topbar Start -->
-    <div class="container-fluid">
-        <div class="row align-items-center bg-light px-lg-5">
-            <div class="col-12 col-md-8">
-                <div class="d-flex justify-content-between">
-                    <div class="bg-primary text-white text-center py-2" style="width: 100px;">Tranding</div>
-                    <div class="owl-carousel owl-carousel-1 tranding-carousel position-relative d-inline-flex align-items-center ml-3" style="width: calc(100% - 100px); padding-left: 90px;">
-                        <div class="text-truncate"><a class="text-secondary" href="">Labore sit justo amet eos sed, et sanctus dolor diam eos</a></div>
-                        <div class="text-truncate"><a class="text-secondary" href="">Gubergren elitr amet eirmod et lorem diam elitr, ut est erat Gubergren elitr amet eirmod et lorem diam elitr, ut est erat</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 text-right d-none d-md-block">
-                Monday, January 01, 2045
-            </div>
-        </div>
-        <div class="row align-items-center py-2 px-lg-5">
-            <div class="col-lg-4">
-                <a href="" class="navbar-brand d-none d-lg-block">
-                    <h1 class="m-0 display-5 text-uppercase"><span class="text-primary">News</span>Room</h1>
-                </a>
-            </div>
-            <div class="col-lg-8 text-center text-lg-right">
-                <img class="img-fluid" src="img/ads-700x70.jpg" alt="">
-            </div>
-        </div>
-    </div>
-    <!-- Topbar End -->
-
-
-    <!-- Navbar Start -->
-    <div class="container-fluid p-0 mb-3">
-        <nav class="navbar navbar-expand-lg bg-light navbar-light py-2 py-lg-0 px-lg-5">
-            <a href="" class="navbar-brand d-block d-lg-none">
-                <h1 class="m-0 display-5 text-uppercase"><span class="text-primary">News</span>Room</h1>
-            </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
-                <div class="navbar-nav mr-auto py-0">
-                    <a href="index.html" class="nav-item nav-link">Home</a>
-                    <a href="category.html" class="nav-item nav-link active">Categories</a>
-                    <a href="single.html" class="nav-item nav-link">Single News</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
-                        <div class="dropdown-menu rounded-0 m-0">
-                            <a href="#" class="dropdown-item">Menu item 1</a>
-                            <a href="#" class="dropdown-item">Menu item 2</a>
-                            <a href="#" class="dropdown-item">Menu item 3</a>
-                        </div>
-                    </div>
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
-                </div>
-                <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
-                    <input type="text" class="form-control" placeholder="Keyword">
-                    <div class="input-group-append">
-                        <button class="input-group-text text-secondary"><i
-                                class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <!-- Navbar End -->
+?>
 
 
     <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="container">
             <nav class="breadcrumb bg-transparent m-0 p-0">
-                <a class="breadcrumb-item" href="#">Home</a>
-                <a class="breadcrumb-item" href="#">Category</a>
-                <span class="breadcrumb-item active">Technology</span>
+                <a class="breadcrumb-item" href="index.php">Home</a>
+                <a class="breadcrumb-item" href="category.php">Category</a>
+                <span class="breadcrumb-item active"></span>
             </nav>
         </div>
     </div>
@@ -118,7 +32,9 @@
                                 <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+
+                        
+                        <!-- <div class="col-lg-6">
                             <div class="position-relative mb-3">
                                 <img class="img-fluid w-100" src="img/news-500x280-1.jpg" style="object-fit: cover;">
                                 <div class="overlay position-relative bg-light">
@@ -131,55 +47,14 @@
                                     <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-2.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-3.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-5.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                        </div>
+                        </div> -->
+                        
                     </div>
-                    
+<!--                     
                     <div class="mb-3">
                         <a href=""><img class="img-fluid w-100" src="img/ads-700x70.jpg" alt=""></a>
                     </div>
-                    
+                     -->
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="d-flex mb-3">

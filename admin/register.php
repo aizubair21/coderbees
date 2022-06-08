@@ -51,7 +51,9 @@ if (isset($_POST['register']) && $_POST["user_name"] != "" && $_POST["email"] !=
             }else {
                $sql = "INSERT INTO admin (adminName, adminUser_name, adminEmail, adminphone, adminPassword, adminAddress, adminCreated_at) VALUES ('$name','$user_name','$email','$phone','$password','$address','$created_at')";
                if (mysqli_query($conn, $sql)) {
+                   $admin = mysqli_fetch_array(mysqli_query($conn, "SELECT adminId FROM admin WHERE adminEmail = $email"));
                     $_SESSION["register"] = "register";
+                    $_SESSION['admin_key'] = $admin["adminId"];
                     header("location: login.php");
 
                     $name = '';

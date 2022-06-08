@@ -54,9 +54,12 @@ function isActive ($modifier) {
             
             <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
-                    <a href="category.html" class="nav-item nav-link">Categories</a>
-                    <a href="single.html" class="nav-item nav-link">Single News</a>
+                    <a href="index.php" class="nav-item nav-link <?php if ($active == "home") {echo "active";} ?> ">Home</a>
+                    <a href="category.php" class="nav-item nav-link <?php if ($active == "category") {echo "active";} ?> ">Categories</a>
+                    <a class="nav-item nav-link <?php if ($active == "single_post") {echo "active";} ?> ">Single Post</a>
+
+
+
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
                         <div class="dropdown-menu rounded-0 m-0">
@@ -65,7 +68,7 @@ function isActive ($modifier) {
                             <a href="#" class="dropdown-item">Menu item 3</a>
                         </div>
                     </div>
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+                    <a href="contact.php" class="nav-item nav-link <?php if ($active == "contact") {echo "active";} ?> ">Contact</a>
                 </div>
                 <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
                     <input type="text" class="form-control" placeholder="Keyword">

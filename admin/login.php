@@ -26,7 +26,7 @@ if (isset($_POST["login"]) ) {
         $db_password = $row['adminPassword'];
         if( password_verify($password,$db_password) ) {
             $_SESSION["admin_key"] = $row["adminId"];
-            //header("location: index.php");
+            header("location: index.php");
         }else {
             $pass_error = "Password not matched !";
         }

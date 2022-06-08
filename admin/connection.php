@@ -11,17 +11,16 @@ define('CATEGORY_PATH', ROOT_PATH."category/");
 
 $conn = mysqli_connect('localhost','root','','coderbees');
 
-$key = $_SESSION["admin_key"] ?? '';
+$key = $_SESSION["admin_key"] ?? "";
 
 if ($key) {
     $GLOBALS['auth_admin'] = getData($key);
 }
-
-//echo $auth_user["user_name"];
+//echo $auth_admin["adminUser_name"];
 
 function getData($key){
     $conn = mysqli_connect('localhost','root','','coderbees');
-    $data = "SELECT adminId FROM admin WHERE adminId='$key'";
+    $data = "SELECT adminId, adminUser_name, adminEmail, adminImage FROM admin WHERE adminId=$key";
     $result = mysqli_query($conn, $data);
     if(mysqli_num_rows($result) > 0) {
         return $row = mysqli_fetch_assoc($result);

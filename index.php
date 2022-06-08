@@ -32,6 +32,7 @@
     
     <!-- nav start -->
         <?php
+            $active = "home";
             $title ="Home ";
             include "header.php";
             include "connection.php";
@@ -44,6 +45,11 @@
 
     <!-- Main News Slider Start -->
     <div class="container-fluid py-3">
+        <style>
+            h3{
+                color:#DC472E;
+            }
+        </style>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
@@ -63,7 +69,7 @@
                                             <span class="px-2 text-white">/</span>
                                             <a class="text-white" href=""><?php echo $posts["postCreated_at"] ?></a>
                                         </div>
-                                        <a class="h2 m-0 text-white font-weight-bold" href=""><?php echo $posts["postTitle"] ?></a>
+                                        <a class="h2 m-0 text-white font-weight-bold" href="single_post.php?post_id=<?php echo $posts['postId'] ?>"><?php echo $posts["postTitle"] ?></a>
                                     </div>
                                 </div>
                         
@@ -77,19 +83,31 @@
                         <h3 class="m-0">Categories</h3>
                         <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
                     </div>
+                    <style>
+                        .home_li:hover .fas{
+                            color:#DC472E;
+                        }
+                        .home_li:hover .home_a {
+                            margin-left:15px;
+                            transition: all linear .3s;
+                        }
+                    </style>
+                    <ul class="bg-light py-5">
                     <?php 
-                        $cat_result = mysqli_query($conn, "SELECT * FROM category ORDER BY catId DESC LIMIT 4");
+                        $cat_result = mysqli_query($conn, "SELECT * FROM category ORDER BY catId DESC LIMIT 8");
                         while($category = mysqli_fetch_assoc($cat_result)){?>
 
-                            <div class="position-relative overflow-hidden mb-3" style="height: 80px;">
-                                <img class="img-fluid w-100 h-100" src="image/category/<?php echo $category["catImage"] ?>" style="object-fit: cover;">
-                                <a href="" class="overlay align-items-center justify-content-center h4 m-0 text-white text-decoration-none">
+                            <li class=" home_li list-style-none py-1" style="list-style-type: none;">
+                                <a href="" class=" home_a h5 text-dark text-decoration-none" style="font-family:'Times New Roman', Times, serif; text-transform:capitalize; transition: all linear .1s">
+                                    
+                                    <i class="fas fa-arrow-circle-right"></i>
                                     <?php echo $category["catName"] ?>
                                 </a>
-                            </div>
+                            </li>
 
                      <?php };
                     ?>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -99,79 +117,54 @@
 
     <!-- Featured News Slider Start -->
     <div class="container-fluid py-3">
+
         <div class="container">
             <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
                 <h3 class="m-0">Featured</h3>
                 <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
             </div>
 
-            <div class="owl-carousel owl-carousel-2 carousel-item-2 position-relative">
+            <div class="row">
                 <?php
-                    $featured_qry = (mysqli_query($conn, "SELECT * FROM posts   LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 1 ORDER BY posts.postId DESC LIMIT 2 "));
+                    $featured_qry = (mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 1 ORDER BY posts.postId DESC LIMIT 2 "));
                     while ($featured = mysqli_fetch_array($featured_qry)) {?>
                   
-                        <div class="position-relative overflow-hidden" style="height: 300px;">
-                            <img class="img-fluid w-100 h-100" src="/coderbees/image/<?php echo $featured["postImage"] ?>" style="object-fit: cover;">
-                            <div class="overlay">
+                        <div class=" col-lg-6 col-md-6 bg-light d-flex align-items-center mb-2">
+                            <img class="" style="width:180px" src="/coderbees/image/<?php echo $featured["postImage"] ?>" >
+                            <div class="p-3">
                                 <div class="mb-1" style="font-size: 13px;">
-                                    <a class="text-white" href=""><?php echo $featured["catName"] ?></a>
-                                    <span class="px-1 text-white">/</span>
-                                    <a class="text-white" href=""><?php echo $featured["postCreated_at"] ?></a>
+                                    <a class="" href=""><?php echo $featured["catName"] ?></a>
+                                    <span class="px-1 ">/</span>
+                                    <a class="" href=""><?php echo $featured["postCreated_at"] ?></a>
                                 </div>
-                                <a class="h4 m-0 text-white" href=""><?php echo $featured["postTitle"] ?></a>
+                                <a class="h4 m-0 " href="single_post.php?post_id=<?php echo $featured["postId"] ?>"><?php echo $featured["postTitle"] ?></a>
                             </div>
                         </div>  
                 
                     <?php }
                 ?>
+                <?php
+                    $featured_qry = (mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 41 ORDER BY posts.postId DESC LIMIT 2 "));
+                    while ($featured = mysqli_fetch_array($featured_qry)) {?>
+                  
+                        <div class=" col-lg-6 col-md-6 bg-light d-flex align-items-center mb-2">
+                            <img class="" style="width:180px" src="/coderbees/image/<?php echo $featured["postImage"] ?>" >
+                            <div class="p-3">
+                                <div class="mb-1" style="font-size: 13px;">
+                                    <a class="" href=""><?php echo $featured["catName"] ?></a>
+                                    <span class="px-1 ">/</span>
+                                    <a class="" href=""><?php echo $featured["postCreated_at"] ?></a>
+                                </div>
+                                <a class="h4 m-0 " href="single_post.php?post_id=<?php echo $featured["postId"] ?>"><?php echo $featured["postTitle"] ?></a>
+                            </div>
+                        </div>  
+                
+                    <?php }
+                ?>
+                
 
-                <!-- <div class="position-relative overflow-hidden" style="height: 300px;">
-                    <img class="img-fluid w-100 h-100" src="img/news-300x300-2.jpg" style="object-fit: cover;">
-                    <div class="overlay">
-                        <div class="mb-1" style="font-size: 13px;">
-                            <a class="text-white" href="">Technology</a>
-                            <span class="px-1 text-white">/</span>
-                            <a class="text-white" href="">January 01, 2045</a>
-                        </div>
-                        <a class="h4 m-0 text-white" href="">Sanctus amet sed ipsum lorem</a>
-                    </div>
-                </div>
-                <div class="position-relative overflow-hidden" style="height: 300px;">
-                    <img class="img-fluid w-100 h-100" src="img/news-300x300-3.jpg" style="object-fit: cover;">
-                    <div class="overlay">
-                        <div class="mb-1" style="font-size: 13px;">
-                            <a class="text-white" href="">Technology</a>
-                            <span class="px-1 text-white">/</span>
-                            <a class="text-white" href="">January 01, 2045</a>
-                        </div>
-                        <a class="h4 m-0 text-white" href="">Sanctus amet sed ipsum lorem</a>
-                    </div>
-                </div>
-                <div class="position-relative overflow-hidden" style="height: 300px;">
-                    <img class="img-fluid w-100 h-100" src="img/news-300x300-4.jpg" style="object-fit: cover;">
-                    <div class="overlay">
-                        <div class="mb-1" style="font-size: 13px;">
-                            <a class="text-white" href="">Technology</a>
-                            <span class="px-1 text-white">/</span>
-                            <a class="text-white" href="">January 01, 2045</a>
-                        </div>
-                        <a class="h4 m-0 text-white" href="">Sanctus amet sed ipsum lorem</a>
-                    </div>
-                </div>
-                <div class="position-relative overflow-hidden" style="height: 300px;">
-                    <img class="img-fluid w-100 h-100" src="img/news-300x300-5.jpg" style="object-fit: cover;">
-                    <div class="overlay">
-                        <div class="mb-1" style="font-size: 13px;">
-                            <a class="text-white" href="">Technology</a>
-                            <span class="px-1 text-white">/</span>
-                            <a class="text-white" href="">January 01, 2045</a>
-                        </div>
-                        <a class="h4 m-0 text-white" href="">Sanctus amet sed ipsum lorem</a>
-                    </div>
-                </div> -->
             </div>
         </div>
-    </div>
     </div>
     <!-- Featured News Slider End -->
 
@@ -184,40 +177,32 @@
                     <div class="bg-light py-2 px-4 mb-3">
                         <h3 class="m-0">Business</h3>
                     </div>
+                    <style>
+                        .owl-nav {
+                            position: absolute;
+                        }
+                    </style>
                     <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-1.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
+                        <?php
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 41 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            while ($business = mysqli_fetch_assoc($business_cat)) { ?>
+
+                                <div class="position-relative">
+                                    <img class="img-fluid w-100" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
+                                    <div class="overlay position-relative bg-light">
+                                        <div class="mb-2" style="font-size: 13px;">
+                                            <a href=""><?php echo $business["catName"] ?></a>
+                                            <span class="px-1">/</span>
+                                            <span><?php echo $business["postCreated_at"] ?></span>
+                                        </div>
+                                        <a class="h4 m-0" href="single_post.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
+                                    </div>
                                 </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-2.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-3.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
+
+                                   
+                           <?php }
+                        ?>
+                    
                     </div>
                 </div>
                 <div class="col-lg-6 py-3">
@@ -225,50 +210,104 @@
                         <h3 class="m-0">Technology</h3>
                     </div>
                     <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-4.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
+                        <?php
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 1 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            while ($business = mysqli_fetch_assoc($business_cat)) { ?>
+
+                                <div class="position-relative">
+                                    <img class="img-fluid w-100" style="height:150px" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
+                                    <div class="overlay position-relative bg-light">
+                                        <div class="mb-2" style="font-size: 13px;">
+                                            <a href=""><?php echo $business["catName"] ?></a>
+                                            <span class="px-1">/</span>
+                                            <span><?php echo $business["postCreated_at"] ?></span>
+                                        </div>
+                                        <a class="h4 m-0" href="single_post.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
+                                    </div>
                                 </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-5.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-6.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
+  
+                            <?php }
+                        ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-    <!-- Category News Slider End -->
+
+    <!-- Category News Slider End
 
 
-    <!-- Category News Slider Start -->
+    < Category News Slider Start -->
     <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 py-3">
+                    <div class="bg-light py-2 px-4 mb-3">
+                        <h3 class="m-0">Intertainment</h3>
+                    </div>
+                    <style>
+                        .owl-nav {
+                            position: absolute;
+                        }
+                    </style>
+                    <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
+                        <?php
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 46 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            while ($business = mysqli_fetch_assoc($business_cat)) { ?>
+
+                                <div class="position-relative">
+                                    <div style="height:150px; ">
+                                        <img class="img-fluid w-100 h-100" style="image-resolution:inherit;" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
+                                        
+                                    </div>
+                                        
+                                    <div class="overlay position-relative bg-light">
+                                        <div class="mb-2" style="font-size: 13px;">
+                                            <a href=""><?php echo $business["catName"] ?></a>
+                                            <span class="px-1">/</span>
+                                            <span><?php echo $business["postCreated_at"] ?></span>
+                                        </div>
+                                        <a class="h5 m-0" href="single_post.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
+                                    </div>
+                                </div>
+
+                                   
+                           <?php }
+                        ?>
+                    
+                    </div>
+                </div>
+                <div class="col-lg-6 py-3">
+                    <div class="bg-light py-2 px-4 mb-3">
+                        <h3 class="m-0">Sports</h3>
+                    </div>
+                    <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
+                        <?php
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 47 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            while ($business = mysqli_fetch_assoc($business_cat)) { ?>
+
+                                <div class="position-relative">
+                                    <img class="img-fluid w-100" style="height:150px" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
+                                    <div class="overlay position-relative bg-light">
+                                        <div class="mb-2" style="font-size: 13px;">
+                                            <a href=""><?php echo $business["catName"] ?></a>
+                                            <span class="px-1">/</span>
+                                            <span><?php echo $business["postCreated_at"] ?></span>
+                                        </div>
+                                        <a class="h4 m-0" href="single_post.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
+                                    </div>
+                                </div>
+  
+                            <?php }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div class="container-fluid">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 py-3">
@@ -354,7 +393,7 @@
             </div>
         </div>
     </div>
-    </div>
+    </div> -->
     <!-- Category News Slider End -->
 
 
@@ -370,23 +409,29 @@
                                 <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-2.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
+
+                        <?php
+                            $popular_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 1 ORDER BY posts.postId DESC LIMIT 2 ");
+                            while ($popular = mysqli_fetch_assoc($popular_qry)){ ?>
+                            
+
+                                <div class="col-lg-6">
+                                    <div class="position-relative mb-3">
+                                        <img class="img-fluid w-100" src="img/news-500x280-2.jpg" style="object-fit: cover;">
+                                        <div class="overlay position-relative bg-light">
+                                            <div class="mb-2" style="font-size: 14px;">
+                                                <a href=""><?php echo $popular["catName"] ?></a>
+                                                <span class="px-1">/</span>
+                                                <span><?php echo $popular["postCreated_at"] ?></span>
+                                            </div>
+                                            <a class="h4" href="single_post.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
+                                            <p class="m-0"><?php echo substr_replace($popular["post"],'...',100) ?></p>
+                                        </div>
                                     </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                           
-                          
-                        </div>
-                        <div class="col-lg-6">
+                            <?php };
+                        ?>
+                    
+                        <!-- <div class="col-lg-6">
                             <div class="position-relative mb-3">
                                 <img class="img-fluid w-100" src="img/news-500x280-3.jpg" style="object-fit: cover;">
                                 <div class="overlay position-relative bg-light">
@@ -401,14 +446,11 @@
                             </div>
                            
                            
-                        </div>
+                        </div> -->
 
 
                     </div>
                     
-                    <div class="mb-3 pb-3">
-                        <a href=""><img class="img-fluid w-100" src="img/ads-700x70.jpg" alt=""></a>
-                    </div>
                     
                     <div class="row">
                         <div class="col-12">
@@ -417,39 +459,33 @@
                                 <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-5.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                           
-                        </div>
 
-                        <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-5.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                           
-                        </div>
+                        <?php 
 
-                         <div class="col-lg-6">
+                            $latest_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 ORDER BY posts.postId DESC LIMIT 4 ");
+                            while ($latest= mysqli_fetch_assoc($latest_qry) ) { ?>
+
+                                <div class="col-lg-6">
+                                    <div class="position-relative mb-3">
+                                        <img class="img-fluid w-100" style="height:250px" src="image/<?php echo $latest["postImage"] ?>" style="object-fit: cover;">
+                                        <div class="overlay position-relative bg-light">
+                                            <div class="mb-2" style="font-size: 14px;">
+                                                <a href=""><?php echo $latest["catName"] ?></a>
+                                                <span class="px-1">/</span>
+                                                <span><?php echo $latest["postCreated_at"] ?></span>
+                                            </div>
+                                            <a class="h4" href="single_post.php?post_id=<?php echo $latest["postId"] ?>"><?php echo $latest["postTitle"] ?></a>
+                                            <p style="font-family: serif ;" class="m-0"><?php echo htmlspecialchars(substr_replace($latest["post"], "..",150)) ?></p>
+                                        </div>
+                                    </div>
+                                
+                                </div>
+
+                             <?php }
+                        ?>
+
+
+                        <!-- <div class="col-lg-6">
                             <div class="position-relative mb-3">
                                 <img class="img-fluid w-100" src="img/news-500x280-5.jpg" style="object-fit: cover;">
                                 <div class="overlay position-relative bg-light">
@@ -480,6 +516,22 @@
                             </div>
                            
                         </div>
+
+                         <div class="col-lg-6">
+                            <div class="position-relative mb-3">
+                                <img class="img-fluid w-100" src="img/news-500x280-5.jpg" style="object-fit: cover;">
+                                <div class="overlay position-relative bg-light">
+                                    <div class="mb-2" style="font-size: 14px;">
+                                        <a href="">Technology</a>
+                                        <span class="px-1">/</span>
+                                        <span>January 01, 2045</span>
+                                    </div>
+                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
+                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
+                                </div>
+                            </div>
+                           
+                        </div> -->
                        
                     </div>
                 </div>

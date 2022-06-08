@@ -21,7 +21,7 @@ if(isset($_POST["category_insert"])){
 
     $name = $_POST["name"];
     $slug = $slug = strtolower(str_replace(" ","-",$name));
-    $author = $auth_admin["admin_id"];
+    $author = $auth_admin["adminId"];
     $image = $_FILES["image"]["name"];
     $description = $_POST["description"];
     $created_at = date("y-m-d");

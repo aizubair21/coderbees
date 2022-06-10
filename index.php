@@ -1,23 +1,25 @@
 
     <!-- Topbar Start -->
-    <!-- <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row align-items-center bg-light px-lg-5">
             <div class="col-12 col-md-8">
                 <div class="d-flex justify-content-between">
                     <div class="bg-primary text-white text-center py-2" style="width: 100px;">Tranding</div>
                     <div class="owl-carousel owl-carousel-1 tranding-carousel position-relative d-inline-flex align-items-center ml-3" style="width: calc(100% - 100px); padding-left: 90px;">
                        
-                        <div class="text-truncate"><a class="text-secondary" href="">Gubergren elitr amet eirmod et lorem diam elitr, ut est erat Gubergren elitr amet eirmod et lorem diam elitr, ut est erat</a></div>
+                        <!-- <div class="text-truncate"><a class="text-secondary" href="">Gubergren elitr amet eirmod et lorem diam elitr, ut est erat Gubergren elitr amet eirmod et lorem diam elitr, ut est erat</a></div> -->
                     </div>
                 </div>
             </div>
             <div class="col-md-4 text-right d-none d-md-block">
-                Monday, January 01, 2045
+               <?php
+                    echo date("M/d/Y");
+               ?>
             </div>
         </div>
         <div class="row align-items-center py-2 px-lg-5">
             <div class="col-lg-4">
-                <a href="" class="navbar-brand d-none d-lg-block">
+                <a href="index.php" class="navbar-brand d-none d-lg-block">
                     <h1 class="m-0 display-5 text-uppercase"><span class="text-primary">News</span>Room</h1>
                 </a>
             </div>
@@ -25,7 +27,7 @@
                 <img class="img-fluid" src="img/ads-700x70.jpg" alt="">
             </div>
         </div>
-    </div> -->
+    </div>
     <!-- Topbar End -->
     
     
@@ -34,8 +36,8 @@
         <?php
             $active = "home";
             $title ="Home ";
-            include "header.php";
             include "connection.php";
+            include "header.php";
             
         ?>
     <!-- nav end -->
@@ -46,9 +48,7 @@
     <!-- Main News Slider Start -->
     <div class="container-fluid py-3">
         <style>
-            h3{
-                color:#DC472E;
-            }
+            
         </style>
         <div class="container">
             <div class="row">
@@ -80,34 +80,30 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Categories</h3>
-                        <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
+                        <h3 class="m-0">Site Quick View</h3>
                     </div>
-                    <style>
-                        .home_li:hover .fas{
-                            color:#DC472E;
-                        }
-                        .home_li:hover .home_a {
-                            margin-left:15px;
-                            transition: all linear .3s;
-                        }
-                    </style>
-                    <ul class="bg-light py-5">
-                    <?php 
-                        $cat_result = mysqli_query($conn, "SELECT * FROM category ORDER BY catId DESC LIMIT 8");
-                        while($category = mysqli_fetch_assoc($cat_result)){?>
+                   
+                    <div class="bg-primary text-light p-5 mb-2" style="text-align:center; font-weight:800; font-size:20px;">
+                        <strong style="text-transform: uppercase; font-family:'oswald';">Posts</strong>
+                       <div> <?php echo mysqli_num_rows(mysqli_query($conn, "SELECT postId FROM posts WHERE postStatus = 1")) ?></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
 
-                            <li class=" home_li list-style-none py-1" style="list-style-type: none;">
-                                <a href="" class=" home_a h5 text-dark text-decoration-none" style="font-family:'Times New Roman', Times, serif; text-transform:capitalize; transition: all linear .1s">
-                                    
-                                    <i class="fas fa-arrow-circle-right"></i>
-                                    <?php echo $category["catName"] ?>
-                                </a>
-                            </li>
+                        <div class="col-lg-6 bg-info text-light py-5 mb-2" style="text-align:center;font-weight:800">
+                            <strong style="text-transform: uppercase; font-family:'oswald';">Category</strong>
+                            <div>
+                            <?php echo mysqli_num_rows(mysqli_query($conn, "SELECT catId FROM category")) ?>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 bg-info text-light py-5 mb-2" style="text-align:center;font-weight:800">
+                            <strong style="text-transform: uppercase; font-family:'oswald';">Publisher</strong>
+                            <div><?php echo mysqli_num_rows(mysqli_query($conn, "SELECT publisherId FROM publisher WHERE publisherStatus = 1")) ?></div>
+                        </div>
+                       
+                        
+                    </div>
 
-                     <?php };
-                    ?>
-                    </ul>
+
                 </div>
             </div>
         </div>
@@ -126,11 +122,11 @@
 
             <div class="row">
                 <?php
-                    $featured_qry = (mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 1 ORDER BY posts.postId DESC LIMIT 2 "));
+                    $featured_qry = (mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 2 ORDER BY posts.postId DESC LIMIT 2 "));
                     while ($featured = mysqli_fetch_array($featured_qry)) {?>
                   
                         <div class=" col-lg-6 col-md-6 bg-light d-flex align-items-center mb-2">
-                            <img class="" style="width:180px" src="/coderbees/image/<?php echo $featured["postImage"] ?>" >
+                            <img class="" style="height:100px; width:100px" src="/coderbees/image/<?php echo $featured["postImage"] ?>" >
                             <div class="p-3">
                                 <div class="mb-1" style="font-size: 13px;">
                                     <a class="" href=""><?php echo $featured["catName"] ?></a>
@@ -144,7 +140,7 @@
                     <?php }
                 ?>
                 <?php
-                    $featured_qry = (mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 41 ORDER BY posts.postId DESC LIMIT 2 "));
+                    $featured_qry = (mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 4 ORDER BY posts.postId DESC LIMIT 2 "));
                     while ($featured = mysqli_fetch_array($featured_qry)) {?>
                   
                         <div class=" col-lg-6 col-md-6 bg-light d-flex align-items-center mb-2">
@@ -184,12 +180,12 @@
                     </style>
                     <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                         <?php
-                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 41 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 4 ORDER BY posts.postId DESC LIMIT 5 ") ;
                             while ($business = mysqli_fetch_assoc($business_cat)) { ?>
 
                                 <div class="position-relative">
                                     <img class="img-fluid w-100" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
-                                    <div class="overlay position-relative bg-light">
+                                    <div class="p-2 position-relative bg-light">
                                         <div class="mb-2" style="font-size: 13px;">
                                             <a href=""><?php echo $business["catName"] ?></a>
                                             <span class="px-1">/</span>
@@ -211,12 +207,12 @@
                     </div>
                     <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                         <?php
-                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 1 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 3 ORDER BY posts.postId DESC LIMIT 5 ") ;
                             while ($business = mysqli_fetch_assoc($business_cat)) { ?>
 
                                 <div class="position-relative">
                                     <img class="img-fluid w-100" style="height:150px" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
-                                    <div class="overlay position-relative bg-light">
+                                    <div class="p-2 position-relative bg-light">
                                         <div class="mb-2" style="font-size: 13px;">
                                             <a href=""><?php echo $business["catName"] ?></a>
                                             <span class="px-1">/</span>
@@ -252,7 +248,7 @@
                     </style>
                     <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                         <?php
-                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 46 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 2 ORDER BY posts.postId DESC LIMIT 5 ") ;
                             while ($business = mysqli_fetch_assoc($business_cat)) { ?>
 
                                 <div class="position-relative">
@@ -261,7 +257,7 @@
                                         
                                     </div>
                                         
-                                    <div class="overlay position-relative bg-light">
+                                    <div class="p-2 position-relative bg-light">
                                         <div class="mb-2" style="font-size: 13px;">
                                             <a href=""><?php echo $business["catName"] ?></a>
                                             <span class="px-1">/</span>
@@ -411,14 +407,14 @@
                         </div>
 
                         <?php
-                            $popular_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 1 ORDER BY posts.postId DESC LIMIT 2 ");
+                            $popular_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 ORDER BY posts.postId DESC LIMIT 2 ");
                             while ($popular = mysqli_fetch_assoc($popular_qry)){ ?>
                             
 
                                 <div class="col-lg-6">
                                     <div class="position-relative mb-3">
-                                        <img class="img-fluid w-100" src="img/news-500x280-2.jpg" style="object-fit: cover;">
-                                        <div class="overlay position-relative bg-light">
+                                        <img class="img-fluid w-100"  src="img/news-500x280-2.jpg" style="object-fit: cover;">
+                                        <div class="position-relative bg-light p-2">
                                             <div class="mb-2" style="font-size: 14px;">
                                                 <a href=""><?php echo $popular["catName"] ?></a>
                                                 <span class="px-1">/</span>
@@ -428,6 +424,7 @@
                                             <p class="m-0"><?php echo substr_replace($popular["post"],'...',100) ?></p>
                                         </div>
                                     </div>
+                               </div>
                             <?php };
                         ?>
                     
@@ -467,8 +464,8 @@
 
                                 <div class="col-lg-6">
                                     <div class="position-relative mb-3">
-                                        <img class="img-fluid w-100" style="height:250px" src="image/<?php echo $latest["postImage"] ?>" style="object-fit: cover;">
-                                        <div class="overlay position-relative bg-light">
+                                        <img class="img-fluid w-100" style="height:200px" src="image/<?php echo $latest["postImage"] ?>" style="object-fit: cover;">
+                                        <div class=" position-relative bg-light p-2">
                                             <div class="mb-2" style="font-size: 14px;">
                                                 <a href=""><?php echo $latest["catName"] ?></a>
                                                 <span class="px-1">/</span>
@@ -588,13 +585,43 @@
                     <!-- Newsletter End -->
 
                     <!-- Ads Start -->
-                    <div class="mb-3 pb-3">
-                        <a href=""><img class="img-fluid" src="img/news-500x280-4.jpg" alt=""></a>
+                    <div class="pb-3">
+                        <div class="bg-light py-2 px-4 mb-3">
+                            <h3 class="m-0">Categories</h3>
+                        </div>
+                        <div class="bg-light py-2 text-left mb-4">
+                            <style>
+                                a {
+                                    text-decoration: none;
+                                    ;
+                                }
+                                li:hover .fas {
+                                    color:#DC472E;
+                                    margin-left: 17px;
+                                    transition: all linear .3s;
+                                }
+                                li .fas {
+                                    transition: all linear .3s;
+                                }
+                                
+                            </style>
+                            <ul style="list-style-type:none;">
+                                <?php 
+                                    $cat_qry = mysqli_query($conn, "SELECT catId, catName FROM category LIMIT 7");
+
+                                    while ($category = mysqli_fetch_assoc($cat_qry)) {
+                                        echo '<li class="text-dark m-2"><a href="category.php?cat_id='. $category["catId"] .'"style="color:black; font-size:18px;"> <i class="fas fa-caret-right px-2 ;" ></i>'. $category["catName"] .'</a></li>';
+                                    }
+
+                                ?>
+                                
+                            </ul>
+                        </div>
                     </div>
                     <!-- Ads End -->
 
                     <!-- Popular News Start -->
-                    <div class="pb-3">
+                    <!-- <div class="pb-3">
                         <div class="bg-light py-2 px-4 mb-3">
                             <h3 class="m-0">Tranding</h3>
                         </div>
@@ -653,11 +680,11 @@
                                 <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Popular News End -->
 
                     <!-- Tags Start -->
-                    <div class="pb-3">
+                    <!-- <div class="pb-3">
                         <div class="bg-light py-2 px-4 mb-3">
                             <h3 class="m-0">Tags</h3>
                         </div>
@@ -675,7 +702,7 @@
                             <a href="" class="btn btn-sm btn-outline-secondary m-1">Travel</a>
                             <a href="" class="btn btn-sm btn-outline-secondary m-1">Lifestyle</a>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Tags End -->
                 </div>
             </div>

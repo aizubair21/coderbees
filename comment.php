@@ -1,23 +1,25 @@
 <?php 
 
     include "connection.php";
+    $postId = $_POST["postId"];
+    $publisherId = $_POST["publisherId"];
+    $userName = $auth_user["userName"];
+    $userEmail = $auth_user["userEmail"];
+    $comment = $_POST["comment"];
 
-    if (isset($_POST["leave_comment"])) {
-        print_r($_POST);
-        $postId = $_POST["postId"];
-        $publisherId = $_POST["publisherId"];
-        $name = $_POST["name"];
-        $email = $_POST["email"];
-        $comment = $_POST["comment"];
 
-        $qry = "INSERT INTO comment (comment, commentsPostId, postPublisherId, commentEmail, commentUser) VALUES ('$comment', '$postId', '$publisherId', '$email',' $name')";
+    if (isset($_POST["leave_comment"]) && !empty($comment) ) {
+
+        $qry = "INSERT INTO comments (comment, commentsPostId, postPublisherId, commentEmail, commentUser) VALUES ('$comment', '$postId', '$publisherId', '$userEmail',' $userName')";
         $comment_qry = mysqli_query($conn, $qry);
         if ($comment_qry) {
-            header("location: single_post.php?post_id='$postId'");
+            header("location: single_post.php?post_id=$postId");
         } else {
             echo mysqli_connect_error($conn);
         }
         
+    }else {
+        header("location: single_post.php?post_id=$postId");
     }
 
 

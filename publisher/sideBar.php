@@ -60,24 +60,17 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Site Control
-    </div>
-
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
             aria-expanded="true" aria-controls="collapseThree">
             <i class="fas fa-caret-square-o-left"></i>
-            <span>Post</span>
+            <span>Comments</span>
         </a>
         <div id="collapseThree" class="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
             <div class=" text-white collapse-inner rounded">
-                <a class="collapse-item" href="/coderbees/admin/category/index.php">Posts Controls</a>
-                <a class="collapse-item" href="/coderbees/admin/category/insert.php">Post Add</a>               
+                <a class="collapse-item" href="/coderbees/publisher/comments_manage.php">Comments Controls</a>               
             </div>
         </div>
     </li>

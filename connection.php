@@ -1,5 +1,7 @@
 <?php
-
+if (!session_start()) {
+    session_start();
+}
 
 $conn = mysqli_connect('localhost','root','','coderbees');
 
@@ -7,6 +9,16 @@ $key = $_SESSION["publisher_key"] ?? '';
 
 if ($key) {
     $GLOBALS['auth_publisher'] = getPublisher($key);
+}
+
+$user_key = $_SESSION["user_key"] ?? "";
+if ($user_key) {
+    $user_qyr = mysqli_query($conn, "SELECT * FROM users");
+
+    if ($user = mysqli_num_rows($user_qyr) > 0) {
+        $GLOBALS['auth_user'] = mysqli_fetch_assoc($user_qyr);
+    }
+       
 }
 
 
@@ -21,8 +33,8 @@ define('CATEGORY_PATH', ROOT_PATH."category/");
 
 
 function getPublisher($key){
-    $conn = mysqli_connect('localhost','root','','users');
-    $data = "SELECT * FROM publisher WHERE id='$key'";
+    $conn = mysqli_connect('localhost','root','','coderbees');
+    $data = "SELECT * FROM publisher WHERE publisherId='$key'";
     $result = mysqli_query($conn, $data);
     if(mysqli_num_rows($result) > 0) {
         return $row = mysqli_fetch_assoc($result);

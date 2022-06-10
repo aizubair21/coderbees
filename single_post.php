@@ -1,10 +1,12 @@
 <?php
+
     $active = "single_post";
     $title = "Single Post - coderbees ";
-    include "connection.php";
     include "header.php";
+    include "connection.php";
     $single_post_id = $_GET["post_id"] ?? "";
     $single_post = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisher.publisherId = posts.postPublisher WHERE posts.postId = $single_post_id AND posts.postStatus = 1"));
+
 ?>
 
 
@@ -46,10 +48,10 @@
                     <!-- Comment List Start -->
                     <div class="bg-light mb-3" style="padding: 30px;">
                         <?php 
-                            $get_comment_qry = mysqli_query($conn, "SELECT * FROM comment WHERE commentsPostId = $single_post_id AND commentStatus = 1");
+                            $get_comment_qry = mysqli_query($conn, "SELECT comment, commentUser, commentOn, commentsPostId, commentStatus FROM comments WHERE commentsPostId = $single_post_id AND commentStatus = 1");
                             if ($count = mysqli_num_rows($get_comment_qry) > 0 ) { ?>
 
-                                <h3 class="mb-4"><?php echo $count ?> Comments</h3>
+                                <h3 class="mb-4"><?php echo mysqli_num_rows($get_comment_qry) ?> Comments</h3>
                                 <?php
                                     while ($comments = mysqli_fetch_assoc($get_comment_qry)) { ?>
                                         
@@ -58,8 +60,8 @@
                                             <div class="media-body px-3">
                                                 <h6><a href=""><?php  echo $comments["commentUser"] ?> </a> <small><i><?php echo $comments["commentOn"] ?></i></small></h6>
                                                 <p><?php echo $comments["comment"] ?></p>
-                                                <!-- <button class="btn btn-sm btn-outline-secondary">Reply</button>
-                                                <div class="media mt-4">
+                                                <button class="btn btn-sm btn-outline-secondary">Reply</button>
+                                                <!-- <div class="media mt-4">
                                                     <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1"
                                                         style="width: 45px;">
                                                     <div class="media-body">
@@ -82,30 +84,25 @@
                     <!-- Comment List End -->
 
                     <!-- Comment Form Start -->
-                   
-                    <div class="bg-light mb-3" style="padding: 30px">
-                        <h3 class="mb-4 text-primary">Leave a comment</h3>
-                        <form action="comment.php" method="POST">
-                            <input type="hidden" name="postId" value="<?php echo $single_post_id ?>">
-                            <input type="hidden" name="publisherId" value="<?php echo $single_post["postPublisher"] ?>">
-                            <div class="form-group">
-                                <label for="name">Name *</label>
-                                <input type="text" name="name" class="form-control" id="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" name="email" class="form-control" id="email">
-                            </div>
+                    <?php 
+                        if ($_SESSION['user_key'] ?? "") { ?>
+                           
+                        <div class="bg-light mb-3" style="padding: 30px">
+                            <h3 class="mb-4 text-primary">Leave a comment</h3>
+                            <form action="comment.php" method="POST" class="">
+                                <input type="hidden" name="postId" value="<?php echo $single_post_id ?>">
+                                <input type="hidden" name="publisherId" value="<?php echo $single_post["postPublisher"] ?>">
+                                <div class="form-group d-flex justify-content-between align-items-center">
+                                    <input type="text" id="message" name="comment" class="form-control">
+                                    <input type="submit" name="leave_comment" value=" comment" class="btn btn-success font-weight-semi-bold py-2 px-3">
+                                </div>
+                            </form>
+                        </div>
 
-                            <div class="form-group">
-                                <label for="message">Message *</label>
-                                <textarea id="message" name="comment" cols="30" rows="5" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group mb-0">
-                                <input type="submit" name="leave_comment" value="comment" class="btn btn-primary font-weight-semi-bold py-2 px-3">
-                            </div>
-                        </form>
-                    </div>
+                       <?php } else {
+                           echo "<strong class='alert alert-warning'> Please login to make a comment ! </strong>";
+                       }
+                    ?>
                     <!-- Comment Form End -->
                 </div>
 
@@ -199,18 +196,14 @@
                             <h3 class="m-0">Tags</h3>
                         </div>
                         <div class="d-flex flex-wrap m-n1">
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Politics</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Corporate</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Sports</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Health</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Education</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Science</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Technology</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Foods</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Entertainment</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Travel</a>
-                            <a href="" class="btn btn-sm btn-outline-secondary m-1">Lifestyle</a>
+                            <?php
+                            $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts ORDER BY postId DESC LIMIT 10");
+                            if(mysqli_num_rows($tag_qry) > 0) {
+                                while ($tag = mysqli_fetch_assoc($tag_qry)) {
+                                    echo ' <a href="tag.php?tag_name='. $tag["postTag"] .'" class="btn btn-sm btn-outline-secondary m-1">'. $tag["postTag"] .'</a>';
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                     <!-- Tags End -->
@@ -221,96 +214,6 @@
     </div>
     <!-- News With Sidebar End -->
 
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-light pt-5 px-sm-3 px-md-5">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-5">
-                <a href="index.html" class="navbar-brand">
-                    <h1 class="mb-2 mt-n2 display-5 text-uppercase"><span class="text-primary">News</span>Room</h1>
-                </a>
-                <p>Volup amet magna clita tempor. Tempor sea eos vero ipsum. Lorem lorem sit sed elitr sed kasd et</p>
-                <div class="d-flex justify-content-start mt-4">
-                    <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-instagram"></i></a>
-                    <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="font-weight-bold mb-4">Categories</h4>
-                <div class="d-flex flex-wrap m-n1">
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Politics</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Corporate</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Sports</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Health</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Education</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Science</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Technology</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Foods</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Entertainment</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Travel</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Lifestyle</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="font-weight-bold mb-4">Tags</h4>
-                <div class="d-flex flex-wrap m-n1">
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Politics</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Corporate</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Sports</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Health</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Education</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Science</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Technology</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Foods</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Entertainment</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Travel</a>
-                    <a href="" class="btn btn-sm btn-outline-secondary m-1">Lifestyle</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="font-weight-bold mb-4">Quick Links</h4>
-                <div class="d-flex flex-column justify-content-start">
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>About</a>
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Advertise</a>
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Privacy & policy</a>
-                    <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Terms & conditions</a>
-                    <a class="text-secondary" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Contact</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid py-4 px-sm-3 px-md-5">
-        <p class="m-0 text-center">
-            &copy; <a class="font-weight-bold" href="#">Your Site Name</a>. All Rights Reserved. 
-			
-			<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-			Designed by <a class="font-weight-bold" href="https://htmlcodex.com">HTML Codex</a>
-        </p>
-    </div>
-    <!-- Footer End -->
-
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-dark back-to-top"><i class="fa fa-angle-up"></i></a>
-
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Contact Javascript File -->
-    <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-</body>
-
-</html>
+<?php 
+    include "footer.php";
+?>

@@ -1,39 +1,37 @@
 
 <?php
-
-$title = "User Login";
-$active = "login";
 require 'connection.php';
+session_start();
 
-if ($_SESSION['user_key'] ?? "") {
+if (isset($_SESSION['publisher_key'])) {
     header("location: index.php");
 }
 
 $email_error = '';
 $pass_error = '';
 
-if (isset($_POST["user_login"])) {
+if (isset($_POST["Publisher_login"])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
 
-    $data = "SELECT * FROM users WHERE userEmail='$email'";
+    $data = "SELECT * FROM publisher WHERE publisherEmail='$email'";
     $result = mysqli_query($conn, $data);
     $count = mysqli_num_rows($result);
     $row = mysqli_fetch_assoc($result);
     
     if($count == 1){
         
-        $db_password = $row['userPassword'] ;
-        if (password_verify($password, $row["userPassword"]) || $password == $row["userPassword"]) {
-            $_SESSION["user_key"] = $row["userId"];
-            header("location: index.php");
+        $db_password = $row['publisherPassword'] ;
+        if (password_verify($password, $row["publisherPassword"]) || $password == $row["publisherPassword"]) {
+            $_SESSION["publisher_key"] = $row["publisherId"];
+            header("location: /coderbees/publisher/index.php");
         }else {
             $pass_error = "Password not matched !";
         }
 
     }else {
-       $email_error = "No users fount associative this email.";
+       $email_error = "No publisher fount associative this email.";
     }
 
  }
@@ -82,7 +80,7 @@ if (isset($_POST["user_login"])) {
                                 </div><br>
 
                                 <div>
-                                    <button class="btn btn-primary btn-lg"  name="user_login" type="submit">Login</button>
+                                    <button class="btn btn-primary btn-lg"  name="Publisher_login" type="submit">Login</button>
                                 </div>
 
                                 <hr>

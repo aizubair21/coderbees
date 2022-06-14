@@ -8,7 +8,6 @@ function isActive ($modifier) {
     include "connection.php";
 };
 
-
 ?>
 
 <!DOCTYPE html>
@@ -57,35 +56,39 @@ function isActive ($modifier) {
                     <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.php" class="nav-item nav-link <?php if ($active == "home") {echo "active";} ?> ">Home</a>
-                            <a href="category.php" class="nav-item nav-link <?php if ($active == "category") {echo "active";} ?> ">Categories</a>
+                            <a href="category.php?show_category=all_category" class="nav-item nav-link <?php if ($active == "category") {echo "active";} ?> ">Blog</a>
                             <a class="nav-item nav-link <?php if ($active == "single_post") {echo "active";} ?> ">Single Post</a>
 
 
 
-                            <div class="nav-item dropdown">
+                            <!-- <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="#" class="dropdown-item">Menu item 1</a>
                                     <a href="#" class="dropdown-item">Menu item 2</a>
                                     <a href="#" class="dropdown-item">Menu item 3</a>
                                 </div>
-                            </div>
+                            </div> -->
                             <a href="contact.php" class="nav-item nav-link <?php if ($active == "contact") {echo "active";} ?> ">Contact</a>
                         </div>
-                        <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
-                            <input type="text" class="form-control" placeholder="Keyword">
-                            <div class="input-group-append">
-                                <button class="input-group-text text-secondary"><i
-                                        class="fa fa-search"></i></button>
+                        <form action="search.php" method="GET">
+                            <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
+                                <input type="text" class="form-control" placeholder="Keyword" name="searching_for">
+                                <button class="input-group-text text-secondary"><i class="fa fa-search"></i></button>
+                                
                             </div>
-                        </div>
+                        </form>
                         <div  class="navbar-nav mr-5 py-0">
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user-circle"></i></a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="login.php" class="dropdown-item  <?php if ($active == "login") {echo "active";} ?> ">Login</a>
-                                    <a href="register.php" class="dropdown-item  <?php if ($active == "register") {echo "active";} ?>">Register</a>
-                                    <a href="logout.php" class="dropdown-item  <?php if ($active == "logout") {echo "active";} ?>">Logout</a>
+                                    <a href="login.php" class=" nav-item nav-link dropdown-item  <?php if ($active == "login") {echo "active";} ?> ">Login</a>
+                                    <a href="register.php" class="nav-item nav-link dropdown-item  <?php if ($active == "register") {echo "active";} ?>">Register</a>
+                                    <?php 
+                                        if($_SESSION["user_key"] ?? "") {
+                                            echo ' <a href="logout.php" class="dropdown-item">Logout</a>';
+                                        }
+                                    ?>
                                 </div>
                             </div>
                         </div>

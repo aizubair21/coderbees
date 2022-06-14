@@ -31,7 +31,7 @@
                 <div class="col-lg-8">
                     <!-- News Detail Start -->
                     <div class="position-relative mb-3">
-                        <img class="img-fluid w-100" style="height:410px" src="image/<?php echo $single_post["postImage"] ?>" style="object-fit: cover;">
+                        <img class="img-fluid w-100 h-sm-100" style="height:100%" src="image/<?php echo $single_post["postImage"] ?>" style="object-fit: cover;">
                         <div class="overlay position-relative bg-light">
                             <div class="mb-3">
                                 <a href=""><?php echo $single_post["catName"] ?></a>
@@ -174,7 +174,7 @@
                             while ($transing = mysqli_fetch_assoc($tranding_qry)) { ?>
                             
                                 <div class="d-flex mb-3">
-                                    <img src="image/<?php echo $transing["postImage"] ?>" style="width: 150px; height: 100px; object-fit: cover;">
+                                    <img src="image/<?php echo $transing["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
                                     <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                         <div class="mb-1" style="font-size: 13px;">
                                             <a href=""><?php echo $transing["catName"] ?></a>

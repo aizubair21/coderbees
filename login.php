@@ -54,10 +54,10 @@ if (isset($_POST["user_login"])) {
     <div class="main_body">
        <div class="container">
             <div class="row" style="height:100vh; padding:10px; ">
-                <div class="col-3">
+                <div class="col-lg-3">
                 </div>
 
-                <div class="col-5">
+                <div class="col-lg-5">
                     <div class="card">
                         <div class="bg-primary text-white p-3" style="font-size:20px; text-align:center; font-weight:bold">
                            Publisher Login

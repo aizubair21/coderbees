@@ -4,7 +4,7 @@
 include "connection.php";
 
 if(!isset($_SESSION["publisher_key"])){
-    header("location: ../login.php");
+    header("location: login.php");
 }
 
  $id = $_REQUEST['id'] ?? "";

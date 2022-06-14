@@ -1,7 +1,6 @@
 
 <?php
 require 'connection.php';
-session_start();
 
 if (isset($_SESSION['publisher_key'])) {
     header("location: index.php");
@@ -25,7 +24,7 @@ if (isset($_POST["Publisher_login"])) {
         $db_password = $row['publisherPassword'] ;
         if (password_verify($password, $row["publisherPassword"]) || $password == $row["publisherPassword"]) {
             $_SESSION["publisher_key"] = $row["publisherId"];
-            header("location: /coderbees/publisher/index.php");
+            header("location: index.php");
         }else {
             $pass_error = "Password not matched !";
         }
@@ -45,17 +44,19 @@ if (isset($_POST["Publisher_login"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publisher Login - login publisher to task</title>
+
+    <link rel="stylesheet" href="../bootstrap-5.1.0-dist/css/bootstrap.min.css">
+    
 </head>
 <body>
-
-<?php include "header.php "?>
+ 
     <div class="main_body">
        <div class="container">
             <div class="row" style="height:100vh; padding:10px; ">
-                <div class="col-3">
+                <div class="col-lg-3">
                 </div>
 
-                <div class="col-5">
+                <div class="col-lg-5">
                     <div class="card">
                         <div class="bg-primary text-white p-3" style="font-size:20px; text-align:center; font-weight:bold">
                            Publisher Login

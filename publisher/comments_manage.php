@@ -2,7 +2,7 @@
 include "connection.php";
 
 if(!isset($_SESSION["publisher_key"])){
-    header("location: ../login.php");
+    header("location: login.php");
 }
 
 $key = $_SESSION["publisher_key"] ?? "";
@@ -96,7 +96,7 @@ $auth_id = $auth_publisher["publisherId"];
 
                                                     <?php
                                                         if ($comment["commentStatus"] == NULL || $comment["commentStatus"] == 0 ) {
-                                                            echo '<a class="btn btn-info btn-sm m-2" href="comments_approve.php?comment_id='.$comment["commentId"].'">Approve</a>';
+                                                            echo '<a class="btn btn-info btn-sm m-2" href="comments_approve.php?comment_id='.urldecode($comment["commentId"]).'">Approve</a>';
                                                             echo '<a class="btn btn-danger btn-sm m-2" href="comments_delete.php?delete_id='.$comment["commentId"].'">Delete</a>';
                                                         }else {
                                                             echo '<button class="btn btn-success btn-sm m-2">Approved</button>';

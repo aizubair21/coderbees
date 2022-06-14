@@ -6,7 +6,7 @@ include "connection.php";
  $id = $_REQUEST['id'] ?? "";
 
  if(!isset($_SESSION["publisher_key"])){
-    header("location: ../login.php");
+    header("location: login.php");
 }
 
 if(isset($_POST["category_insert"]) && ($_POST["name"] != "")){

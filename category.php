@@ -4,6 +4,16 @@
     include "header.php";
     include "connection.php";
 
+
+    $cat_name = $_GET["cat_name"] ?? "";
+    $category = $_GET["show_category"] ?? "";
+    $get_cat_id = mysqli_query($conn, "SELECT catId FROM category WHERE catName = '$cat_name'");
+    if (mysqli_num_rows($get_cat_id) > 0) {
+        $cat_id = mysqli_fetch_array ($get_cat_id);
+        $catId = $cat_id["catId"];
+
+    }
+
 ?>
 
 
@@ -13,7 +23,7 @@
             <nav class="breadcrumb bg-transparent m-0 p-0">
                 <a class="breadcrumb-item" href="index.php">Home</a>
                 <a class="breadcrumb-item" href="category.php">Category</a>
-                <span class="breadcrumb-item active"></span>
+                <span class="breadcrumb-item active"><?php $cat_name ?? "" ?></span>
             </nav>
         </div>
     </div>
@@ -28,164 +38,59 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
-                                <h3 class="m-0">Technology</h3>
-                                <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
+                                <h3 class="m-0"><?php $cat_name ?? "" ?></h3>
                             </div>
-                        </div>
+                        </div>   
+                    </div>
 
-                        
-                        <!-- <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-1.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                        </div> -->
-                        
-                    </div>
-<!--                     
-                    <div class="mb-3">
-                        <a href=""><img class="img-fluid w-100" src="img/ads-700x70.jpg" alt=""></a>
-                    </div>
-                     -->
+
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-3">
-                                <img src="img/news-100x100-1.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
+
+
+                        <?php
+                            if (isset($cat_name)) {
+                                if (isset($catId) != 0) {
+                                    
+                                    $get_cat_wise_post = mysqli_query($conn, "SELECT * FROM posts Where postCategory = '$catId' AND postStatus = 1");
+                                    while ($posts = mysqli_fetch_assoc($get_cat_wise_post)) { ?>
+                                        <div class="col-lg-6">
+                                            <div class="d-flex mb-3">
+                                                <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
+                                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
+                                                    <div class="mb-1" style="font-size: 13px;">
+                                                        <a href=""> <?php echo $cat_name ?> </a>
+                                                        <span class="px-1">/</span>
+                                                        <span> <?php echo $posts['postCreated_at'] ?> </span>
+                                                    </div>
+                                                    <a class="h6 m-0" href=""><?php echo $posts["postTitle"] ?></a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                <?php }
+                               
+                               
+
+                            }elseif ($category == "all_category") {
+                                $post = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 ");
+                                while ($posts = mysqli_fetch_assoc($post)) { ?>
+                                    <div class="col-lg-6">
+                                        <div class="d-flex mb-3">
+                                            <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
+                                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
+                                                <div class="mb-1" style="font-size: 13px;">
+                                                    <a href=""> <?php echo $posts["catName"] ?> </a>
+                                                    <span class="px-1">/</span>
+                                                    <span> <?php echo $posts['postCreated_at'] ?> </span>
+                                                </div>
+                                                <a class="h6 m-0" href=""><?php echo $posts["postTitle"] ?></a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-3">
-                                <img src="img/news-100x100-2.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-3">
-                                <img src="img/news-100x100-3.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-3">
-                                <img src="img/news-100x100-4.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-3">
-                                <img src="img/news-100x100-5.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-3">
-                                <img src="img/news-100x100-1.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-3">
-                                <img src="img/news-100x100-2.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-3">
-                                <img src="img/news-100x100-3.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-3">
-                                <img src="img/news-100x100-4.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-3">
-                                <img src="img/news-100x100-5.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                                </div>
-                            </div>
-                        </div>
+                               <?php }
+                            } }
+                        ?>
+                        
                     </div>
                     <div class="row">
                         <div class="col-12">

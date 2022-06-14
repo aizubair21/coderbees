@@ -4,15 +4,15 @@
         <div class="row">
             <div class="col-lg-3 col-md-6 mb-5">
                 <a href="index.php" class="navbar-brand">
-                    <h1 class="mb-2 mt-n2 display-5 text-uppercase"><span class="text-primary">News</span>Room</h1>
+                    <h1 class="mb-2 mt-n2 display-5 text-uppercase"><span class="text-primary">Coder</span>bees</h1>
                 </a>
                 <p>Volup amet magna clita tempor. Tempor sea eos vero ipsum. Lorem lorem sit sed elitr sed kasd et</p>
-                <div class="d-flex justify-content-start mt-4">
-                    <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-instagram"></i></a>
-                    <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-youtube"></i></a>
+                <div class="d-flex justify-content-start align-items-center mt-4">
+                    <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="#"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="#"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
@@ -47,7 +47,7 @@
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="font-weight-bold mb-4">Quick Links</h4>
-                <div class="d-flex flex-column justify-content-start">
+                <div class="d-flex flex-column justify-content-star">
                     <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>About</a>
                     <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Advertise</a>
                     <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Privacy & policy</a>

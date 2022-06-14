@@ -49,36 +49,39 @@
                 <div class="col-lg-8">
                     <div class="row mb-3">
                         <div class="col-12">
-                            <h3 class="p-3">Search Reasult for "<?php echo $_GET["searching_for"] ?? "" ?>"</h3>
+                            <h3 class="p-3">Search Reasult for "<?php echo $_GET["search"] ?? "" ?>"</h3>
                         </div>
 
                         <?php
-                        if (isset($_GET["searching_for"])) {
-                            $key = $_GET["searching_for"];
+                        if (isset($_GET["search"])) {
+                            $key = $_GET["search"];
                             $popular_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%' ORDER BY posts.postId DESC LIMIT 5");
-                            
-                            if (mysqli_num_rows($popular_qry) > 0) {
-                                while ($search_item = mysqli_fetch_array($popular_qry))
-                                { ?>
-                                    <div class="col-lg-6">
-                                        <div class="position-relative mb-3">
-                                            <img class="img-fluid w-100" style="height: 220px;" src="image/<?php echo $search_item["postImage"] ?>" style="object-fit: cover;">
-                                            <div class="position-relative bg-light p-2">
-                                                <div class="mb-2" style="font-size: 14px;">
-                                                    <a href=""><?php echo $search_item["catName"] ?></a>
-                                                    <span class="px-1">/</span>
-                                                    <span><?php echo $search_item["postCreated_at"] ?></span>
+                            if ($_GET["search"] == "") {
+                                echo "<strong class='alert alert-warning'>Nothing Else !</strong>";
+                            }else {
+                                if (mysqli_num_rows($popular_qry) > 0) {
+                                    while ($search_item = mysqli_fetch_array($popular_qry))
+                                    { ?>
+                                        <div class="col-lg-6">
+                                        <div class="d-flex mb-3">
+                                                <img src="image/<?php echo $search_item["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+                                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
+                                                    <div class="mb-1" style="font-size: 13px;">
+                                                        <a href="category.php?category=<?php echo $search_item['catName'] ?>"><?php echo $search_item["catName"] ?></a>
+                                                        <span class="px-1">/</span>
+                                                        <span><?php echo $search_item["postCreated_at"] ?></span>
+                                                    </div>
+                                                    <a class="h6 m-0" href="single_post.php?post_id=<?php echo $search_item["postId"] ?>"><?php echo $search_item["postTitle"] ?></a>
+
+                                                    <a class='text text-secondary py-2' href="tag.php?tags=<?php echo $search_item["postTag"] ?>"><?php echo $search_item["postTag"] ?></a>
                                                 </div>
-                                                <a class="h4" href="single_post.php?post_id=<?php echo $search_item["postId"] ?>"><?php echo $search_item["postTitle"] ?></a>
-                                                <p class="m-0"><?php echo substr_replace($search_item["post"],'...',100) ?></p>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php }
-                            }else{
-                                echo "<strong class='alert alert-warning'>Not Found !</strong>";
-                            }
-                        }; ?>
+                                    <?php }
+                                }else{
+                                    echo "<strong class='alert alert-warning'>No Data Found Against Your Search ! !</strong>";
+                                }
+                        }}; ?>
                     </div>
                 </div>
                 
@@ -167,7 +170,7 @@
                                     $cat_qry = mysqli_query($conn, "SELECT catId, catName FROM category LIMIT 7");
 
                                     while ($category = mysqli_fetch_assoc($cat_qry)) {
-                                        echo '<li class="text-dark m-2"><a href="category.php?cat_id='. $category["catId"] .'"style="color:black; font-size:18px;"> <i class="fas fa-caret-right px-2 ;" ></i>'. $category["catName"] .'</a></li>';
+                                        echo '<li class="text-dark m-2"><a href="category.php?category='. $category["catName"] .'"style="color:black; font-size:18px;"> <i class="fas fa-caret-right px-2 ;" ></i>'. $category["catName"] .'</a></li>';
                                     }
 
                                 ?>
@@ -189,7 +192,7 @@
                                 <img src="image/<?php echo $popular["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
                                 <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                     <div class="mb-1" style="font-size: 13px;">
-                                        <a href=""><?php echo $popular["catName"] ?></a>
+                                        <a href="category.php?category=<?php echo $popular['catName'] ?>"><?php echo $popular["catName"] ?></a>
                                         <span class="px-1">/</span>
                                         <span><?php echo $popular["postCreated_at"] ?></span>
                                     </div>
@@ -255,7 +258,7 @@
                                 $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts ORDER BY postId DESC LIMIT 10");
                                 if(mysqli_num_rows($tag_qry) > 0) {
                                     while ($tag = mysqli_fetch_assoc($tag_qry)) {
-                                        echo ' <a href="tag.php?tag_name='. $tag["postTag"] .'" class="btn btn-sm btn-outline-secondary m-1">'. $tag["postTag"] .'</a>';
+                                        echo ' <a href="tag.php?tags='. $tag["postTag"] .'" class="btn btn-sm btn-outline-secondary m-1">'. $tag["postTag"] .'</a>';
                                     }
                                 }
                                 ?>

@@ -5,14 +5,10 @@
     include "connection.php";
 
 
-    $cat_name = $_GET["cat_name"] ?? "";
-    $category = $_GET["show_category"] ?? "";
-    $get_cat_id = mysqli_query($conn, "SELECT catId FROM category WHERE catName = '$cat_name'");
-    if (mysqli_num_rows($get_cat_id) > 0) {
-        $cat_id = mysqli_fetch_array ($get_cat_id);
-        $catId = $cat_id["catId"];
+    $category = $_GET["category"] ?? "";
+    $all_category = $_GET["show"] ?? "";
 
-    }
+   
 
 ?>
 
@@ -22,8 +18,8 @@
         <div class="container">
             <nav class="breadcrumb bg-transparent m-0 p-0">
                 <a class="breadcrumb-item" href="index.php">Home</a>
-                <a class="breadcrumb-item" href="category.php">Category</a>
-                <span class="breadcrumb-item active"><?php $cat_name ?? "" ?></span>
+                <a class="breadcrumb-item" href="category.php?show=all_category">Category</a>
+                <span class="breadcrumb-item active"><?php echo ($category ?? "All Blogs") ?></span>
             </nav>
         </div>
     </div>
@@ -37,8 +33,8 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-12">
-                            <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
-                                <h3 class="m-0"><?php $cat_name ?? "" ?></h3>
+                            <div class="d-flex align-items-center justify-content-between bg-light py-2  mb-3">
+                                <h3 class="m-0">Show blogs for category "<?php echo  $category ?? "" ?>"</h3>
                             </div>
                         </div>   
                     </div>
@@ -48,30 +44,43 @@
 
 
                         <?php
-                            if (isset($cat_name)) {
-                                if (isset($catId) != 0) {
+                            if (isset($category)) {
+
+                                $get_cat_id = mysqli_query($conn, "SELECT catId FROM category WHERE catName = '$category'");
+                                if (mysqli_num_rows($get_cat_id) > 0 ) {
+                                    $cat_id = mysqli_fetch_array ($get_cat_id);
+                                    $catId = $cat_id["catId"];
+                                
+                                
+
+                                if (isset($catId)) {
                                     
                                     $get_cat_wise_post = mysqli_query($conn, "SELECT * FROM posts Where postCategory = '$catId' AND postStatus = 1");
+                                       if(mysqli_num_rows($get_cat_wise_post) < 1) {
+                                            echo "<strong class='alert alert-warning'>No Result Found !</strong>";
+                                        }   
                                     while ($posts = mysqli_fetch_assoc($get_cat_wise_post)) { ?>
                                         <div class="col-lg-6">
                                             <div class="d-flex mb-3">
                                                 <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
                                                 <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                                     <div class="mb-1" style="font-size: 13px;">
-                                                        <a href=""> <?php echo $cat_name ?> </a>
+                                                        <a href="category.php?category=<?php echo $category ?>"> <?php echo $category ?> </a>
                                                         <span class="px-1">/</span>
                                                         <span> <?php echo $posts['postCreated_at'] ?> </span>
                                                     </div>
-                                                    <a class="h6 m-0" href=""><?php echo $posts["postTitle"] ?></a>
+                                                    <a class="h6 m-0" href="single_post.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
+
+                                                    <a class='text text-secondary width-10 py-2' href="tag.php?tags=<?php echo $posts["postTag"] ?>"><span><?php echo $posts["postTag"] ?></span></a>
                                                 </div>
                                             </div>
                                         </div>
 
-                                <?php }
+                                <?php } }
                                
                                
 
-                            }elseif ($category == "all_category") {
+                            }elseif ($all_category == "all_category") {
                                 $post = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 ");
                                 while ($posts = mysqli_fetch_assoc($post)) { ?>
                                     <div class="col-lg-6">
@@ -79,11 +88,13 @@
                                             <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
                                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                                 <div class="mb-1" style="font-size: 13px;">
-                                                    <a href=""> <?php echo $posts["catName"] ?> </a>
+                                                    <a href="category.php?category=<?php echo $posts["catName"] ?>"> <?php echo $posts["catName"] ?> </a>
                                                     <span class="px-1">/</span>
                                                     <span> <?php echo $posts['postCreated_at'] ?> </span>
                                                 </div>
-                                                <a class="h6 m-0" href=""><?php echo $posts["postTitle"] ?></a>
+                                                <a class="h6 m-0" href="single_post.php?post_id=<?php echo $posts['postId'] ?>"><?php echo $posts["postTitle"] ?></a>
+
+                                                <a class='text text-secondary width-10 py-2' href="tag.php?tags=<?php echo $posts["postTag"] ?>"><span><?php echo $posts["postTag"] ?></span></a>
                                             </div>
                                         </div>
                                     </div>
@@ -92,6 +103,8 @@
                         ?>
                         
                     </div>
+
+
                     <div class="row">
                         <div class="col-12">
                             <nav aria-label="Page navigation">
@@ -119,35 +132,7 @@
 
                 <div class="col-lg-4 pt-3 pt-lg-0">
                     <!-- Social Follow Start -->
-                    <div class="pb-3">
-                        <div class="bg-light py-2 px-4 mb-3">
-                            <h3 class="m-0">Follow Us</h3>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none mr-2" style="background: #39569E;">
-                                <small class="fab fa-facebook-f mr-2"></small><small>12,345 Fans</small>
-                            </a>
-                            <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none ml-2" style="background: #52AAF4;">
-                                <small class="fab fa-twitter mr-2"></small><small>12,345 Followers</small>
-                            </a>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none mr-2" style="background: #0185AE;">
-                                <small class="fab fa-linkedin-in mr-2"></small><small>12,345 Connects</small>
-                            </a>
-                            <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none ml-2" style="background: #C8359D;">
-                                <small class="fab fa-instagram mr-2"></small><small>12,345 Followers</small>
-                            </a>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none mr-2" style="background: #DC472E;">
-                                <small class="fab fa-youtube mr-2"></small><small>12,345 Subscribers</small>
-                            </a>
-                            <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none ml-2" style="background: #1AB7EA;">
-                                <small class="fab fa-vimeo-v mr-2"></small><small>12,345 Followers</small>
-                            </a>
-                        </div>
-                    </div>
+                    <?php include "social_media.php" ?>
                     <!-- Social Follow End -->
 
                     <!-- Newsletter Start -->
@@ -155,27 +140,28 @@
                         <div class="bg-light py-2 px-4 mb-3">
                             <h3 class="m-0">Newsletter</h3>
                         </div>
-                        <div class="bg-light text-center p-4 mb-3">
-                            <p>Aliqu justo et labore at eirmod justo sea erat diam dolor diam vero kasd</p>
+                        <div class="bg-light text-justify p-4 mb-3">
+                            <p>Wanna subscribe your newslatter. Everytime you get an email, if there anything chagnge of updated or added.<br>If you do please subscribe !</p>
                             <div class="input-group" style="width: 100%;">
-                                <input type="text" class="form-control form-control-lg" placeholder="Your Email">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary">Sign Up</button>
+                            <form action="subscribe.php" method="get"> 
+                                <input type="email" class="form-control form-control-lg" placeholder="Your Email" name="email" required>
+                                <small>Subscribe can get all emaail by his provided email.</small>
+                                <div class="input-group-append py-3">
+                                    <button name="subscribe" class="btn btn-primary">Subscribe</button>
                                 </div>
+
+                            </form>
                             </div>
-                            <small>Sit eirmod nonumy kasd eirmod</small>
                         </div>
                     </div>
                     <!-- Newsletter End -->
 
                     <!-- Ads Start -->
-                    <div class="mb-3 pb-3">
-                        <a href=""><img class="img-fluid" src="img/news-500x280-4.jpg" alt=""></a>
-                    </div>
+                   
                     <!-- Ads End -->
 
                     <!-- Popular News Start -->
-                    <div class="pb-3">
+                    <!-- <div class="pb-3">
                         <div class="bg-light py-2 px-4 mb-3">
                             <h3 class="m-0">Tranding</h3>
                         </div>
@@ -190,51 +176,7 @@
                                 <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
                             </div>
                         </div>
-                        <div class="d-flex mb-3">
-                            <img src="img/news-100x100-2.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                <div class="mb-1" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                            </div>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <img src="img/news-100x100-3.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                <div class="mb-1" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                            </div>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <img src="img/news-100x100-4.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                <div class="mb-1" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                            </div>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <img src="img/news-100x100-5.jpg" style="width: 100px; height: 100px; object-fit: cover;">
-                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                <div class="mb-1" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h6 m-0" href="">Lorem ipsum dolor sit amet consec adipis elit</a>
-                            </div>
-                        </div>
-                    </div>
+                    </div> -->
                     <!-- Popular News End -->
 
                     <!-- Tags Start -->
@@ -247,7 +189,7 @@
                             $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts ORDER BY postId DESC LIMIT 10");
                             if(mysqli_num_rows($tag_qry) > 0) {
                                 while ($tag = mysqli_fetch_assoc($tag_qry)) {
-                                    echo ' <a href="tag.php?tag_name='. $tag["postTag"] .'" class="btn btn-sm btn-outline-secondary m-1">'. $tag["postTag"] .'</a>';
+                                    echo ' <a href="tag.php?tags='. $tag["postTag"] .'" class="btn btn-sm btn-outline-secondary m-1">'. $tag["postTag"] .'</a>';
                                 }
                             }
                             ?>

@@ -23,7 +23,7 @@
                         $cat_qry = mysqli_query($conn, "SELECT catId, catName FROM category ORDER BY catId DESC LIMIT 10");
                         if (mysqli_num_rows($cat_qry) > 0) {
                             while($cat = mysqli_fetch_assoc($cat_qry)){
-                                echo '<a href="category.php?cat_name="'. $cat["catName"].' class="btn btn-sm btn-outline-secondary m-1">'. $cat["catName"]. '</a>';
+                                echo '<a href="category.php?category='.$cat["catName"].'" class="btn btn-sm btn-outline-secondary m-1">'. $cat["catName"]. '</a>';
                             }
                         }
                     ?>
@@ -38,7 +38,7 @@
                         $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts ORDER BY postId DESC LIMIT 10");
                         if(mysqli_num_rows($tag_qry) > 0) {
                             while ($tag = mysqli_fetch_assoc($tag_qry)) {
-                                echo ' <a href="tag.php?tag_name='. $tag["postTag"] .'" class="btn btn-sm btn-outline-secondary m-1">'. $tag["postTag"] .'</a>';
+                                echo ' <a href="tag.php?tags='. $tag["postTag"] .'" class="btn btn-sm btn-outline-secondary m-1">'. $tag["postTag"] .'</a>';
                             }
                         }
                     ?>

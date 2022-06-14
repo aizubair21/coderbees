@@ -71,7 +71,7 @@ if (isset($postId)) {
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <?php include ADMIN_PATH."sideBar.php" ?>
+            <?php include "../sideBar.php" ?>
         <!-- End of Sidebar -->
 
 

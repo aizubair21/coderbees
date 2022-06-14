@@ -28,8 +28,15 @@
             </div>
         </div>
     </div>
+
     <!-- Topbar End -->
     
+
+    <style>
+        h3 {
+            font-family: "oswald";
+        }
+    </style>
     
     
     <!-- nav start -->
@@ -65,7 +72,7 @@
                                     <img class="img-fluid h-100" src="image/<?php echo $posts["postImage"] ?>" style="object-fit: cover;">
                                     <div class="overlay">
                                         <div class="mb-1">
-                                            <a class="text-white" href=""><?php echo $posts["catName"] ?></a>
+                                            <a class="text-white" href="category.php?category=<?php echo $posts["catName"] ?>"><?php echo $posts["catName"] ?></a>
                                             <span class="px-2 text-white">/</span>
                                             <a class="text-white" href=""><?php echo $posts["postCreated_at"] ?></a>
                                         </div>
@@ -141,7 +148,7 @@
                             <img class="" style="height:100px; width:100px" src="/coderbees/image/<?php echo $featured["postImage"] ?>" >
                             <div class="p-3">
                                 <div class="mb-1" style="font-size: 13px;">
-                                    <a class="" href=""><?php echo $featured["catName"] ?></a>
+                                    <a class="" href="category.php?category=<?php echo $featured["catName"] ?>"><?php echo $featured["catName"] ?></a>
                                     <span class="px-1 ">/</span>
                                     <a class="" href=""><?php echo $featured["postCreated_at"] ?></a>
                                 </div>
@@ -159,7 +166,7 @@
                             <img class="" style="width:180px" src="/coderbees/image/<?php echo $featured["postImage"] ?>" >
                             <div class="p-3">
                                 <div class="mb-1" style="font-size: 13px;">
-                                    <a class="" href=""><?php echo $featured["catName"] ?></a>
+                                    <a href="category.php?category=<?php echo $featured["catName"] ?>"><?php echo $featured["catName"] ?></a>
                                     <span class="px-1 ">/</span>
                                     <a class="" href=""><?php echo $featured["postCreated_at"] ?></a>
                                 </div>
@@ -199,7 +206,7 @@
                                     <img class="img-fluid w-100" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
                                     <div class="p-2 position-relative bg-light">
                                         <div class="mb-2" style="font-size: 13px;">
-                                            <a href=""><?php echo $business["catName"] ?></a>
+                                            <a href="category.php?category=<?php echo $business["catName"] ?>"><?php echo $business["catName"] ?></a>
                                             <span class="px-1">/</span>
                                             <span><?php echo $business["postCreated_at"] ?></span>
                                         </div>
@@ -226,7 +233,7 @@
                                     <img class="img-fluid w-100" style="height:150px" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
                                     <div class="p-2 position-relative bg-light">
                                         <div class="mb-2" style="font-size: 13px;">
-                                            <a href=""><?php echo $business["catName"] ?></a>
+                                            <a href="category.php?category=<?php echo $business["catName"] ?>"><?php echo $business["catName"] ?></a>
                                             <span class="px-1">/</span>
                                             <span><?php echo $business["postCreated_at"] ?></span>
                                         </div>
@@ -271,7 +278,7 @@
                                         
                                     <div class="p-2 position-relative bg-light">
                                         <div class="mb-2" style="font-size: 13px;">
-                                            <a href=""><?php echo $business["catName"] ?></a>
+                                            <a href="category.php?category=<?php echo $business["catName"] ?>"><?php echo $business["catName"] ?></a>
                                             <span class="px-1">/</span>
                                             <span><?php echo $business["postCreated_at"] ?></span>
                                         </div>
@@ -298,7 +305,7 @@
                                     <img class="img-fluid w-100" style="height:150px" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
                                     <div class="overlay position-relative bg-light">
                                         <div class="mb-2" style="font-size: 13px;">
-                                            <a href=""><?php echo $business["catName"] ?></a>
+                                            <a href="category.php?category=<?php echo $business["catName"] ?>"><?php echo $business["catName"] ?></a>
                                             <span class="px-1">/</span>
                                             <span><?php echo $business["postCreated_at"] ?></span>
                                         </div>
@@ -410,57 +417,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
-                                <h3 class="m-0">Popular</h3>
-                                <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
-                            </div>
-                        </div>
-
-                        <?php
-                            $popular_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 ORDER BY posts.postId DESC LIMIT 2 ");
-                            while ($popular = mysqli_fetch_assoc($popular_qry)){ ?>
-                            
-
-                                <div class="col-lg-6">
-                                    <div class="position-relative mb-3">
-                                        <img class="img-fluid w-100"  src="img/news-500x280-2.jpg" style="object-fit: cover;">
-                                        <div class="position-relative bg-light p-2">
-                                            <div class="mb-2" style="font-size: 14px;">
-                                                <a href=""><?php echo $popular["catName"] ?></a>
-                                                <span class="px-1">/</span>
-                                                <span><?php echo $popular["postCreated_at"] ?></span>
-                                            </div>
-                                            <a class="h4" href="single_post.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
-                                            <p class="m-0"><?php echo substr_replace($popular["post"],'...',100) ?></p>
-                                        </div>
-                                    </div>
-                               </div>
-                            <?php };
-                        ?>
-                    
-                        <!-- <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-3.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                           
-                           
-                        </div> -->
-
-
-                    </div>
-                    
-                    
                     <div class="row">
                         <div class="col-12">
                             <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
@@ -471,7 +427,7 @@
 
                         <?php 
 
-                            $latest_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 ORDER BY posts.postId DESC LIMIT 4 ");
+                            $latest_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 ORDER BY posts.postId DESC LIMIT 8 ");
                             while ($latest= mysqli_fetch_assoc($latest_qry) ) { ?>
 
                                 <div class="col-lg-6" >
@@ -479,7 +435,7 @@
                                         <img class="img-fluid w-100" style="height:200px" src="image/<?php echo $latest["postImage"] ?>" style="object-fit: cover;">
                                         <div class=" position-relative bg-light p-2">
                                             <div class="mb-2" style="font-size: 14px;">
-                                                <a href=""><?php echo $latest["catName"] ?></a>
+                                                <a href="category.php?category=<?php echo $latest["catName"] ?>"><?php echo $latest["catName"] ?></a>
                                                 <span class="px-1">/</span>
                                                 <span><?php echo $latest["postCreated_at"] ?></span>
                                             </div>
@@ -492,95 +448,12 @@
 
                              <?php }
                         ?>
-
-
-                        <!-- <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-5.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                           
-                        </div>
-
-                         <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-5.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                           
-                        </div>
-
-                         <div class="col-lg-6">
-                            <div class="position-relative mb-3">
-                                <img class="img-fluid w-100" src="img/news-500x280-5.jpg" style="object-fit: cover;">
-                                <div class="overlay position-relative bg-light">
-                                    <div class="mb-2" style="font-size: 14px;">
-                                        <a href="">Technology</a>
-                                        <span class="px-1">/</span>
-                                        <span>January 01, 2045</span>
-                                    </div>
-                                    <a class="h4" href="">Est stet amet ipsum stet clita rebum duo</a>
-                                    <p class="m-0">Rebum dolore duo et vero ipsum clita, est ea sed duo diam ipsum, clita at justo, lorem amet vero eos sed sit...</p>
-                                </div>
-                            </div>
-                           
-                        </div> -->
-                       
                     </div>
                 </div>
                 
                 <div class="col-lg-4 pt-3 pt-lg-0">
                     <!-- Social Follow Start -->
-                    <div class="pb-3">
-                        <div class="bg-light py-2 px-4 mb-3">
-                            <h3 class="m-0">Follow Us</h3>
-                        </div>
-                        <?php 
-
-                                $follow = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM social_media_link"))
-
-                        ?>
-                        <div class="d-flex mb-3">
-                            <a href="<?php echo $follow["facebook"] ?>" class="d-block w-50 py-2 px-3 text-white text-decoration-none mr-2" style="background: #39569E;">
-                                <small class="fab fa-facebook-f mr-2"></small><small>12,345 Fans</small>
-                            </a>
-                            <a href="<?php echo $follow["twitter"] ?>" class="d-block w-50 py-2 px-3 text-white text-decoration-none ml-2" style="background: #52AAF4;">
-                                <small class="fab fa-twitter mr-2"></small><small>12,345 Followers</small>
-                            </a>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <a href="<?php echo $follow["linkedin"] ?>" class="d-block w-50 py-2 px-3 text-white text-decoration-none mr-2" style="background: #0185AE;">
-                                <small class="fab fa-linkedin-in mr-2"></small><small>12,345 Connects</small>
-                            </a>
-                            <a href="" class="d-block w-50 py-2 px-3 text-white text-decoration-none ml-2" style="background: #C8359D;">
-                                <small class="fab fa-instagram mr-2"></small><small>12,345 Followers</small>
-                            </a>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <a href="<?php echo $follow["youtube"] ?>" class="d-block w-50 py-2 px-3 text-white text-decoration-none mr-2" style="background: #DC472E;">
-                                <small class="fab fa-youtube mr-2"></small><small>12,345 Subscribers</small>
-                            </a>
-                            <a href="<?php echo $follow["vimo"] ?>" class="d-block w-50 py-2 px-3 text-white text-decoration-none ml-2" style="background: #1AB7EA;">
-                                <small class="fab fa-vimeo-v mr-2"></small><small>12,345 Followers</small>
-                            </a>
-                        </div>
-                    </div>
+                    <?php include "social_media.php" ?>
                     <!-- Social Follow End -->
 
                     <!-- Newsletter Start -->
@@ -652,7 +525,7 @@
                                 <img src="image/<?php echo $popular["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
                                 <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                     <div class="mb-1" style="font-size: 13px;">
-                                        <a href=""><?php echo $popular["catName"] ?></a>
+                                        <a href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
                                         <span class="px-1">/</span>
                                         <span><?php echo $popular["postCreated_at"] ?></span>
                                     </div>
@@ -718,7 +591,7 @@
                                 $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts ORDER BY postId DESC LIMIT 10");
                                 if(mysqli_num_rows($tag_qry) > 0) {
                                     while ($tag = mysqli_fetch_assoc($tag_qry)) {
-                                        echo ' <a href="tag.php?tag_name='. $tag["postTag"] .'" class="btn btn-sm btn-outline-secondary m-1">'. $tag["postTag"] .'</a>';
+                                        echo ' <a href="tag.php?tags='. $tag["postTag"] .'" class="btn btn-sm btn-outline-secondary m-1">'. $tag["postTag"] .'</a>';
                                     }
                                 }
                                 ?>

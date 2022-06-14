@@ -56,7 +56,7 @@ function isActive ($modifier) {
                     <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.php" class="nav-item nav-link <?php if ($active == "home") {echo "active";} ?> ">Home</a>
-                            <a href="category.php?show_category=all_category" class="nav-item nav-link <?php if ($active == "category") {echo "active";} ?> ">Blog</a>
+                            <a href="category.php?show=all_category" class="nav-item nav-link <?php if ($active == "category") {echo "active";} ?> ">Blog</a>
                             <a class="nav-item nav-link <?php if ($active == "single_post") {echo "active";} ?> ">Single Post</a>
 
 
@@ -73,7 +73,7 @@ function isActive ($modifier) {
                         </div>
                         <form action="search.php" method="GET">
                             <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
-                                <input type="text" class="form-control" placeholder="Keyword" name="searching_for">
+                                <input type="text" class="form-control" placeholder="Keyword" name="search">
                                 <button class="input-group-text text-secondary"><i class="fa fa-search"></i></button>
                                 
                             </div>

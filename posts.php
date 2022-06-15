@@ -1,11 +1,16 @@
 <?php
 
-    $active = "single_post";
+    $active = "post";
     $title = "Single Post - coderbees ";
     include "header.php";
     include "connection.php";
+    
     $single_post_id = $_GET["post_id"] ?? "";
-    $single_post = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisher.publisherId = posts.postPublisher WHERE posts.postId = $single_post_id AND posts.postStatus = 1"));
+    if (isset($_GET["post_id"])) {
+        $single_post = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisher.publisherId = posts.postPublisher WHERE posts.postId = $single_post_id AND posts.postStatus = 1"));
+    }else {
+        header("location: blog.php");
+    }
 
 ?>
 
@@ -16,8 +21,8 @@
             <nav class="breadcrumb bg-transparent m-0 p-0">
                 <a class="breadcrumb-item" href="index.php">Home</a>
                 <a class="breadcrumb-item" href="category.php?show_category=all_category">Category</a>
-                <a class="breadcrumb-item" href="category.php?category=<?php echo $single_post["catName"] ?>"><?php echo $single_post["catName"] ?></a>
-                <span class="breadcrumb-item active"><?php echo $single_post["postTitle"] ?></span>
+                <a class="breadcrumb-item" href="category.php?category=<?php echo $single_post["catName"] ?>"><?php echo $single_post["catName"] ?? "" ?></a>
+                <span class="breadcrumb-item active"><?php echo $single_post["postTitle"] ?? ""?></span>
             </nav>
         </div>
     </div>

@@ -89,13 +89,13 @@ if(isset($_POST["post"])){
     <title> Add post - Admin Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo ADMIN_PATH ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?php echo ADMIN_PATH ?>css/sb-admin-2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     
@@ -114,7 +114,7 @@ if(isset($_POST["post"])){
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <?php include ADMIN_PATH."sideBar.php" ?>
+            <?php include l_ADMIN_PATH."sideBar.php" ?>
         <!-- End of Sidebar -->
 
 
@@ -126,7 +126,7 @@ if(isset($_POST["post"])){
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include ADMIN_PATH."topBar.php" ?>
+                <?php include l_ADMIN_PATH."topBar.php" ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->

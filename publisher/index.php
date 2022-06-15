@@ -154,6 +154,20 @@ $key = $_SESSION["publisher_key"] ?? "";
                         </div>
                     </div>
 
+
+
+                    <div class="breadca">
+                        <h3>REMOTE_ADDR</h3>
+                        <pre>
+                            <?php
+                                $ip = $_SERVER;
+                                //print_r($ip);
+
+                                echo md5(1);
+                            ?>
+                        </pre>
+                    </div>
+
                     <!-- Content Row -->
 
                    

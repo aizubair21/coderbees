@@ -33,13 +33,26 @@
     
     
     <!-- nav start -->
-        <?php
-            $active = "home";
-            $title ="Search Reasult ";
-            include "connection.php";
-            include "header.php";
+    <?php
+        $active = "home";
+        $title ="Search Reasult ";
+        include "connection.php";
+        include "header.php";
+
+
             
-        ?>
+        if (isset($_GET["page"])) {
+            $page = $_GET["page"];
+        }else{
+            $page = 1;
+        }
+        $key = $_GET["search"] ?? "";
+        $result_per_page = 6;
+        $page_first_result = ($page -1) * $result_per_page;
+        $total_row = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%'"));
+        $total_page = ceil($total_row / $result_per_page);
+        
+    ?>
     <!-- nav end -->
 
     <!-- News With Sidebar Start -->
@@ -49,17 +62,27 @@
                 <div class="col-lg-8">
                     <div class="row mb-3">
                         <div class="col-12">
-                            <h3 class="p-3">Search Reasult for "<?php echo $_GET["search"] ?? "" ?>"</h3>
+                            <h4 class="fs-6">
+                                <?php
+                                    if ($key != '') { ?>
+                                        Fount <?php echo $total_row ?> Reasult for "<?php echo $_GET["search"] ?? "" ?>"
+                                        
+                                   <?php }
+                                ?>
+                            </h4>
+
+                           
                         </div>
 
                         <?php
                         if (isset($_GET["search"])) {
-                            $key = $_GET["search"];
-                            $popular_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%' ORDER BY posts.postId DESC LIMIT 5");
+                           
+                            $popular_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%' ORDER BY posts.postId DESC LIMIT $page_first_result, $result_per_page");
                             if ($_GET["search"] == "") {
                                 echo "<strong class='alert alert-warning'>Nothing Else !</strong>";
                             }else {
-                                if (mysqli_num_rows($popular_qry) > 0) {
+                                if (($total_result = mysqli_num_rows($popular_qry)) > 0) {
+                                    echo "<p class='text text-secondary font-normal'> $total_result result show this page </p>";
                                     while ($search_item = mysqli_fetch_array($popular_qry))
                                     { ?>
                                         <div class="col-lg-6">
@@ -82,6 +105,29 @@
                                     echo "<strong class='alert alert-warning'>No Data Found Against Your Search ! !</strong>";
                                 }
                         }}; ?>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <nav aria-label="Page navigation">
+                              <ul class="pagination justify-content-center">
+                                <?php
+                                    
+                                    if ($key != "" && $total_row > $result_per_page) {
+                                        for ($i=1; $i <= $total_page; $i++) { ?>
+                                        
+                                            <form action="search.php" method="get">
+                                                <input type="hidden" name="search" value="<?php echo $_GET["search"] ?>">
+                                                <button type="submit" name="page" class="btn page-item <?php echo ($i == $page) ? "btn-primary" : "" ?> " value="<?php echo $i ?>"><?php echo $i ?></button>
+                                                <!-- <li class="page-item "><a class="page-link  " href="search.php?search?=<?php echo $key ?>&page=<?php echo $i ?>"><?php echo $i ?></a></li> -->
+
+                                            </form>
+
+                                   <?php } }
+                                ?>
+                              </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 

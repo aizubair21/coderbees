@@ -1,9 +1,9 @@
 <?php
 
-include "connection.php";
+include "../connection.php";
 
-if (!isset($_SESSION['admin_key'])) {
-    header("location: index.php");
+if(!isset($_SESSION["admin_key"])){
+    header("location: login.php");
 }
 
 if(isset($_POST["insert_publisher"]) && $_POST["publisher_username"] != "" && $_POST["publisher_email"]!= "" && $_POST["publisher_password"] != ""){
@@ -55,16 +55,6 @@ if(isset($_POST["insert_publisher"]) && $_POST["publisher_username"] != "" && $_
  
 
 }
-?>
-
-
-
-<?php
-
-
-if(!isset($_SESSION["admin_key"])){
-    header("location: login.php");
-}
 
 $key = $_SESSION["admin_key"] ?? "";
 
@@ -86,13 +76,13 @@ $key = $_SESSION["admin_key"] ?? "";
     <title>Insert publisher - Admin Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo ADMIN_PATH ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?php echo ADMIN_PATH ?>/css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
         .active {
@@ -108,7 +98,7 @@ $key = $_SESSION["admin_key"] ?? "";
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <?php include "sideBar.php" ?>
+            <?php include l_ADMIN_PATH."sideBar.php" ?>
         <!-- End of Sidebar -->
 
 
@@ -119,7 +109,7 @@ $key = $_SESSION["admin_key"] ?? "";
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include "topBar.php" ?>
+                <?php include l_ADMIN_PATH."topBar.php" ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -216,22 +206,22 @@ $key = $_SESSION["admin_key"] ?? "";
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo ADMIN_PATH ?>vendor/jquery/jquery.min.js"></script>
+    <script src="<?php echo ADMIN_PATH ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="<?php echo ADMIN_PATH ?>vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="<?php echo ADMIN_PATH ?>js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="<?php echo ADMIN_PATH ?>vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="js/demo/datatables-demo.js"></script>
+    <script src="<?php echo ADMIN_PATH ?>js/demo/chart-area-demo.js"></script>
+    <script src="<?php echo ADMIN_PATH ?>js/demo/chart-pie-demo.js"></script>
+    <script src="<?php echo ADMIN_PATH ?>js/demo/datatables-demo.js"></script>
 
 </body>
 

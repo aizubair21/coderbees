@@ -3,11 +3,6 @@
     $title = "Categories - coderbees";
     include "header.php";
     include "connection.php";
-
-
-    $category = $_GET["category"] ?? "";
-    $all_category = $_GET["show"] ?? "";
-    
     
     if (isset($_GET["page"])) {
         $page = $_GET["page"];
@@ -17,17 +12,10 @@
 
     $result_per_page = 6;
     $page_first_result = ($page -1) * $result_per_page;
-    
-    if (isset($category)){
-        $get_cat_wise_post = mysqli_query($conn, "SELECT * FROM posts Where postCategory = (SELECT catId FROM category WHERE catName = '$category') AND postStatus = 1 LIMIT $page_first_result, $result_per_page");
-    }else {
-        $post = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1  LIMIT $page_first_result, $result_per_page");
-        
-    }
 
-    $total_row = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postCategory = (SELECT catId FROM category WHERE catName = '$category') "));
+    $total_row = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postStatus = 1 "));
     $total_page = ceil($total_row / $result_per_page);
-    // echo $total_row;
+
 ?>
 
 
@@ -36,8 +24,7 @@
         <div class="container">
             <nav class="breadcrumb bg-transparent m-0 p-0">
                 <a class="breadcrumb-item" href="index.php">Home</a>
-                <a class="breadcrumb-item" href="category.php?show=all_category">Category</a>
-                <span class="breadcrumb-item active"><?php echo ($category ?? "All Blogs") ?></span>
+                <a class="breadcrumb-item" href="blog.php">blog</a>
             </nav>
         </div>
     </div>
@@ -49,65 +36,35 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="d-flex align-items-center justify-content-between bg-light py-2  mb-3">
-                                <h3 class="m-0">Show blogs for category "<?php echo  $category ?? "" ?>"</h3>
-                            </div>
-                        </div>   
-                    </div>
-
-
+                   
                     <div class="row">
 
 
                         <?php
-                            if (isset($category)) {
                                    
-                                    if(mysqli_num_rows($get_cat_wise_post) < 1) {
-                                        echo "<strong class='alert alert-warning'>No Result Found !</strong>";
-                                    }   
-                                    while ($posts = mysqli_fetch_assoc($get_cat_wise_post)) { ?>
-                                    <div class="col-lg-6">
-                                        <div class="d-flex mb-3">
-                                            <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
-                                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                                <div class="mb-1" style="font-size: 13px;">
-                                                    <a href="category.php?category=<?php echo $category ?>"> <?php echo $category ?> </a>
-                                                    <span class="px-1">/</span>
-                                                    <span> <?php echo $posts['postCreated_at'] ?> </span>
-                                                </div>
-                                                <a class="h6 m-0" href="posts.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
+                            $get_cat_wise_post = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory Where postStatus = 1 LIMIT $page_first_result, $result_per_page");
+                            if(mysqli_num_rows($get_cat_wise_post) < 1) {
+                                echo "<strong class='alert alert-warning'>No Result Found !</strong>";
+                            }   
 
-                                                <a class='text text-secondary width-10 py-2' href="tag.php?tags=<?php echo $posts["postTag"] ?>"><span><?php echo $posts["postTag"] ?></span></a>
-                                            </div>
+                            while ($posts = mysqli_fetch_assoc($get_cat_wise_post)) { ?>
+                            <div class="col-lg-6">
+                                <div class="d-flex mb-3">
+                                    <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
+                                    <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
+                                        <div class="mb-1" style="font-size: 13px;">
+                                            <a href="category.php?category=<?php echo $posts["catName"] ?>"> <?php echo $posts["catName"] ?> </a>
+                                            <span class="px-1">/</span>
+                                            <span> <?php echo $posts['postCreated_at'] ?> </span>
                                         </div>
-                                    </div>
+                                        <a class="h6 m-0" href="posts.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
 
-                                <?php } 
-                               
-                            
-                            }elseif($_GET["show"]){
-                                
-                                while ($posts = mysqli_fetch_assoc($post)) { ?>
-                                    <div class="col-lg-6">
-                                        <div class="d-flex mb-3">
-                                            <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
-                                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                                <div class="mb-1" style="font-size: 13px;">
-                                                    <a href="category.php?category=<?php echo $posts["catName"] ?>"> <?php echo $posts["catName"] ?> </a>
-                                                    <span class="px-1">/</span>
-                                                    <span> <?php echo $posts['postCreated_at'] ?> </span>
-                                                </div>
-                                                <a class="h6 m-0" href="posts.php?post_id=<?php echo $posts['postId'] ?>"><?php echo $posts["postTitle"] ?></a>
-
-                                                <a class='text text-secondary width-10 py-2' href="tag.php?tags=<?php echo $posts["postTag"] ?>"><span><?php echo $posts["postTag"] ?></span></a>
-                                            </div>
-                                        </div>
+                                        <a class='text text-secondary width-10 py-2' href="tag.php?tags=<?php echo $posts["postTag"] ?>"><span><?php echo $posts["postTag"] ?></span></a>
                                     </div>
-                               <?php }
-                            } 
-                        ?>
+                                </div>
+                            </div>
+
+                        <?php  }?>
                         
                     </div>
 
@@ -120,9 +77,10 @@
                                    if ($key != "" && $total_row > $result_per_page) {
                                     for ($i=1; $i <= $total_page; $i++) { ?>
                                     
-                                        <form action="category.php" method="get">
-                                            <input type="hidden" name="category" value="<?php echo $_GET["category"] ?>">
-                                            <button type="submit" name="page" class="btn page-item <?php echo ($i == $page) ? "btn-primary" : "" ?> " value="<?php echo $i ?>"><?php echo $i ?></button>
+                                        <form action="blog.php" method="get">
+                                            <li class="bg-light">
+                                                <button type="submit" name="page" class="btn  <?php echo ($i == $page) ? "btn-primary " : "" ?> " value="<?php echo $i ?>"><?php echo $i ?></button>
+                                            </li>
                                             
 
                                         </form>

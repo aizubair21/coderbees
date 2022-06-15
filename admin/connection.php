@@ -3,10 +3,12 @@ session_start();
 
 
 //make root relative path;
-define('ROOT_PATH', dirname(__DIR__) . '/');
-define('ADMIN_PATH', ROOT_PATH."admin/");
-define('PUBLISHER_PATH', ROOT_PATH."publisher/");
-define('CATEGORY_PATH', ROOT_PATH."category/");
+define('A_ROOT_PATH', dirname(__DIR__) . '/');
+define('l_ADMIN_PATH', A_ROOT_PATH."admin/");
+// define('PUBLISHER_PATH', ROOT_PATH."publisher/");
+// define('CATEGORY_PATH', ROOT_PATH."category/");
+// echo "admin root path : " . A_RO_PATH;
+include A_ROOT_PATH."function.php";
 
 
 $conn = mysqli_connect('localhost','root','','coderbees');

@@ -8,7 +8,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo ADMIN_PATH ?>index.php">
     
     <div class="sidebar-brand-text mx-3">CB Admin</div>
 </a>
@@ -35,8 +35,8 @@
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class=" text-white collapse-inner rounded">
-            <a class="collapse-item" href="publisher.php">Publisher Controls</a>
-            <a class="collapse-item" href="publisher_insert.php">Publisher Add</a>
+            <a class="collapse-item" href="<?php echo ADMIN_PATH ?>publisher.php">Publisher Controls</a>
+            <a class="collapse-item" href="<?php echo ADMIN_PATH ?>publisher/publisher_insert.php">Publisher Add</a>
         </div>
     </div>
 </li>
@@ -62,8 +62,8 @@
 <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities"
 data-parent="#accordionSidebar">
 <div class=" text-white collapse-inner rounded">
-        <a class="collapse-item" href="posts/post_view.php">Posts Controls</a>
-        <a class="collapse-item" href="posts/post_add.php">Post Add</a>
+        <a class="collapse-item" href="<?php echo ADMIN_PATH ?>posts/post_view.php">Posts Controls</a>
+        <a class="collapse-item" href="<?php echo ADMIN_PATH ?>posts/post_add.php">Post Add</a>
     </div>
 </div>
 </li>
@@ -76,8 +76,8 @@ data-parent="#accordionSidebar">
 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
     data-parent="#accordionSidebar">
     <div class=" text-white collapse-inner rounded">
-        <a class="collapse-item" href="category/index.php">Category Controls</a>
-        <a class="collapse-item" href="category/insert.php">Category Add</a>
+        <a class="collapse-item" href="<?php echo ADMIN_PATH ?>category/index_category.php">Category Controls</a>
+        <a class="collapse-item" href="<?php echo ADMIN_PATH ?>category/insert_category.php">Category Add</a>
     </div>
 </div>
 </li>

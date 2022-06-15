@@ -9,12 +9,14 @@ if ($key) {
     $GLOBALS['auth_publisher'] = getAuthPublisher($key);
 }
 
+//include "../function.php";
 
 
 define('ROOT_PATH', dirname(__DIR__) . '/');
 define('ADMIN_PATH', ROOT_PATH."admin/");
 define('PUBLISHER_PATH', ROOT_PATH."publisher/");
 define('CATEGORY_PATH', ROOT_PATH."category/");
+echo PUBLISHER_PATH;
 
 
 //echo $auth_user["user_name"];

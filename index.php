@@ -76,7 +76,7 @@
                                             <span class="px-2 text-white">/</span>
                                             <a class="text-white" href=""><?php echo $posts["postCreated_at"] ?></a>
                                         </div>
-                                        <a class="h2 m-0 text-white font-weight-bold" href="single_post.php?post_id=<?php echo $posts['postId'] ?>"><?php echo $posts["postTitle"] ?></a>
+                                        <a class="h2 m-0 text-white font-weight-bold" href="posts.php?post_id=<?php echo $posts['postId'] ?>&title=<?php echo $posts["postTitle"] ?>"><?php echo $posts["postTitle"] ?></a>
                                     </div>
                                 </div>
                         
@@ -131,7 +131,8 @@
 
 
     <!-- Featured News Slider Start -->
-    <div class="container-fluid py-3">
+
+    <!-- <div class="container-fluid py-3">
 
         <div class="container">
             <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
@@ -152,7 +153,7 @@
                                     <span class="px-1 ">/</span>
                                     <a class="" href=""><?php echo $featured["postCreated_at"] ?></a>
                                 </div>
-                                <a class="h4 m-0 " href="single_post.php?post_id=<?php echo $featured["postId"] ?>"><?php echo $featured["postTitle"] ?></a>
+                                <a class="h4 m-0 " href="posts.php?post_id=<?php echo $featured["postId"] ?>"><?php echo $featured["postTitle"] ?></a>
                             </div>
                         </div>  
                 
@@ -170,7 +171,7 @@
                                     <span class="px-1 ">/</span>
                                     <a class="" href=""><?php echo $featured["postCreated_at"] ?></a>
                                 </div>
-                                <a class="h4 m-0 " href="single_post.php?post_id=<?php echo $featured["postId"] ?>"><?php echo $featured["postTitle"] ?></a>
+                                <a class="h4 m-0 " href="posts.php?post_id=<?php echo $featured["postId"] ?>"><?php echo $featured["postTitle"] ?></a>
                             </div>
                         </div>  
                 
@@ -180,7 +181,8 @@
 
             </div>
         </div>
-    </div>
+    </div> -->
+    
     <!-- Featured News Slider End -->
 
 
@@ -199,7 +201,7 @@
                     </style>
                     <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                         <?php
-                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 4 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='business') ORDER BY posts.postId DESC LIMIT 5 ") ;
                             while ($business = mysqli_fetch_assoc($business_cat)) { ?>
 
                                 <div class="position-relative">
@@ -210,7 +212,7 @@
                                             <span class="px-1">/</span>
                                             <span><?php echo $business["postCreated_at"] ?></span>
                                         </div>
-                                        <a class="h4 m-0" href="single_post.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
+                                        <a class="h4 m-0" href="posts.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
                                     </div>
                                 </div>
 
@@ -226,7 +228,7 @@
                     </div>
                     <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                         <?php
-                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 3 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='technology') ORDER BY posts.postId DESC LIMIT 5 ") ;
                             while ($business = mysqli_fetch_assoc($business_cat)) { ?>
 
                                 <div class="position-relative">
@@ -237,7 +239,7 @@
                                             <span class="px-1">/</span>
                                             <span><?php echo $business["postCreated_at"] ?></span>
                                         </div>
-                                        <a class="h4 m-0" href="single_post.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
+                                        <a class="h4 m-0" href="posts.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
                                     </div>
                                 </div>
   
@@ -267,7 +269,7 @@
                     </style>
                     <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                         <?php
-                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 2 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='intertainment') ORDER BY posts.postId DESC LIMIT 5 ") ;
                             while ($business = mysqli_fetch_assoc($business_cat)) { ?>
 
                                 <div class="position-relative">
@@ -282,7 +284,7 @@
                                             <span class="px-1">/</span>
                                             <span><?php echo $business["postCreated_at"] ?></span>
                                         </div>
-                                        <a class="h5 m-0" href="single_post.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
+                                        <a class="h5 m-0" href="posts.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
                                     </div>
                                 </div>
 
@@ -298,18 +300,18 @@
                     </div>
                     <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                         <?php
-                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = 47 ORDER BY posts.postId DESC LIMIT 5 ") ;
+                            $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='sports') ORDER BY posts.postId DESC LIMIT 5 ") ;
                             while ($business = mysqli_fetch_assoc($business_cat)) { ?>
 
                                 <div class="position-relative">
                                     <img class="img-fluid w-100" style="height:150px" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
-                                    <div class="overlay position-relative bg-light">
+                                    <div class="position-relative bg-light">
                                         <div class="mb-2" style="font-size: 13px;">
                                             <a href="category.php?category=<?php echo $business["catName"] ?>"><?php echo $business["catName"] ?></a>
                                             <span class="px-1">/</span>
                                             <span><?php echo $business["postCreated_at"] ?></span>
                                         </div>
-                                        <a class="h4 m-0" href="single_post.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
+                                        <a class="h4 m-0" href="posts.php?post_id=<?php echo $business["postId"] ?>"><?php echo $business["postTitle"] ?></a>
                                     </div>
                                 </div>
   
@@ -439,7 +441,7 @@
                                                 <span class="px-1">/</span>
                                                 <span><?php echo $latest["postCreated_at"] ?></span>
                                             </div>
-                                            <a class="h4" href="single_post.php?post_id=<?php echo $latest["postId"] ?>"><?php echo $latest["postTitle"] ?></a>
+                                            <a class="h4" href="posts.php?post_id=<?php echo $latest["postId"] ?>"><?php echo $latest["postTitle"] ?></a>
                                             <p style="font-family: serif ;" class="m-0"><?php echo substr_replace($latest["post"], "..",150) ?></p>
                                         </div>
                                     </div>
@@ -503,7 +505,7 @@
                                     $cat_qry = mysqli_query($conn, "SELECT catId, catName FROM category LIMIT 7");
 
                                     while ($category = mysqli_fetch_assoc($cat_qry)) {
-                                        echo '<li class="text-dark m-2"><a href="category.php?cat_id='. $category["catId"] .'"style="color:black; font-size:18px;"> <i class="fas fa-caret-right px-2 ;" ></i>'. $category["catName"] .'</a></li>';
+                                        echo '<li class="text-dark m-2"><a href="category.php?category='. $category["catName"] .'"style="color:black; font-size:18px;"> <i class="fas fa-caret-right px-2 ;" ></i>'. $category["catName"] .'</a></li>';
                                     }
 
                                 ?>
@@ -529,7 +531,7 @@
                                         <span class="px-1">/</span>
                                         <span><?php echo $popular["postCreated_at"] ?></span>
                                     </div>
-                                    <a class="h6 m-0" href="single_post.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
+                                    <a class="h6 m-0" href="posts.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
                                 </div>
                             </div>
 

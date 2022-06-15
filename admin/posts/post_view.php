@@ -71,7 +71,7 @@ if (isset($postId)) {
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <?php include "../sideBar.php" ?>
+            <?php include l_ADMIN_PATH."sideBar.php" ?>
         <!-- End of Sidebar -->
 
 
@@ -83,7 +83,7 @@ if (isset($postId)) {
             <div id="content" style="background-color: #8080805e;">
 
                 <!-- Topbar -->
-                <?php include ADMIN_PATH."topBar.php" ?>
+                <?php include l_ADMIN_PATH."topBar.php" ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -258,7 +258,7 @@ if (isset($postId)) {
                                                         <td style="padding:0px;"><?php echo $row["postUpdated_at"] ?></td>
                                                         <td style="padding:0px;"  class="d-flex justify-content-center align-items-center">
                                                             <div class="d-flex">
-                                                                <a href="post_view.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                                <a href="post_delete.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                                 
                                                             </div>
                                                         </td>

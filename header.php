@@ -56,8 +56,8 @@ function isActive ($modifier) {
                     <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.php" class="nav-item nav-link <?php if ($active == "home") {echo "active";} ?> ">Home</a>
-                            <a href="category.php?show=all_category" class="nav-item nav-link <?php if ($active == "category") {echo "active";} ?> ">Blog</a>
-                            <a class="nav-item nav-link <?php if ($active == "single_post") {echo "active";} ?> ">Single Post</a>
+                            <a href="blog.php" class="nav-item nav-link <?php if ($active == "category") {echo "active";} ?> ">Blog</a>
+                            <a class="nav-item nav-link <?php if ($active == "posts") {echo "active";} ?> ">Single Post</a>
 
 
 

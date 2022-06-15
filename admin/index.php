@@ -53,7 +53,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <?php include ADMIN_PATH."sideBar.php" ?>
+            <?php include "sideBar.php" ?>
         <!-- End of Sidebar -->
 
 
@@ -65,7 +65,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include ADMIN_PATH."topBar.php" ?>
+                <?php include "topBar.php" ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -288,15 +288,15 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                             </div>
                                                                 
                                                             <hr>
-                                                                <a id="block_button" class="text text-danger" href="#">Block Publisher</a>
+                                                                <a id="block_button" class="text text-danger" href="block_publisher.php">Block Publisher</a>
                                                         </td>
                                                         <td><?php echo $req_post["postTitle"] ?></td>
                                                         <td>
                                                             <?php  echo substr_replace($req_post["post"],'...',200)  ?>
                                                             <hr>
                                                             <div id="admin_button">
-                                                                <a class="text text-danger" href='posts/reject_post.php?post=<?php echo $req_post["postId"] ?>'>Delete</a>
-                                                                <a class="text text-success px-3" href='posts/approve_post.php?post=<?php echo $req_post["postId"] ?>'>Approve</a>
+                                                                <a class="text text-danger" href='reject_post.php?post=<?php echo $req_post["postId"] ?>'>Delete</a>
+                                                                <a class="text text-success px-3" href='approve_post.php?post=<?php echo $req_post["postId"] ?>'>Approve</a>
                                                                 <button id="post_modal_button" onclick="openPostModal()" class="text text-secoundry" >View</button>
                                                                 <div id="post_modal">
                                                                     <div class="card">

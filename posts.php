@@ -1,7 +1,7 @@
 <?php
 
-    $active = "post";
-    $title = "Single Post - coderbees ";
+    $active = "posts";
+    $title = "See post - coderbees ";
     include "header.php";
     include "connection.php";
     

@@ -8,11 +8,18 @@
                 </a>
                 <p>Volup amet magna clita tempor. Tempor sea eos vero ipsum. Lorem lorem sit sed elitr sed kasd et</p>
                 <div class="d-flex justify-content-start align-items-center mt-4">
-                    <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="#"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="#"><i class="fab fa-instagram"></i></a>
-                    <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="#"><i class="fab fa-youtube"></i></a>
+                    <?php
+                        $social_qry = mysqli_query($conn, "SELECT * FROM social_media_link");
+                        $row = mysqli_fetch_assoc($social_qry) ?>
+
+                        <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="<?php echo $row['twitter'] ?>"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="<?php echo $row['facebook'] ?>"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="<?php echo $row['linkedin'] ?>"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="<?php echo $row['instagram'] ?>"><i class="fab fa-instagram"></i></a>
+                        <a class="btn btn-outline-primary text-center mr-2 px-0" style="width: 38px; height: 38px; " href="<?php echo $row['youtube'] ?>"><i class="fab fa-youtube"></i></a>
+
+                       <?php 
+                    ?>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">

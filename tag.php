@@ -1,5 +1,5 @@
 <?php
-    $active = "Tag";
+    $active = "category";
     $title = "Tag - coderbees";
     include "header.php";
     include "connection.php";
@@ -58,7 +58,7 @@
                                                 <span class="px-1">/</span>
                                                 <span><?php echo $posts["postCreated_at"] ?></span>
                                             </div>
-                                            <a class="h6 m-0" href="single_post.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
+                                            <a class="h6 m-0" href="posts.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
                                         </div>
                                     </div>
                                 </div>

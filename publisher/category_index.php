@@ -1,22 +1,22 @@
 <?php
 include "connection.php";
-if(!isset($_SESSION["publisher_key"])){
+if (!isset($_SESSION["publisher_key"])) {
     header("location: login.php");
 }
 
-if(isset($_POST["category_add"]) && $_POST["name"] != ""){
+if (isset($_POST["category_add"]) && $_POST["name"] != "") {
     $name = $_POST["name"];
-    $slug = strtolower(str_replace(" ","-",$name)) ;
+    $slug = strtolower(str_replace(" ", "-", $name));
     //print_r($auth_user['id']);
     $author = $auth_publisher["publisherId"];
 
     $sql = "INSERT INTO category (catName, catSlug, catAuthor) VALUES('$name','$slug','$author')";
-    if(mysqli_query($conn, $sql)){
-        ?>
-            <script>
-                alert("category added.");
-            </script>
-        <?php
+    if (mysqli_query($conn, $sql)) {
+?>
+        <script>
+            alert("category added.");
+        </script>
+<?php
     }
 }
 
@@ -36,12 +36,14 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
 
     <!-- Custom fonts for this template-->
     <link href="<?php PUBLISHER_PATH ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="<?php PUBLISHER_PATH ?>css/sb-admin-2.min.css" rel="stylesheet">
     <link href="<?php PUBLISHER_PATH ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- toasterPlugin -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
 
 </head>
 
@@ -51,11 +53,11 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <?php include PUBLISHER_PATH."sideBar.php"; ?>
+        <?php include PUBLISHER_PATH . "sideBar.php"; ?>
         <!-- End of Sidebar -->
 
 
-        
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -63,12 +65,12 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
             <div id="content">
 
                 <!-- Topbar -->
-                    <?php include PUBLISHER_PATH."topBar.php"; ?>
+                <?php include PUBLISHER_PATH . "topBar.php"; ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="row p-1">
-                    <div class="col-lg-9" >
+                    <div class="col-lg-9">
                         <div class="card">
                             <div class="card-header">
                                 <h6 class="m-0 font-weight-bold text-primary">Category Data</h6>
@@ -77,7 +79,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
-                                            
+
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Name</th>
@@ -98,20 +100,20 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                 <th>Salary</th>
                                             </tr>
                                         </tfoot> -->
-                                        <tbody >
+                                        <tbody>
 
                                             <?php
                                             $auth_pub = $auth_publisher["publisherId"];
                                             $cat_qry = "SELECT * FROM category WHERE catAuthor = $auth_pub";
                                             $cate_result = mysqli_query($conn, $cat_qry);
-                                            
-                                            while ($category = mysqli_fetch_assoc($cate_result)) {?>
-                                            
+
+                                            while ($category = mysqli_fetch_assoc($cate_result)) { ?>
+
                                                 <tr>
                                                     <style>
-                                                        td{
+                                                        td {
                                                             text-align: left;
-                                                            color:black;
+                                                            color: black;
                                                             font-size: 13px;
                                                         }
                                                     </style>
@@ -120,32 +122,32 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                     <td><?php echo $category["catSlug"] ?></td>
                                                     <td><img style="width:50px; height:50px" src="../image/category/<?php echo $category["catImage"] ?>" alt="Not Found"></td>
                                                     <td><?php echo $category["catCreated_at"] ?></td>
-                                                   
+
                                                     <td>
 
-                                                        <?php 
-                                                            $catid = $category["catId"];
-                                                            $post = mysqli_query($conn,"SELECT postCategory FROM posts WHERE postCategory = '$catid'");
-                                                            $count = mysqli_num_rows($post);
-                                                            echo $count;
+                                                        <?php
+                                                        $catid = $category["catId"];
+                                                        $post = mysqli_query($conn, "SELECT postCategory FROM posts WHERE postCategory = '$catid'");
+                                                        $count = mysqli_num_rows($post);
+                                                        echo $count;
                                                         ?>
 
                                                     </td>
-                                                    <td  class="d-flex justify-content-center align-items-center">
+                                                    <td class="d-flex justify-content-center align-items-center">
                                                         <div class="d-flex">
                                                             <a href="category_delete.php?id=<?php echo  $category["catId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                             <a href="category_update.php?id=<?php echo  $category["catId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                
-                                                
+
+
                                             <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                    
+
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -174,37 +176,37 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                 <div style="display: grid; grid-template-columns:1fr 1fr; text-align:center; grid-template-rows: 1fr 1fr; grid-row-gap: 2px; grid-column-gap: 2px; color:white;">
                                     <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
                                         <strong class="text-bold">Category</strong>
-                                        
+
                                         <p>01</p>
                                     </div>
                                     <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
                                         <strong class="text-bold">Active</strong>
-                                        
+
                                         <p>01</p>
                                     </div>
-                                    
+
                                     <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
                                         <strong class="text-bold">Muted</strong>
-                                        
+
                                         <p>01</p>
                                     </div>
                                     <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
                                         <strong class="text-bold">Author</strong>
-                                        
+
                                         <p>01</p>
                                     </div>
                                     <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
                                         <strong class="text-bold">Most Post</strong>
-                                        
+
                                         <p>01</p>
                                     </div>
-                                    
+
                                     <div class="bg-info rounded p-1 fw-bold fs-1 text-align-center">
                                         <strong class="text-bold">Deleted</strong>
-                                        
+
                                         <p>01</p>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -217,7 +219,7 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            
+
             <!-- End of Footer -->
 
         </div>
@@ -256,6 +258,37 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
 
     <!-- Page level custom scripts -->
     <script src="<?php PUBLISHER_PATH ?>js/demo/datatables-demo.js"></script>
+
+    <!-- toaserPlugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+    <?php
+    if (isset($_SESSION['status'])) {
+        if ($_SESSION['status'] == 'category_added') {
+    ?>
+            <script>
+                toastr.success('Category Added!');
+            </script>
+        <?php
+        };
+
+        if ($_SESSION['status'] == 'category_deleted') {
+        ?>
+            <script>
+                toastr.success('Category Completely Deleted!');
+            </script>
+        <?php
+        }
+        if ($_SESSION['status'] == 'category_updated') {
+        ?>
+            <script>
+                toastr.success('Category Successfully Updated!');
+            </script>
+    <?php
+        }
+    }
+    include '../unset_session.php';
+    ?>
 
 </body>
 

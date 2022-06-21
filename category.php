@@ -31,17 +31,56 @@
 ?>
 
 
+
+        
     <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="container">
-            <nav class="breadcrumb bg-transparent m-0 p-0">
-                <a class="breadcrumb-item" href="index.php">Home</a>
-                <a class="breadcrumb-item" href="category.php?show=all_category">Category</a>
-                <span class="breadcrumb-item active"><?php echo ($category ?? "All Blogs") ?></span>
+            <style>
+                .breadcrumbs-item {
+                    padding: 2px 10px;
+                    margin: 0px 3px;
+                    position: relative;
+                    text-align: center;
+                    color: white;
+                    z-index: 1;;
+                }
+                .breadcrumbs-item:hover {
+                    color:white;
+                }
+
+                .breadcrumbs-item::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #6c757d;
+                    z-index: -1;
+                    transform: skewX(-25deg);
+                }
+                .breadcrumbs-item::before {
+                    content: '';
+                    position: absolute;
+                    top:0;
+                    right: 0;
+                    width: 10%;
+                    height: 130%;
+                    background-color:  #6c757d;
+                    transform: skewx(-25deg);
+                    z-index: -1;
+                }
+            </style>
+            <nav class="breadcrumb">
+                <a class="breadcrumbs-item" href="index.php">Home</a>
+                <a class="breadcrumbs-item" href="category.php?show=all_category">Category</a>
+                <span class="breadcrumbs-item active"><?php echo ($category ?? "All Blogs") ?></span>
             </nav>
         </div>
     </div>
     <!-- Breadcrumb End -->
+
 
 
     <!-- News With Sidebar Start -->

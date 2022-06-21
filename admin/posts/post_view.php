@@ -258,7 +258,7 @@ if (isset($postId)) {
                                                         <td style="padding:0px;"><?php echo $row["postUpdated_at"] ?></td>
                                                         <td style="padding:0px;"  class="d-flex justify-content-center align-items-center">
                                                             <div class="d-flex">
-                                                                <a href="post_delete.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                                <a name='post_delete' href="post_delete.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                                 
                                                             </div>
                                                         </td>
@@ -313,6 +313,68 @@ if (isset($postId)) {
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="../js/demo/datatables-demo.js"></script>
+
+
+    <!-- toastr plugin0 -->
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+    <?php
+    if (isset($_SESSION['status'])) {
+        if ($_SESSION['status'] == 'post_approved') {
+        ?>
+            <script>
+                toastr.success('Post Finally Approved. Post now shown in website.');
+            </script>
+        <?php
+        };
+
+        if ($_SESSION['status'] == 'post_deleted') {
+        ?>
+            <script>
+                toastr.warning('Post Completely Deleted!');
+            </script>
+        <?php
+        }
+        if ($_SESSION['status'] == 'post_unapproved') {
+        ?>
+            <script>
+                toastr.warning('Successfully Unapproved ! Unapproved post are hidden from website.');
+            </script>
+        <?php
+        }
+        if ($_SESSION['status'] == 'rejected') {
+        ?>
+            <script>
+                toastr.warning('Post Rejected !');
+            </script>
+        <?php 
+        }
+        if ($_SESSION['status'] == 'post_updated') {
+        ?>
+            <script>
+                toastr.success('Post Successfully Updated!');
+            </script>
+        <?php
+        }
+        if ($_SESSION['status'] == 'block') {
+        ?>
+            <script>
+                toastr.warning('Post now block. a block post not shown in website !');
+            </script>
+        <?php
+        }
+        if ($_SESSION['status'] == 'post_deleted_err') {
+        ?>
+            <script>
+                toastr.warning('Not Deleted ! Something went wrong.');
+            </script>
+        <?php
+        }
+    }
+    include '../../unset_session.php';
+    ?>
 
 
 </body>

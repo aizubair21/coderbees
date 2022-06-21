@@ -1,4 +1,4 @@
-<?php 
+<?php
 include "../connection.php";
 
 $id = $_GET["id"];
@@ -11,22 +11,21 @@ $sql = "DELETE FROM category where catId = '$id'";
 $result = mysqli_query($conn, $sql);
 
 
-if ($result ){
+if ($result) {
     //force delete image from file
-    @unlink('../image/category/'.$cat['image']);
+    @unlink('../image/category/' . $cat['image']);
+    $_SESSION['status'] = 'post_deleted';
 
-    ?>
-        <script>
-            alert("Successfully Deleted !");
-            window.location.href = "category_index.php";
-        </script>
-    <?php
-}else {
-    ?>
-        <script>
-            alert("Not Deleted !");
-            window.location.href = "category_index.php"
-        </script>
-    <?php
+?>
+    <script>
+        window.location.href = "category_index.php";
+    </script>
+<?php
+} else {
+?>
+    <script>
+        alert("Not Deleted !");
+        window.location.href = "category_index.php"
+    </script>
+<?php
 }
-

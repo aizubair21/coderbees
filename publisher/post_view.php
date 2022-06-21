@@ -1,17 +1,19 @@
 <?php
 include "connection.php";
 
-if(!isset($_SESSION["publisher_key"])){
+if (!isset($_SESSION["publisher_key"])) {
     header("location: login.php");
 }
 
 $postStatus = 1;
 $key = $_SESSION["publisher_key"] ?? "";
 
+print_r($_SESSION);
+
 $post = "SELECT * FROM posts";
 $total_post = mysqli_num_rows(mysqli_query($conn, $post));
 $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postStatus = '$postStatus'"));
- 
+
 
 
 ?>
@@ -32,18 +34,16 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    
+
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="bootstrap-5.1.0-dist/css/bootstrap-utilities.min.css">
 
     <style>
-        td{
+        td {
             text-align: center;
             font-size: 12px;
         }
@@ -57,11 +57,11 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <?php include PUBLISHER_PATH."sideBar.php" ?>
+        <?php include PUBLISHER_PATH . "sideBar.php" ?>
         <!-- End of Sidebar -->
 
 
-        
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -69,7 +69,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
             <div id="content" style="background-color: #8080805e;">
 
                 <!-- Topbar -->
-                <?php include PUBLISHER_PATH."topBar.php" ?>
+                <?php include PUBLISHER_PATH . "topBar.php" ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -78,8 +78,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Publisher CP</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Short Overview</a>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Short Overview</a>
                     </div>
 
                     <!-- Content Row -->
@@ -94,11 +93,11 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Your Posts</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <?php  
-                                                    $auth_pub =  $auth_publisher["publisherId"];
-                                                    echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub"));
+                                                <?php
+                                                $auth_pub =  $auth_publisher["publisherId"];
+                                                echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub"));
                                                 ?>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -117,7 +116,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Approved</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php  echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub AND postStatus = 1"))  ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub AND postStatus = 1"))  ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-check-circle fa-2x text-success"></i>
@@ -138,13 +137,13 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                                       
-                                                        <?php 
-                                                             echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub AND postStatus = 0"))
+
+                                                        <?php
+                                                        echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub AND postStatus = 0"))
                                                         ?>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -165,10 +164,10 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                 Waitting For Approval</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 <?php
-                                                     echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub AND postStatus IS NULL"))
+                                                echo mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postPublisher = $auth_pub AND postStatus IS NULL"))
                                                 ?>
                                             </div>
-                                       </div>
+                                        </div>
                                         <div class="col-auto">
                                             <i class="fas fa-pause fa-2x text-warningee"></i>
                                         </div>
@@ -185,7 +184,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                     <h6 class="m-0 font-weight-bold text-white">Posts Data</h6>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered table-responsive"  id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-bordered table-responsive" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <style>
                                                 th {
@@ -207,51 +206,51 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                         <tbody>
                                             <?php
                                             $auth_publisher = $auth_publisher["publisherId"];
-                                                $post = "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisher.publisherId = posts.postPublisher WHERE posts.postPublisher = $auth_publisher ORDER BY postId ASC ";
-                                                $result = mysqli_query($conn, $post);
+                                            $post = "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisher.publisherId = posts.postPublisher WHERE posts.postPublisher = $auth_publisher ORDER BY postId ASC ";
+                                            $result = mysqli_query($conn, $post);
 
-                                                while ($row = mysqli_fetch_assoc($result)) {?>
-                                                    <style>
-                                                        td {
-                                                            font-size: 11px;
-                                                            padding:20;
+                                            while ($row = mysqli_fetch_assoc($result)) { ?>
+                                                <style>
+                                                    td {
+                                                        font-size: 11px;
+                                                        padding: 20;
 
+                                                    }
+                                                </style>
+
+                                                <tr>
+                                                    <td style="padding:2px;">
+
+                                                        <?php echo $row["postId"] ?>
+
+                                                    </td>
+                                                    <td style="padding:2px;" class="text-left"> <a href="/coderbees/posts?id=<?php echo  $row["postId"] ?>"> <?php echo  $row["postTitle"] ?> </a></td>
+                                                    <td style="padding:2px;" class="text-left"><?php echo  $row["catName"] ?></td>
+                                                    <td style="padding:2px;"><?php echo $row["postTag"] ?></td>
+
+                                                    <td style="padding:2px;">
+
+                                                        <?php
+                                                        if ($row["postStatus"] == NULL) {
+                                                            echo "<strong class='btn btn-danger disabled btn-sm'>Pending</strong>";
+                                                        } elseif ($row["postStatus"] == 1) {
+                                                            echo "<strong class='text text-success'>Approved</strong>";
+                                                        } else {
+                                                            echo "<strong class='text text-warning'>Block</strong>";
                                                         }
-                                                    </style>
-                                                    
-                                                    <tr>
-                                                        <td style="padding:2px;">
-                                                        
-                                                            <?php echo $row["postId"] ?>
-                                                        
-                                                        </td>
-                                                        <td style="padding:2px;" class="text-left"> <a href="/coderbees/posts?id=<?php echo  $row["postId"] ?>"> <?php echo  $row["postTitle"] ?> </a></td>
-                                                        <td style="padding:2px;" class="text-left"><?php echo  $row["catName"] ?></td>
-                                                        <td style="padding:2px;"><?php echo $row["postTag"] ?></td>
-                 
-                                                        <td style="padding:2px;">
+                                                        ?>
 
-                                                            <?php 
-                                                                 if ($row["postStatus"] == NULL) {
-                                                                    echo "<strong class='btn btn-danger disabled btn-sm'>Pending</strong>";
-                                                                }elseif($row["postStatus"] == 1){
-                                                                    echo "<strong class='text text-success'>Approved</strong>";
-                                                                }else {
-                                                                    echo "<strong class='text text-warning'>Block</strong>";
-                                                                }
-                                                            ?>
-
-                                                        </td>
-                                                        <td style="padding:2px;"></td>
-                                                        <td style="padding:2px;"><img style="width:50px; height:50px" src="../image/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
-                                                        <td style="padding:2px;"><?php echo $row["postCreated_at"] ?></td>
-                                                        <td style="padding:2px;"  class="d-flex justify-content-center align-items-center">
-                                                            <div  class="d-flex">
-                                                                <a href="post_delete.php?id=<?php echo $row["postId"] ?>&postPublisher=<?php echo $row["publisherId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                                <a href="post_edit.php?id=<?php echo $row["postId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                    </td>
+                                                    <td style="padding:2px;"></td>
+                                                    <td style="padding:2px;"><img style="width:50px; height:50px" src="../image/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
+                                                    <td style="padding:2px;"><?php echo $row["postCreated_at"] ?></td>
+                                                    <td style="padding:2px;" class="d-flex justify-content-center align-items-center">
+                                                        <div class="d-flex">
+                                                            <a onclick='deletePost()' href="post_delete.php?id=<?php echo $row["postId"] ?>&postPublisher=<?php echo $row["publisherId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="post_edit.php?id=<?php echo $row["postId"] ?>" name='post_delete' title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             <?php } ?>
                                         </tbody>
                                     </table>
@@ -297,13 +296,55 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
-    
+
     <!-- Page level plugins -->
     <script src="<?php PUBLISHER_PATH ?>vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="<?php PUBLISHER_PATH ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="js/demo/datatables-demo.js"></script>
 
 
+    <!-- <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script>
+
+    </script>
+
+
+    <?php
+    if (isset($_SESSION['status'])) {
+        if ($_SESSION['status'] == 'post_added') {
+    ?>
+            <script>
+                toastr.success('Post Finally Added!');
+            </script>
+        <?php
+        };
+
+        if ($_SESSION['status'] == 'post_deleted') {
+        ?>
+            <script>
+                toastr.success('Post Completely Deleted!');
+            </script>
+        <?php
+        }
+        if ($_SESSION['status'] == 'post_updated') {
+        ?>
+            <script>
+                toastr.success('Post Successfully Updated!');
+            </script>
+        <?php
+        }
+        if ($_SESSION['status'] == 'post_delete_error') {
+        ?>
+            <script>
+                toastr.success('Error! something went wrong to delete psot.');
+            </script>
+    <?php
+        }
+    }
+    include '../unset_session.php';
+    ?>
 </body>
 
 </html>

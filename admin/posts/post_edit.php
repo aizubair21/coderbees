@@ -65,11 +65,7 @@ if(isset($_POST["post_update"])){
                         <?php
                    }else {
                         if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/". $_FILES["image"]['name'])) {
-                            ?>
-                                <script>
-                                    alert("Success, Upload done.");
-                                </script>
-                            <?php
+                            $_SESSION['status'] = 'post_updated';
                             header("location: post_view.php");
 
                         }else {

@@ -7,5 +7,6 @@ if(!isset($_SESSION["admin_key"])){
     $post = $_GET["post"];
     $approve_qry = "DELETE FROM posts WHERE postId = '$post'";
     if (mysqli_query($conn, $approve_qry)) {
+        $_SESSION['status'] = 'rejected';
         header("location: post_view.php");
     }

@@ -9,6 +9,7 @@ if (!$_SESSION["admin_key"]) {
     $block = '0';
     $block_qry = mysqli_query($conn, "UPDATE posts SET postStatus = '$block' WHERE postid = '$postId'");
     if ($block_qry) {
+        $_SESSION['status'] = 'block';
         header("location: post_view.php");
     }
 }

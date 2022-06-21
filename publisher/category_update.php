@@ -3,14 +3,14 @@
 
 include "connection.php";
 
-if(!isset($_SESSION["publisher_key"])){
+if (!isset($_SESSION["publisher_key"])) {
     header("location: login.php");
 }
 
- $id = $_REQUEST['id'] ?? "";
+$id = $_REQUEST['id'] ?? "";
 //echo $id;
-if(isset($_POST["caegory_update"])){
-    
+if (isset($_POST["caegory_update"])) {
+
     $name_error = "";
     $user_name_error = "";
     $email_error = "";
@@ -19,80 +19,75 @@ if(isset($_POST["caegory_update"])){
     $error = '';
 
     $name = $_POST["name"];
-    $slug =str_replace(" ","-",$name);
+    $slug = str_replace(" ", "-", $name);
     $author = $_POST["author"];
     $image = $_FILES["image"]["name"];
     $description = $_POST["description"];
     $uid = $_POST["update_id"];
 
-    if(!$_FILES["image"]['name']){
+    if (!$_FILES["image"]['name']) {
 
         $sql = "UPDATE `category` SET `catName`='$name',`catSlug`='$slug',`catAuthor`='$author',`catDescription`='$description' WHERE catId = '$id'";
         if (mysqli_query($conn, $sql)) {
-            header("location: category_index.php");
+            $_SESSION['status'] = 'category_updated';
+            @header("location: category_index.php");
             //echo "done";
             $name = '';
             $slug = '';
             $author = '';
             $description = '';
-        }else{
+        } else {
             echo mysqli_error($conn);
         }
-
-    }else {
+    } else {
         $sql = "UPDATE category SET catName='$name', catSlug='$slug', catAuthor='$author', catImage ='$image',catDescription='$description' WHERE catId = '$id'";
         if (mysqli_query($conn, $sql)) {
-            @unlink('../image/category/'.$row['image']);
-            if ($_FILES["image"]['name'] != ''){
+            @unlink('../image/category/' . $row['image']);
+            if ($_FILES["image"]['name'] != '') {
 
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
-                   
-                   if(strlen($_FILES["image"]["name"]) > 50){
+
+                    if (strlen($_FILES["image"]["name"]) > 50) {
+?>
+                        <script>
+                            alert("Image Name Too long. Please short it !");
+                        </script>
+                        <?php
+                    } else {
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/category/" . $_FILES["image"]['name'])) {
                         ?>
                             <script>
-                                alert("Image Name Too long. Please short it !");
+                                alert("Success, Upload done.");
                             </script>
                         <?php
-                   }else {
-                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/category/". $_FILES["image"]['name'])) {
-                            ?>
-                                <script>
-                                    alert("Success, Upload done.");
-                                </script>
-                            <?php
                             header("location: category_index.php");
                             //echo "upload done";
 
-                        }else {
-                            ?>
-                                <script>
-                                    alert("Faild to upload ! !");
-                                </script>
-                            <?php
-                        }
-                   }
-        
-                }else {
-                    ?>
-                        <script>
-                            alert("Only jpg, png, jpeg file support !");
-                        </script>
+                        } else {
+                        ?>
+                            <script>
+                                alert("Faild to upload ! !");
+                            </script>
                     <?php
+                        }
+                    }
+                } else {
+                    ?>
+                    <script>
+                        alert("Only jpg, png, jpeg file support !");
+                    </script>
+<?php
                 }
-        
             };
 
             $name = '';
             $slug = '';
             $author = '';
             $description = '';
-        }else{
+        } else {
             echo mysqli_error($conn);
         }
     }
-       
-    
-    
 }
 
 
@@ -110,16 +105,15 @@ if(isset($_POST["caegory_update"])){
 
     <title>SB Admin 2 - Dashboard</title>
 
-    
+
     <!-- Custom fonts for this template-->
     <link href="<?php PUBLISHER_PATH ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="<?php PUBLISHER_PATH ?>css/sb-admin-2.min.css" rel="stylesheet">
     <link href="<?php PUBLISHER_PATH ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-   
+
 </head>
 
 <body id="page-top">
@@ -149,13 +143,13 @@ if(isset($_POST["caegory_update"])){
                                     Category Edit
                                 </div>
 
-                                <?php 
-                                    $sql = "SELECT * FROM category where catId = '$id'";
-                                    $result = mysqli_query($conn, $sql);
-                                    $row = mysqli_fetch_assoc($result);
+                                <?php
+                                $sql = "SELECT * FROM category where catId = '$id'";
+                                $result = mysqli_query($conn, $sql);
+                                $row = mysqli_fetch_assoc($result);
                                 ?>
-        
-                            
+
+
                                 <div class="card-body">
 
                                     <form action="" method="POST" enctype="multipart/form-data">
@@ -170,32 +164,35 @@ if(isset($_POST["caegory_update"])){
                                             <div>
                                                 <label class="form-label" for="author ">Author :</label>
                                                 <select name="author" id="author" class="form-control">
-                                                    <?php 
-                                                        $res = mysqli_query($conn, "SELECT * FROM publisher");
-                                                        while($auth = mysqli_fetch_assoc($res)) {?>
+                                                    <?php
+                                                    $res = mysqli_query($conn, "SELECT * FROM publisher");
+                                                    while ($auth = mysqli_fetch_assoc($res)) { ?>
 
-                                                            <option <?php echo($auth["publisherId"] == $row["catAuthor"]) ? 'SELECTED' : '' ?> value="<?php echo $auth["publisherId"];?>"><?php echo $auth["publisherUser_name"] ?></option>
-                                                        
-                                                            <?php } ?>
-                                                    </select>
-                                            </div><hr>
+                                                        <option <?php echo ($auth["publisherId"] == $row["catAuthor"]) ? 'SELECTED' : '' ?> value="<?php echo $auth["publisherId"]; ?>"><?php echo $auth["publisherUser_name"] ?></option>
+
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                            <hr>
 
                                             <div>
                                                 <label class="form-label" for="description ">Description :</label>
                                                 <input type="text" name="description" value="<?php echo $row['description'] ?? "" ?>" id="description" placeholder="category description..." class="form-control">
-                                            </div><hr>
+                                            </div>
+                                            <hr>
 
-                                        
+
                                             <div>
                                                 <label class="form-label" for="image ">image :</label>
                                                 <input type="file" name="image" id="image" placeholder="image..." class="form-control form-upload">
-                                            </div><hr>
-                                           
+                                            </div>
+                                            <hr>
+
 
                                             <div class="d-flex justify-content-between align-items-baseline">
                                                 <a class="btn btn-danger" href="category_index.php">Cancel</a>
                                                 <strong>OR</strong>
-                                                <button type="submit" name="caegory_update"  class="btn btn-primary">Update</button>
+                                                <button type="submit" name="caegory_update" class="btn btn-primary">Update</button>
                                             </div>
 
                                     </form>
@@ -210,7 +207,7 @@ if(isset($_POST["caegory_update"])){
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            
+
             <!-- End of Footer -->
 
         </div>
@@ -226,7 +223,7 @@ if(isset($_POST["caegory_update"])){
 
     <!-- Logout Modal-->
 
-    
+
     <!-- Bootstrap core JavaScript-->
     <script src="<?php PUBLISHER_PATH ?>vendor/jquery/jquery.min.js"></script>
     <script src="<?php PUBLISHER_PATH ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

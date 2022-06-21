@@ -1,7 +1,7 @@
 <?php
 include "connection.php";
 
-if(!isset($_SESSION["publisher_key"])){
+if (!isset($_SESSION["publisher_key"])) {
     header("location: login.php");
 }
 
@@ -25,16 +25,14 @@ $key = $_SESSION["publisher_key"] ?? "";
     <title> Dashboard - coderbees </title>
 
     <!-- Custom fonts for this template-->
-    <link href="<?php PUBLISHER_PATH?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="<?php PUBLISHER_PATH ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="<?php PUBLISHER_PATH?>css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?php PUBLISHER_PATH ?>css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
-        td{
+        td {
             text-align: center;
             font-size: 12px;
         }
@@ -48,11 +46,11 @@ $key = $_SESSION["publisher_key"] ?? "";
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <?php include PUBLISHER_PATH."sideBar.php" ?>
+        <?php include PUBLISHER_PATH . "sideBar.php" ?>
         <!-- End of Sidebar -->
 
 
-        
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -60,7 +58,7 @@ $key = $_SESSION["publisher_key"] ?? "";
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include PUBLISHER_PATH."topBar.php" ?>
+                <?php include PUBLISHER_PATH . "topBar.php" ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -69,8 +67,7 @@ $key = $_SESSION["publisher_key"] ?? "";
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Publisher CP</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Short Overview</a>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Short Overview</a>
                     </div>
 
                     <!-- Content Row -->
@@ -124,7 +121,7 @@ $key = $_SESSION["publisher_key"] ?? "";
                                                 <div class="col-auto">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo mysqli_num_rows(mysqli_query($conn, "SELECT catId FROM category")) ?></div>
                                                 </div>
-                                               
+
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -156,21 +153,10 @@ $key = $_SESSION["publisher_key"] ?? "";
 
 
 
-                    <div class="breadca">
-                        <h3>REMOTE_ADDR</h3>
-                        <pre>
-                            <?php
-                                $ip = $_SERVER;
-                                //print_r($ip);
-
-                                echo md5(1);
-                            ?>
-                        </pre>
-                    </div>
 
                     <!-- Content Row -->
 
-                   
+
 
                 </div>
                 <!-- /.container-fluid -->
@@ -201,22 +187,29 @@ $key = $_SESSION["publisher_key"] ?? "";
 
 
     <!-- Bootstrap core JavaScript-->
-    <script src="<?php PUBLISHER_PATH?>vendor/jquery/jquery.min.js"></script>
-    <script src="<?php PUBLISHER_PATH?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php PUBLISHER_PATH ?>vendor/jquery/jquery.min.js"></script>
+    <script src="<?php PUBLISHER_PATH ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="<?php PUBLISHER_PATH?>vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="<?php PUBLISHER_PATH ?>vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="<?php PUBLISHER_PATH?>js/sb-admin-2.min.js"></script>
+    <script src="<?php PUBLISHER_PATH ?>js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <!-- <script src="<?php PUBLISHER_PATH?>vendor/chart.js/Chart.min.js"></script> -->
+    <!-- <script src="<?php PUBLISHER_PATH ?>vendor/chart.js/Chart.min.js"></script> -->
 
     <!-- Page level custom scripts -->
-    <script src="<?php PUBLISHER_PATH?>js/demo/chart-area-demo.js"></script>
-    <script src="<?php ROOT_PATH?>js/demo/chart-pie-demo.js"></script>
-    <script src="<?php PUBLISHER_PATH?>js/demo/datatables-demo.js"></script>
+    <script src="<?php PUBLISHER_PATH ?>js/demo/chart-area-demo.js"></script>
+    <script src="<?php ROOT_PATH ?>js/demo/chart-pie-demo.js"></script>
+    <script src="<?php PUBLISHER_PATH ?>js/demo/datatables-demo.js"></script>
+
+
+    <!-- tosterpblugin -->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
 
 </body>
 

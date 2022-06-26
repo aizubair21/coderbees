@@ -25,9 +25,6 @@
 </div>
 
 <!-- Topbar End -->
-
-
-
 <!-- nav start -->
 <?php
 $active = "home";
@@ -56,6 +53,9 @@ include "header.php";
 
 ?>
 <!-- nav end -->
+
+
+
 
 
 
@@ -266,98 +266,6 @@ include "header.php";
         </div>
     </div>
 </div>
-
-
-<!-- <div class="container-fluid">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 py-3">
-                    <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Entertainment</h3>
-                    </div>
-                    <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-6.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-5.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-4.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 py-3">
-                    <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Sports</h3>
-                    </div>
-                    <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-3.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-2.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
-                        <div class="position-relative">
-                            <img class="img-fluid w-100" src="img/news-500x280-1.jpg" style="object-fit: cover;">
-                            <div class="overlay position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
-                                    <a href="">Technology</a>
-                                    <span class="px-1">/</span>
-                                    <span>January 01, 2045</span>
-                                </div>
-                                <a class="h4 m-0" href="">Sanctus amet sed ipsum lorem</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div> -->
-<!-- Category News Slider End -->
-
-
 <!-- News With Sidebar Start -->
 <div class="container-fluid py-3">
     <div class="container">
@@ -511,7 +419,7 @@ include "header.php";
                     $popular_qry = mysqli_query($conn, "SELECT postId,post,postTitle,postImage, postCreated_at, postCategory, catName FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 ORDER BY posts.postId DESC LIMIT 4 ");
                     while ($popular = mysqli_fetch_assoc($popular_qry)) { ?>
                         <div class="d-flex mb-3">
-                            <img src="image/<?php echo $popular["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+                            <img src="<?php echo ROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                 <div class="mb-1" style="font-size: 13px;">
                                     <a class='text-primary' href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>

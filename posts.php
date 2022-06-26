@@ -3,7 +3,14 @@ include "connection.php";
 
 $single_post_id = $_GET["post_id"] ?? "";
 if (isset($_GET["post_id"])) {
+
+    //get the post which url was clicked
     $single_post = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisher.publisherId = posts.postPublisher WHERE posts.postId = $single_post_id AND posts.postStatus = 1"));
+
+    //incress value of view
+    $id = $single_post['postId'];
+    $view = ($single_post['view'] + 1);
+    $view = mysqli_query($conn, "UPDATE posts SET view = $view WHERE postId = $id");
 } else {
     header("location: blog.php");
 }
@@ -118,11 +125,11 @@ include "header.php";
                             <div class="d-flex align-items-center justify-content-start text-center">
 
                                 <div class="d-flex align-items-center">
-                                    <button type="button" title="Like" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-up"></i> </button>
+                                    <a href=" <?php echo GlobalROOT_PATH ?>/following_post.php?post=<?php echo $single_post['postId'] ?>" type="button" name="like" title="Like" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-up"></i> </a>
                                     <div class="text-secondary px-2 ">
                                         25
                                     </div>
-                                    <button title="Dislike" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-down"></i> </button>
+                                    <button title="Dislike" name="unlike" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-down"></i> </button>
                                 </div>
                                 <button type="button" class="mx-2 px-2 btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#commentsModal"> <i class="fas fa-comment pe-2"></i>
                                     <?php
@@ -130,7 +137,7 @@ include "header.php";
                                     echo mysqli_num_rows($comnt);
                                     ?>
                                 </button>
-                                <button type="button" class="px-2 btn btn-outline-secondary btn-sm"> <i class="fas fa-eye pe-2"></i> 50 </button>
+                                <button type="button" class="px-2 btn btn-outline-secondary btn-sm"> <i class="fas fa-eye pe-2"></i> <?php echo $single_post['view'] ?> </button>
                             </div>
                         </div>
                     </div>

@@ -51,36 +51,20 @@ if(isset($_POST["category_update"])){
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
                    
                    if(strlen($_FILES["image"]["name"]) > 100){
-                        ?>
-                            <script>
-                                alert("Image Name Too long. Please short it !");
-                                window.location.href = "index.php";
-                            </script>
-                        <?php
+                        $_SESSION['status'] = 'image_length_error';
+                        header("location: index_category.php");
                    }else {
                         if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/category". $_FILES["image"]['name'])) {
-                            ?>
-                                <script>
-                                    alert("Success, Upload done.");
-                                </script>
-                            <?php
+                            $_SESSION['status'] = 'category_updated';
                             header("location: index.php");
 
                         }else {
-                            ?>
-                                <script>
-                                    alert("Faild to upload ! !");
-                                </script>
-                            <?php
+                            $_SESSION['status'] = 'image_error';
                         }
                    }
         
                 }else {
-                    ?>
-                        <script>
-                            alert("Only jpg, png, jpeg file support !");
-                        </script>
-                    <?php
+                    $_SESSION['status'] = 'image_type_error';
                 }
         
             };
@@ -420,7 +404,7 @@ if(isset($_POST["category_update"])){
                             
                                 <div class="card-body">
 
-                                    <form action="" method="POST" enctype="multipart/form-data">
+                                    <form action="update_category.php" method="POST" enctype="multipart/form-data">
                                         <div>
                                             <input type="hidden" name="update_id" value="<?php echo ($_REQUEST['id']) ?>">
 
@@ -519,6 +503,38 @@ if(isset($_POST["category_update"])){
 
     <!-- Page level custom scripts -->
     <script src="../js/demo/datatables-demo.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+    <?php 
+        if (isset($_SESSION['status'])) {
+            if ($_SESSION['status'] = 'image_length_error') {
+            
+                ?>
+                    <script>
+                        toastr.warning('Warning ! Image length too long. Please, short it.');
+                    </script>
+                <?php
+            }
+
+            if ($_SESSION['status'] = 'image_error') {
+                ?>
+                    <script>
+                        toastr.warning('Faild to upload image.');
+                    </script>
+                <?php
+            }
+
+            if ($_SESSION['status'] == 'image_type_error') {
+                ?>
+                    <script>
+                        toastr.warning('Image not support! only jpg, png, jpeg image supported.');
+                    </script>
+                <?php
+            }
+        }
+    ?>
+
 
 </body>
 

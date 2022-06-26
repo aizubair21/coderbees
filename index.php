@@ -27,7 +27,7 @@
             </a>
         </div>
         <div class="col-lg-8 text-center text-lg-right">
-            <img class="img-fluid" src="img/ads-700x70.jpg" alt="">
+            <img class="img-fluid" src="/coderbees/img/ads-700x70.jpg" alt="">
         </div>
     </div>
 </div>
@@ -95,7 +95,7 @@ include "header.php";
                     while ($posts = mysqli_fetch_assoc($post_restlt)) { ?>
 
                         <div class="position-relative overflow-hidden" style="height: 435px;">
-                            <img class="img-fluid h-100" src="image/<?php echo $posts["postImage"] ?>" style="object-fit: cover;">
+                            <img class="img-fluid h-100" src="/coderbees/image/<?php echo $posts["postImage"] ?>" style="object-fit: cover;">
                             <div class="overlay">
                                 <div class="mb-1">
                                     <a class="btn btn-primary btn-sm" href="category.php?category=<?php echo $posts["catSlug"] ?>"> <i class="px-1 fas fa-dot-circle"></i> <?php echo $posts["catName"] ?></a>
@@ -103,7 +103,7 @@ include "header.php";
                                     <a class="text-white" href=""> <i class="px-1 fas fa-clock"></i> <?php echo $posts["postCreated_at"] ?></a>
                                     <a class="btn btn-outline-secondary btn-sm" href="tag.php?tags=<?php echo $posts['postTag'] ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo $posts["postTag"] ?> </a>
                                 </div>
-                                <a class="h2 m-0 text-white font-weight-bold" href="posts.php?post_id=<?php echo $posts['postId'] ?>&title=<?php echo $posts["postTitle"] ?>"><?php echo $posts["postTitle"] ?></a>
+                                <a class="h2 m-0 text-white font-weight-bold" href="posts?post_id=<?php echo $posts['postId']?>"><?php echo $posts["postTitle"] ?></a>
                             </div>
                         </div>
 
@@ -119,7 +119,7 @@ include "header.php";
                         $popular_qry = mysqli_query($conn, "SELECT postId,post,postTitle,postImage, postCreated_at, postCategory, catName FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 ORDER BY posts.postId DESC LIMIT 4 ");
                         while ($popular = mysqli_fetch_assoc($popular_qry)) { ?>
                             <div class="d-flex mb-3">
-                                <img src="image/<?php echo $popular["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover">
+                                <img src="/coderbees/image/<?php echo $popular["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover">
                                 <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                     <div class="mb-1" style="font-size: 13px;">
                                         <a class="text-primary" href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
@@ -159,7 +159,7 @@ include "header.php";
                     while ($business = mysqli_fetch_assoc($business_cat)) { ?>
 
                         <div class="position-relative">
-                            <img class="img-fluid w-100" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
+                            <img class="img-fluid w-100" src="/coderbees/image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
                             <div class="p-2 position-relative bg-light">
                                 <div class="mb-2" style="font-size: 13px;">
                                     <a class="text-primary" href="category.php?category=<?php echo $business["catName"] ?>"><?php echo $business["catName"] ?></a>
@@ -186,7 +186,7 @@ include "header.php";
                     while ($business = mysqli_fetch_assoc($technology_cat)) { ?>
 
                         <div class="position-relative">
-                            <img class="img-fluid w-100" style="height:140px" src="image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
+                            <img class="img-fluid w-100" style="height:140px" src="/coderbees/image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
                             <div class="p-2 position-relative bg-light">
                                 <div class="mb-2" style="font-size: 13px;">
                                     <a class="text-primary" href="category.php?category=<?php echo $business["catName"] ?>"><?php echo $business["catName"] ?></a>
@@ -227,7 +227,7 @@ include "header.php";
                     while ($intertainment = mysqli_fetch_assoc($intertainment_cat)) { ?>
 
                         <div class="d-flex mb-3">
-                            <img src="image/<?php echo $intertainment["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+                            <img src="/coderbees/image/<?php echo $intertainment["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                 <a class="h6 m-0" href="posts.php?post_id=<?php echo $intertainment["postId"] ?>"><?php echo $intertainment["postTitle"] ?></a>
                                 <div class="mt-1" style="font-size: 13px;">
@@ -255,7 +255,7 @@ include "header.php";
                     while ($sports = mysqli_fetch_assoc($sportc_cat)) { ?>
 
                         <div class="d-flex mb-3">
-                            <img src="image/<?php echo $sports["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+                            <img src="/coderbees/image/<?php echo $sports["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                 <a class="h6 m-0" href="posts.php?post_id=<?php echo $sports["postId"] ?>"><?php echo $sports["postTitle"] ?></a>
                                 <div class="mt-1" style="font-size: 13px;">
@@ -526,7 +526,7 @@ include "header.php";
                                     <span class="px-1">/</span>
                                     <span><?php echo $popular["postCreated_at"] ?></span>
                                 </div>
-                                <a class="h6 m-0" href="posts.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
+                                <a class="h6 m-0" href="posts?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
                             </div>
                         </div>
 
@@ -561,5 +561,10 @@ include "header.php";
 
 
 <!-- Footer Start -->
-<?php include "footer.php" ?>
+<?php
+
+    include "footer.php";
+    require_once 'greeting.php';
+?>
+
 <!-- Footer End -->

@@ -22,8 +22,8 @@ function isActive ($modifier) {
 
         ?>
     </title>
-    <link rel="stylesheet" href="bootstrap-5.1.0-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="fontawesome-free-5.15.3-web/css/all.min.css">
+    <link rel="stylesheet" href="/coderbees/bootstrap-5.1.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/coderbees/fontawesome-free-5.15.3-web/css/all.min.css">
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -36,10 +36,10 @@ function isActive ($modifier) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/coderbees/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/coderbees/css/style.css" rel="stylesheet">
 
 
 </head>
@@ -54,21 +54,11 @@ function isActive ($modifier) {
                     
                     <div class="collapse navbar-collapse justify-content-between align-items-center px-0 px-lg-3" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.php" class="nav-item nav-link <?php if ($active == "home") {echo "active";} ?> ">Home</a>
-                            <a href="blog.php" class="nav-item nav-link <?php if ($active == "category") {echo "active";} ?> ">Blog</a>
+                            <a href="<?php url_for('index.php') ?>" class="nav-item nav-link <?php if ($active == "home") {echo "active";} ?> ">Home</a>
+                            <a href="<?php url_for('blog.php') ?>" class="nav-item nav-link <?php if ($active == "category") {echo "active";} ?> ">Blog</a>
                             <a class="nav-item nav-link <?php if ($active == "posts") {echo "active";} ?> ">Single Post</a>
 
-
-
-                            <!-- <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="#" class="dropdown-item">Menu item 1</a>
-                                    <a href="#" class="dropdown-item">Menu item 2</a>
-                                    <a href="#" class="dropdown-item">Menu item 3</a>
-                                </div>
-                            </div> -->
-                            <a href="contact.php" class="nav-item nav-link <?php if ($active == "contact") {echo "active";} ?> ">Contact</a>
+                            <a href="<?php url_for('contact.php')?>" class="nav-item nav-link <?php if ($active == "contact") {echo "active";} ?> ">Contact</a>
                         </div>
                         <form action="search.php" method="GET" class="m-0">
                             <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
@@ -81,12 +71,12 @@ function isActive ($modifier) {
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user-circle"></i></a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="login.php" class=" nav-item nav-link dropdown-item  <?php if ($active == "login") {echo "active";} ?> ">Login</a>
-                                    <a href="register.php" class="nav-item nav-link dropdown-item  <?php if ($active == "register") {echo "active";} ?>">Register</a>
+                                    <a href="<?php url_for('login.php') ?>" class=" nav-item nav-link dropdown-item  <?php if ($active == "login") {echo "active";} ?> ">Login</a>
+                                    <a href="<?php url_for('register.php')?>" class="nav-item nav-link dropdown-item  <?php if ($active == "register") {echo "active";} ?>">Register</a>
                                     <?php 
-                                        if($_SESSION["user_key"] ?? "") {
-                                            echo ' <a href="logout.php" class="dropdown-item">Logout</a>';
-                                        }
+                                        if($_SESSION["user_key"] ?? "") { ?>
+                                            <a href="<?php url_for('logout.php') ?>" class="dropdown-item">Logout</a>;
+                                       <?php }
                                     ?>
                                 </div>
                             </div>

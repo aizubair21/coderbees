@@ -42,6 +42,10 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+    <!-- toaster  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+
+
 </head>
 
 <body id="page-top">
@@ -184,8 +188,8 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
                                                     </td>
                                                     <td  class="d-flex justify-content-center align-items-center">
                                                         <div class="d-flex">
-                                                            <a href="delete.php?id=<?php echo  $row["catId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                            <a href="update.php?id=<?php echo  $row["catId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
+                                                            <a href="delete_category.php?id=<?php echo  $row["catId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="update_cateogry.php?id=<?php echo  $row["catId"] ?>" title="Update" class="btn-info btn-sm"><i class="fas fa-pen-alt"></i></a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -307,6 +311,50 @@ if(isset($_POST["category_add"]) && $_POST["name"] != ""){
 
     <!-- Page level custom scripts -->
     <script src="../js/demo/datatables-demo.js"></script>
+
+    <!-- toastr plugin  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+    <?php
+    if (isset($_SESSION['status'])) {
+        if ($_SESSION['status'] == 'category_added') {
+    ?>
+            <script>
+                toastr.success('Category added successfully.');
+            </script>
+        <?php
+        }
+
+        if ($_SESSION['status'] == 'category_deleted') {
+        ?>
+            <script>
+                toastr.warning('Cateogry Completely Deleted!');
+            </script>
+        <?php
+        }
+
+        if ($_SESSION['status'] == 'category_delete_error') {
+        ?>
+            <script>
+                toastr.warning('ERROR ! something went wrong. Not deleted.');
+            </script>
+        <?php
+        }
+       
+
+        if ($_SESSION['status'] == 'category_updated') {
+        ?>
+            <script>
+                toastr.success('Category Updated!');
+            </script>
+    <?php
+        }
+    }
+    include '../../unset_session.php';
+    ?>
+
+
+
 
 </body>
 

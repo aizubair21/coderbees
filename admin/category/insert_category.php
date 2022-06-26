@@ -31,6 +31,7 @@ if(isset($_POST["category_insert"])){
 
         $sql = "INSERT INTO category (catName, catSlug, catAuthor, catCreated_at, catDescription) VALUES('$name','$slug','$author','$created_at','$description')";
         if (mysqli_query($conn, $sql)) {
+            $_SESSION['status'] = 'category_added';
             header("location: index.php");
             $name = '';
             $slug = '';

@@ -8,7 +8,7 @@ if (!isset($_SESSION["publisher_key"])) {
 $postStatus = 1;
 $key = $_SESSION["publisher_key"] ?? "";
 
-print_r($_SESSION);
+// print_r($_SESSION);
 
 $post = "SELECT * FROM posts";
 $total_post = mysqli_num_rows(mysqli_query($conn, $post));
@@ -316,7 +316,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
         if ($_SESSION['status'] == 'post_added') {
     ?>
             <script>
-                toastr.success('Post Finally Added!');
+                toastr.success('Post Added!');
             </script>
         <?php
         };

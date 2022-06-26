@@ -25,7 +25,7 @@
             <div class="d-flex flex-wrap m-n1">
                 <?php
 
-                $cat_qry = mysqli_query($conn, "SELECT catId, catName FROM category ORDER BY catId DESC LIMIT 10");
+                $cat_qry = mysqli_query($conn, "SELECT catId, catName, catSlug FROM category ORDER BY catId DESC LIMIT 10");
                 if (mysqli_num_rows($cat_qry) > 0) {
                     while ($cat = mysqli_fetch_assoc($cat_qry)) {
                         echo '<a href="category.php?category=' . $cat["catName"] . '" class="btn btn-sm btn-outline-secondary m-1">' . $cat["catName"] . '</a>';
@@ -40,7 +40,7 @@
             <h4 class="font-weight-bold mb-4">Tags</h4>
             <div class="d-flex flex-wrap m-n1">
                 <?php
-                $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts ORDER BY postId DESC LIMIT 10");
+                $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts GROUP BY postTag LIMIT 10");
                 if (mysqli_num_rows($tag_qry) > 0) {
                     while ($tag = mysqli_fetch_assoc($tag_qry)) {
                         echo ' <a href="tag.php?tags=' . $tag["postTag"] . '" class="btn btn-sm btn-outline-secondary m-1">' . $tag["postTag"] . '</a>';
@@ -93,9 +93,34 @@
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
-<script>
-    toastr.success('Welcome to coderbees homePage.');
-</script>
 </body>
 
 </html>
+<?php
+// session_start();
+if (isset($_SESSION['status'])) {
+
+    if ($_SESSION['status'] == 'subscribed') {
+?>
+        <script>
+            toastr.success("Thanks for your subscription. w'll get you email about our servicess.");
+        </script>
+    <?php
+    }
+    if ($_SESSION['status'] == 'comment_success') {
+    ?>
+        <script>
+            toastr.success("Comment successfully added. Connent under review !");
+        </script>
+    <?php
+    } elseif ($_SESSION['status'] == 'comment_reject') {
+    ?>
+        <script>
+            toastr.warning('Something wrong ! You can\'t comment right now');
+        </script>
+<?php
+    }
+
+    include 'unset_session.php';
+}
+?>

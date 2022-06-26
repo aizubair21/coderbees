@@ -21,13 +21,27 @@ if ($user_key) {
        
 }
 
+//relative URI
 
-define('ROOT_PATH', dirname(__DIR__) . '/');
+define('GlobalROOT_PATH', "/".basename(dirname(__FILE__)));
+
+define('ROOT_PATH', dirname(__FILE__) . '/');
 define('ADMIN_PATH', ROOT_PATH."admin/");
 define('PUBLISHER_PATH', ROOT_PATH."publisher/");
 define('CATEGORY_PATH', ROOT_PATH."category/");
 
 
+function url_for ($script_url) {
+    //add the loading '/' if not present.
+    if ($script_url[0] != '/') {
+        $script_url = '/'.$script_url;
+    }
+
+    echo GlobalROOT_PATH . $script_url;
+}
+
+
+//url_for('index.php');
 //echo $auth_user["user_name"];
 
 

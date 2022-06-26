@@ -6,12 +6,12 @@ if (!isset($_SESSION["publisher_key"])) {
 }
 
 $key = $_SESSION["publisher_key"] ?? "";
-$titleEr = '';
-$catEr = '';
-$imgEr = '';
-$postEr = '';
 
 if (isset($_POST["post"])) {
+    $titleEr = '';
+    $catEr = '';
+    $imgEr = '';
+    $postEr = '';
 
     $title = $_POST["title"];
     $author = $auth_publisher["publisherId"];
@@ -23,62 +23,64 @@ if (isset($_POST["post"])) {
 
 
     if ($title == '') {
-        $titleErr = 'true';
+        $titleEr = 'A post title is required !';
     } elseif ($category == '') {
-        $catEr = 'true';
+        $catEr = 'Ctegory is required !';
     } else {
 
-        //echo $created_at;
-        //add post
-        $sql = "INSERT INTO posts (postTitle, postPublisher, postCategory, postTag, post, postImage, postCreated_at) VALUES ('$title','$author','$category','$tag','$description','$image','$created_at')";
-        if (mysqli_query($conn, $sql)) {
-            $_SESSION['status'] = 'post_added';
+        //upload post image to server
+        if ($_FILES["image"]['name']) {
 
-            //upload post image to server
-            if ($_FILES["image"]['name'] != '') {
+            if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
 
-                if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
+                if (strlen($_FILES["image"]["name"]) > 10) { 
+                    $imgEr = 'Image name too long. please short it';
+                } else {
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/" . $_FILES["image"]['name'])) {
+                            //if image successfully uploaded to server
+                            $sql = "INSERT INTO posts (postTitle, postPublisher, postCategory, postTag, post, postImage, postCreated_at) VALUES ('$title','$author','$category','$tag','$description','$image','$created_at')";
+                            if (mysqli_query($conn, $sql)) {
+                                $_SESSION['status'] = 'post_added';
+                                header("location: post_view.php");
 
-                    if (strlen($_FILES["image"]["name"]) > 10) { ?>
+                                $name = '';
+                                $author = '';
+                                $email = '';
+                                $phone = '';
+                            }
+
+                    } else {
+                        ?>
                         <script>
-                            alert("Image Name Too long. Please short it !")
+                            alert("Faild to upload your image !!");
                             window.location.href = "post_add.php";
                         </script>
                         <?php
-                    } else {
-                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../image/" . $_FILES["image"]['name'])) {
-                        } else {
-                        ?>
-                            <script>
-                                alert("Faild to upload your image !!");
-                                window.location.href = "post_add.php";
-                            </script>
-                    <?php
-                        }
-                    }
-                } else {
-                    ?>
-                    <script>
-                        alert("Only jpg, png, jpeg file support !");
-                        window.location.href = "post_add.php";
-                        // toastr.alert("Invalid image formate. Only jpg, png, jpeg file supported !")
-                    </script> <?php
-                            }
-                        };
-
-                        header("location: post_view.php");
-
-                        $name = '';
-                        $author = '';
-                        $email = '';
-                        $phone = '';
-                    } else {
-                        echo mysqli_error($conn);
                     }
                 }
+            } else {
+                        
+               $imger = 'Only Jpg, png, jpeg iamge supported !';
             }
+        }else{
+            //if image not found. then data send into server
+            $sql = "INSERT INTO posts (postTitle, postPublisher, postCategory, postTag, post, postImage, postCreated_at) VALUES ('$title','$author','$category','$tag','$description','$image','$created_at')";
+            if (mysqli_query($conn, $sql)) {
+                $_SESSION['status'] = 'post_added';
+                header("location: post_view.php");
 
-                                ?>
+                $name = '';
+                $author = '';
+                $email = '';
+                $phone = '';
+            }
+        }
+
+            
+    }
+        
+}
+?>
 
 
 <!DOCTYPE html>
@@ -144,9 +146,8 @@ if (isset($_POST["post"])) {
                             <div class="col-lg-8">
                                 <label for="title">Post Title :</label>
                                 <input type="text" name="title" id="title" placeholder="post title.." class="form-control">
-                                <div class=" form-text">
-                                    give your post a meaningfull and unique title
-                                    <p><?php $name_erro ?? "" ?></p>
+                                <div class=" form-text text text-danger">
+                                    <p><?php echo $titleEr ?? "" ?></p>
                                 </div>
 
                             </div>
@@ -162,10 +163,9 @@ if (isset($_POST["post"])) {
                                     }
                                     ?>
                                 </select>
-                                <div class="form-text">
-                                    it is required to select a category. it is make easier to find post.
-                                    <p><?php $cat_error ?? "" ?></p>
-                                </div>
+                                <div class="form-text text text-danger">
+                                    <p><?php echo $catEr ?? "" ?></p>
+                                </div> 
                             </div>
                             <div class="col-lg-12 my-2">
                                 <label for="description">Post Details </label>
@@ -185,8 +185,8 @@ if (isset($_POST["post"])) {
                                 <label for="image">Post Image</label>
                                 <input type="file" name="image" id="image" class="form-control form-input">
                                 <div>
-                                    Feature imag
-                                    <p><?php echo $image_error ?? "" ?></p>
+                                    Featured image
+                                    <p><?php echo $imgEr ?? "" ?></p>
                                 </div>
                             </div>
                             <div class="col-lg-4 float-end">
@@ -256,6 +256,11 @@ if (isset($_POST["post"])) {
             tabsize: 3,
             height: 200
         });
+
+
+        if ($titleEr) {
+            toastr.warning('post title is required !')
+        }
     </script>
 </body>
 

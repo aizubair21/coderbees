@@ -10,10 +10,10 @@ RewriteRule ^(.*)$ $1.php
 RewriteCond %{THE_REQUEST} "^[^ ]* .*?\.PHP[? ].+$"
 RewriteRule .* - [L,R=404]
 
-# RewriteCond %{THE_REQUEST} /([^.]+).php [NC]
-# RewriteRule ^ /%1 [NC,L,R]
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteRule ^([^.]+)$ $1.php [NC,L]
+RewriteCond %{THE_REQUEST} /([^.]+).php [NC]
+RewriteRule ^ /%1 [NC,L,R]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^.]+)$ $1.php [NC,L]
 
 # #home page
 # RewriteRule ^$ index.php [NC,L]
@@ -22,7 +22,7 @@ RewriteRule .* - [L,R=404]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
-# RewriteRule ^post/([0-9]+)$ posts?post_id=$1 [NC,L]
+RewriteRule ^post/([0-9]+)$ posts?post_id=$1 [NC,L]
 
 # RewriteRule ^post/([0-9]+)$ posts?post_id=$1 [NC,L]
 

@@ -11,14 +11,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 text-right d-none d-md-block">
-            <?php
-
-            use function PHPSTORM_META\type;
-
-            echo date("M/d/Y");
-            ?>
-        </div>
     </div>
     <div class="row align-items-center py-2 px-lg-5">
         <div class="col-lg-4">
@@ -103,7 +95,7 @@ include "header.php";
                                     <a class="text-white" href=""> <i class="px-1 fas fa-clock"></i> <?php echo $posts["postCreated_at"] ?></a>
                                     <a class="btn btn-outline-secondary btn-sm" href="tag.php?tags=<?php echo $posts['postTag'] ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo $posts["postTag"] ?> </a>
                                 </div>
-                                <a class="h2 m-0 text-white font-weight-bold" href="posts?post_id=<?php echo $posts['postId']?>"><?php echo $posts["postTitle"] ?></a>
+                                <a class="h2 m-0 text-white font-weight-bold" href="posts?post_id=<?php echo $posts['postId'] ?>"><?php echo $posts["postTitle"] ?></a>
                             </div>
                         </div>
 
@@ -563,8 +555,8 @@ include "header.php";
 <!-- Footer Start -->
 <?php
 
-    include "footer.php";
-    require_once 'greeting.php';
+include "footer.php";
+// require_once 'greeting.php';
 ?>
 
 <!-- Footer End -->

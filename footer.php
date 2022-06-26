@@ -100,13 +100,22 @@
 // session_start();
 if (isset($_SESSION['status'])) {
 
-    if ($_SESSION['status'] == 'subscribed') {
+    if ($_SESSION['status'] == 'subscribe_error') {
 ?>
         <script>
-            toastr.success("Thanks for your subscription. w'll get you email about our servicess.");
+            toastr.info("No need subscrive again. You already subscrived.");
         </script>
     <?php
     }
+
+    if ($_SESSION['status'] == 'subscrived') {
+    ?>
+        <script>
+            toastr.success('Thanks for your subscription. w\'ll mail you our sevicess');
+        </script>
+    <?php
+    }
+
     if ($_SESSION['status'] == 'comment_success') {
     ?>
         <script>

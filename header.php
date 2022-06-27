@@ -82,16 +82,20 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user-circle"></i></a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="<?php url_for('login.php') ?>" class=" nav-item nav-link dropdown-item  <?php if ($active == "login") {
-                                                                                                                    echo "active";
-                                                                                                                } ?> ">Login</a>
-                            <a href="<?php url_for('register.php') ?>" class="nav-item nav-link dropdown-item  <?php if ($active == "register") {
-                                                                                                                    echo "active";
-                                                                                                                } ?>">Register</a>
+
                             <?php
                             if ($_SESSION["user_key"] ?? "") { ?>
-                                <a href="<?php url_for('logout.php') ?>" class="dropdown-item">Logout</a>;
-                            <?php }
+                                <a class="nav-item nav-link dropdwon-item" href="<?php url_for('logout.php') ?>" class="dropdown-item">Logout</a>;
+                            <?php } else {
+                            ?>
+                                <a href="<?php url_for('login.php') ?>" class=" nav-item nav-link dropdown-item  <?php if ($active == "login") {
+                                                                                                                        echo "active";
+                                                                                                                    } ?> ">Login</a>
+                                <a href="<?php url_for('register.php') ?>" class="nav-item nav-link dropdown-item  <?php if ($active == "register") {
+                                                                                                                        echo "active";
+                                                                                                                    } ?>">Register</a>
+                            <?php
+                            }
                             ?>
                         </div>
                     </div>

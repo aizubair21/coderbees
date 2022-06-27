@@ -96,38 +96,97 @@
 </body>
 
 </html>
+
 <?php
-// session_start();
+
+//if session set. then alert swho
 if (isset($_SESSION['status'])) {
 
-    if ($_SESSION['status'] == 'subscribe_error') {
+
+    switch ($_SESSION['status']) {
+        case 'like_login_error':
 ?>
-        <script>
-            toastr.info("No need subscrive again. You already subscrived.");
-        </script>
-    <?php
-    }
+            <script>
+                toastr.warning("Please login to react.");
+            </script>
+        <?php
+            break;
 
-    if ($_SESSION['status'] == 'subscrived') {
-    ?>
-        <script>
-            toastr.success('Thanks for your subscription. w\'ll mail you our sevicess');
-        </script>
-    <?php
-    }
+            //if login. welcomed him
+        case 'greeting':
+        ?>
+            <script>
+                toastr.success("Successfully login.");
+            </script>
+        <?php
 
-    if ($_SESSION['status'] == 'comment_success') {
-    ?>
-        <script>
-            toastr.success("Comment successfully added. Connent under review !");
-        </script>
-    <?php
-    } elseif ($_SESSION['status'] == 'comment_reject') {
-    ?>
-        <script>
-            toastr.warning('Something wrong ! You can\'t comment right now');
-        </script>
+            break;
+
+        case 'subscribe_error':
+        ?>
+            <script>
+                toastr.info('No need subscrive again. You already subscrived.');
+            </script>
+        <?php
+            break;
+
+        case 'subscrived':
+        ?>
+            <script>
+                toastr.success('Thanks for your subscription. w\'ll mail you our sevicess');
+            </script>
+        <?php
+            break;
+
+        case 'comment_success':
+        ?>
+            <script>
+                toastr.info('Comment successfully added. Comment under review !');
+            </script>
+        <?php
+            break;
+
+        case 'comment_reject':
+        ?>
+            <script>
+                toastr.warning('Something wrong ! You can\'t comment right now');
+            </script>
+        <?php
+            break;
+
+            //like alert
+        case 'like':
+        ?>
+            <script>
+                toastr.success('Like added');
+            </script>
+        <?php
+            break;
+
+            //if already liked a post
+        case 'already_liked':
+        ?>
+            <script>
+                toastr.warning("Can't like again. You like it once.");
+            </script>
+        <?php
+            break;
+
+        case 'not_liked_yet':
+        ?>
+            <script>
+                toastr.warning("Like first !");
+            </script>
+        <?php
+            break;
+
+        case 'unlike':
+        ?>
+            <script>
+                toastr.success("Post unliked ");
+            </script>
 <?php
+            break;
     }
 
     include 'unset_session.php';

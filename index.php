@@ -34,7 +34,6 @@ include "header.php";
 
 
 
-
 // $data = [
 //     'id' => 3,
 //     'name' => 'zubair3',
@@ -87,7 +86,7 @@ include "header.php";
                     while ($posts = mysqli_fetch_assoc($post_restlt)) { ?>
 
                         <div class="position-relative overflow-hidden" style="height: 435px;">
-                            <img class="img-fluid h-100" src="/coderbees/image/<?php echo $posts["postImage"] ?>" style="object-fit: cover;">
+                            <img class="img-fluid h-100" src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $posts["postImage"] ?>" style="object-fit: cover;">
                             <div class="overlay">
                                 <div class="mb-1">
                                     <a class="btn btn-primary btn-sm" href="category.php?category=<?php echo $posts["catSlug"] ?>"> <i class="px-1 fas fa-dot-circle"></i> <?php echo $posts["catName"] ?></a>
@@ -111,7 +110,7 @@ include "header.php";
                         $popular_qry = mysqli_query($conn, "SELECT postId,post,postTitle,postImage, postCreated_at, postCategory, catName FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 ORDER BY posts.postId DESC LIMIT 4 ");
                         while ($popular = mysqli_fetch_assoc($popular_qry)) { ?>
                             <div class="d-flex mb-3">
-                                <img src="/coderbees/image/<?php echo $popular["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover">
+                                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover">
                                 <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                     <div class="mb-1" style="font-size: 13px;">
                                         <a class="text-primary" href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
@@ -306,7 +305,7 @@ include "header.php";
                                 }
                             </style>
                             <div class="position-relative wrapper-div bg-light">
-                                <img class="image-wrapper image-fluid w-100" style="height: 240px;" src="image/<?php echo $latest['postImage'] ?>" alt="Not Found !">
+                                <img class="image-wrapper image-fluid w-100" style="height: 240px;" src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $latest['postImage'] ?>" alt="Not Found !">
                                 <div class="wrapper p-2">
                                     <div class="mb-1 fs-6 bg-secondary-50">
                                         <a class='text-primary' style='font-size:small' href="category.php?category=<?php echo $latest['catName'] ?>"> <i class="px-2 fas fa-arrow-circle-right"></i> <?php echo $latest['catName'] ?></a>
@@ -419,7 +418,7 @@ include "header.php";
                     $popular_qry = mysqli_query($conn, "SELECT postId,post,postTitle,postImage, postCreated_at, postCategory, catName FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 ORDER BY posts.postId DESC LIMIT 4 ");
                     while ($popular = mysqli_fetch_assoc($popular_qry)) { ?>
                         <div class="d-flex mb-3">
-                            <img src="<?php echo ROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+                            <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                 <div class="mb-1" style="font-size: 13px;">
                                     <a class='text-primary' href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
@@ -466,5 +465,6 @@ include "header.php";
 include "footer.php";
 // require_once 'greeting.php';
 ?>
-
 <!-- Footer End -->
+
+<!-- post view count -->

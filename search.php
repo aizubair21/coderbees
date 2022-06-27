@@ -85,14 +85,14 @@ $total_page = ceil($total_row / $result_per_page);
                                 while ($search_item = mysqli_fetch_array($popular_qry)) { ?>
                                     <div class="col-lg-6">
                                         <div class="d-flex mb-3">
-                                            <img src="image/<?php echo $search_item["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+                                            <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $search_item["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
                                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                                 <div class="mb-1" style="font-size: 13px;">
                                                     <a href="category.php?category=<?php echo $search_item['catName'] ?>"><?php echo $search_item["catName"] ?></a>
                                                     <span class="px-1">/</span>
                                                     <span><?php echo $search_item["postCreated_at"] ?></span>
                                                 </div>
-                                                <a class="h6 m-0" href="single_post.php?post_id=<?php echo $search_item["postId"] ?>"><?php echo $search_item["postTitle"] ?></a>
+                                                <a class="h6 m-0" href="posts.php?post_id=<?php echo $search_item["postId"] ?>"><?php echo $search_item["postTitle"] ?></a>
 
                                                 <a class='text text-secondary py-2' href="tag.php?tags=<?php echo $search_item["postTag"] ?>"><?php echo $search_item["postTag"] ?></a>
                                             </div>

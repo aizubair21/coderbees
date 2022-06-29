@@ -71,7 +71,7 @@
                                                                                             echo "active";
                                                                                         } ?> ">Contact</a>
                 </div>
-                <form action="search.php" method="GET" class="m-0">
+                <form action="<?php echo GlobalROOT_PATH ?>/search.php" method="GET" class="m-0">
                     <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
                         <input type="text" class="form-control" placeholder="Keyword" name="search">
                         <button class="input-group-text text-secondary"><i class="fa fa-search"></i></button>
@@ -80,7 +80,7 @@
                 </form>
                 <div class="navbar-nav mr-5 py-0">
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user-circle"></i></a>
+                        <div class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user-circle"></i></div>
                         <div class="dropdown-menu rounded-0 m-0">
 
                             <?php

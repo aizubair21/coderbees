@@ -180,7 +180,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
-                                <div class="card-header bg-primary " style="overflow:scroll">
+                                <div class="card-header bg-primary">
                                     <h6 class="m-0 font-weight-bold text-white">Posts Data</h6>
                                 </div>
                                 <div class="card-body">
@@ -203,6 +203,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                 <th>E/D</th>
                                             </tr>
                                         </thead>
+
                                         <tbody>
                                             <?php
                                             $auth_publisher = $auth_publisher["publisherId"];
@@ -224,7 +225,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                         <?php echo $row["postId"] ?>
 
                                                     </td>
-                                                    <td style="padding:2px;" class="text-left"> <a href="/coderbees/posts?id=<?php echo  $row["postId"] ?>"> <?php echo  $row["postTitle"] ?> </a></td>
+                                                    <td style="padding:2px;" class="text-left"> <a href="/coderbees/posts?post_id=<?php echo  $row["postId"] ?>"> <?php echo  $row["postTitle"] ?> </a></td>
                                                     <td style="padding:2px;" class="text-left"><?php echo  $row["catName"] ?></td>
                                                     <td style="padding:2px;"><?php echo $row["postTag"] ?></td>
 

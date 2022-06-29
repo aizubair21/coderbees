@@ -4,7 +4,7 @@ include "connection.php";
 
 
 if (isset($_GET["subscribe"])) {
-    $uri = ($_SERVER['HTTP_REFERER']) ?? 'index.php';
+    $uri = ($_SERVER['HTTP_REFERER']) ?? '../index.php';
 
     $subscriber_email =  $_GET["email"];
     $subscribeOn = date("M/d/y");

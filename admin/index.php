@@ -283,17 +283,17 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                                     </div>
                                                                     <div class="d-flex justify-content-between align-items-baseline">
                                                                         <?php if ($req_post["publisherStatus"] = 1) { ?> <button class="btn btn-success btn-sm disabled">Active</button> <?php } else {
-                                                                            echo "<button class='btn btn-danger btn-sm disabled' >Block</button>";
-                                                                        } ?>
+                                                                                                                                                                                            echo "<button class='btn btn-danger btn-sm disabled' >Block</button>";
+                                                                                                                                                                                        } ?>
                                                                     </div>
                                                                     <hr>
                                                                     <div>
                                                                         <strong>Posts :
-                                                                        <?php
+                                                                            <?php
                                                                             $puId = $req_post["publisherId"];
                                                                             $stmt = mysqli_query($conn, "SELECT postId FROM posts WHERE postPublisher = '$puId'");
-                                                                            echo mysqli_num_rows($stmt);  
-                                                                        ?></strong>
+                                                                            echo mysqli_num_rows($stmt);
+                                                                            ?></strong>
                                                                     </div>
                                                                 </div>
                                                             </div>

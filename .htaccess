@@ -12,15 +12,19 @@ RewriteRule .* - [L,R=404]
 
 # #home page
 RewriteRule ^$ index.php [NC,L]
+RewriteRule ^/admin$ admin/index.php[NC,L]
+RewriteRule ^/publicher$ publisher/index.php[NC,L]
+RewriteRule ^posts/([0-9]+)$ posts.php?post_id=$1[NC,L]
 
-
-# seo friendly url
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule ^ home.php [NC,L]
-RewriteRule ^posts/([0-9]+)$ posts?post_id=$1[NC,L]
+RewriteRule ^category/([a-z]+) category?category=$1[NC,L]
 
-# RewriteRule ^post/([0-9]+)$ posts?post_id=$1 [NC,L]
+# if url not found
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ error.php [NC,L]
+
+
 
 

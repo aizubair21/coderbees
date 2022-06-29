@@ -35,7 +35,7 @@ include "header.php";
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background-color: #6c757d;
+                background-color: #ED1C24;
                 z-index: -1;
                 transform: skewX(-25deg);
             }
@@ -47,7 +47,7 @@ include "header.php";
                 right: 0;
                 width: 10%;
                 height: 130%;
-                background-color: #6c757d;
+                background-color: #ED1C24;
                 transform: skewx(-25deg);
                 z-index: -1;
             }

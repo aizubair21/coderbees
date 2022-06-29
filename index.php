@@ -89,7 +89,7 @@ include "header.php";
                             <img class="img-fluid h-100" src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $posts["postImage"] ?>" style="object-fit: cover;">
                             <div class="overlay">
                                 <div class="mb-1">
-                                    <a class="btn btn-primary btn-sm" href="category.php?category=<?php echo $posts["catSlug"] ?>"> <i class="px-1 fas fa-dot-circle"></i> <?php echo $posts["catName"] ?></a>
+                                    <a class="btn btn-primary btn-sm" href="category/<?php echo $posts["catSlug"] ?>"> <i class="px-1 fas fa-dot-circle"></i> <?php echo $posts["catName"] ?></a>
                                     <span class="px-2 text-white">/</span>
                                     <a class="text-white" href=""> <i class="px-1 fas fa-clock"></i> <?php echo $posts["postCreated_at"] ?></a>
                                     <a class="btn btn-outline-secondary btn-sm" href="tag.php?tags=<?php echo $posts['postTag'] ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo $posts["postTag"] ?> </a>
@@ -274,7 +274,7 @@ include "header.php";
                     <div class="col-12">
                         <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
                             <h3 class="m-0">Latest</h3>
-                            <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
+                            <a class="text-secondary font-weight-medium text-decoration-none" href="#">View All</a>
                         </div>
                     </div>
 
@@ -353,11 +353,11 @@ include "header.php";
                     <div class="bg-light text-justify p-4 mb-3">
                         <p>Wanna subscribe your newslatter. Everytime you get an email, if there anything chagnge of updated or added.<br>If you do please subscribe !</p>
                         <div class="input-group" style="width: 100%;">
-                            <form action="subscribe.php" method="get">
+                            <form action="subscribe.php" method="GET">
                                 <input type="email" class="form-control form-control-lg" placeholder="Your Email" name="email">
                                 <small>Subscribe can get all emaail by his provided email.</small>
                                 <div class="input-group-append py-3">
-                                    <button name="subscribe" class="btn btn-primary">Subscribe</button>
+                                    <button type="submit" name="subscribe" class="btn btn-primary">Subscribe</button>
                                 </div>
 
                             </form>

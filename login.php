@@ -5,11 +5,11 @@ $active = "login";
 require 'connection.php';
 
 //get previous url. if not exist index.php is set.
-$redirectURI = $_SERVER['HTTP_REFERER'] ?? '/coderbees/index.php';
+$redirectURI = $_SERVER['HTTP_REFERER'];
 // echo $redirectURI;
 
 if ($key = $_SESSION['user_key'] ?? "") {
-    header("location: $redirectURI");
+    header("location: $redirectURI ?? index.php");
 }
 
 $email_error = '';
@@ -32,6 +32,7 @@ if (isset($_POST["user_login"])) {
         if (password_verify($password, $row["userPassword"]) || $password == $row["userPassword"]) {
             $_SESSION["user_key"] = $row["userId"];
             $_SESSION["status"] = "greeting";
+            header("location: $redirectURI");
         } else {
             $pass_error = "Password not matched !";
         }

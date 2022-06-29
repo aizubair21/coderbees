@@ -13,7 +13,7 @@ if (isset($_GET["post_id"])) {
         //incress value of view
         $id = $single_post['postId'];
         $view = ($single_post['view'] < 1) ? 1 : $single_post['view'] + 1;
-        // $view = mysqli_query($conn, "UPDATE posts SET view = $view WHERE postId = $id");
+        $view = mysqli_query($conn, "UPDATE posts SET view = $view WHERE postId = $id");
     } else {
         $redirectURI = $_SERVER['HTTP_REFERER'];
         header("location: home.php");
@@ -60,7 +60,7 @@ include "header.php";
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background-color: #6c757d;
+                background-color: #ED1C24;
                 z-index: -1;
                 transform: skewX(-25deg);
             }
@@ -72,12 +72,12 @@ include "header.php";
                 right: 0;
                 width: 10%;
                 height: 130%;
-                background-color: #6c757d;
+                background-color: #ED1C24;
                 transform: skewx(-25deg);
                 z-index: -1;
             }
         </style>
-        <nav class="breadcrumb">
+        <nav class="">
             <a class="breadcrumbs-item" href="index.php">Home</a>
             <a class="breadcrumbs-item" href="blog.php">Post</a>
             <span class="breadcrumbs-item active"><?php echo $single_post["postTitle"] ?? "" ?></span>
@@ -164,7 +164,7 @@ include "header.php";
 
                     <div class="bg-light mb-3" style="padding: 30px">
                         <h3 class="mb-4 text-primary">Leave a comment</h3>
-                        <form action="comment.php" method="POST" class="">
+                        <form action="<?php echo GlobalROOT_PATH ?>/function/comment.php" method="POST" class="">
                             <input type="hidden" name="postId" value="<?php echo $single_post_id ?>">
                             <input type="hidden" name="publisherId" value="<?php echo $single_post["postPublisher"] ?>">
                             <div class="form-group d-flex justify-content-between align-items-center">
@@ -194,7 +194,7 @@ include "header.php";
                     <div class="bg-light text-justify p-4 mb-3">
                         <p>Wanna subscribe your newslatter. Everytime you get an email, if there anything chagnge of updated or added.<br>If you do please subscribe !</p>
                         <div class="input-group" style="width: 100%;">
-                            <form action="subscribe.php" method="get">
+                            <form action="<?php echo GlobalROOT_PATH ?>/subscribe.php" method="get">
                                 <input type="email" class="form-control form-control-lg" placeholder="Your Email" name="email" required>
                                 <small>Subscribe can get all emaail by his provided email.</small>
                                 <div class="input-group-append py-3">

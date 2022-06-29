@@ -48,7 +48,7 @@ if (isset($_GET["page"])) {
 $key = $_GET["search"] ?? "";
 $result_per_page = 6;
 $page_first_result = ($page - 1) * $result_per_page;
-$total_row = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%'"));
+$total_row = mysqli_num_rows(mysqli_query($conn, "SELECT postId FROM posts WHERE postStatus = 1 AND postTitle LIKE '%$key%' OR post LIKE '%$key%'"));
 $total_page = ceil($total_row / $result_per_page);
 
 ?>
@@ -76,13 +76,13 @@ $total_page = ceil($total_row / $result_per_page);
                     <?php
                     if (isset($_GET["search"])) {
 
-                        $popular_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%' ORDER BY posts.postId DESC LIMIT $page_first_result, $result_per_page");
+                        $search_qry = mysqli_query($conn, "SELECT postId, postTitle, postTag, postCategory, postImage, postCreated_at, catName, catId FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%' ORDER BY posts.postId DESC LIMIT $page_first_result, $result_per_page");
                         if ($_GET["search"] == "") {
                             echo "<strong class='alert alert-warning'>Nothing Else !</strong>";
                         } else {
-                            if (($total_result = mysqli_num_rows($popular_qry)) > 0) {
+                            if (($total_result = mysqli_num_rows($search_qry)) > 0) {
                                 echo "<p class='text text-secondary font-normal'> $total_result result show this page </p>";
-                                while ($search_item = mysqli_fetch_array($popular_qry)) { ?>
+                                while ($search_item = mysqli_fetch_array($search_qry)) { ?>
                                     <div class="col-lg-6">
                                         <div class="d-flex mb-3">
                                             <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $search_item["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
@@ -177,7 +177,7 @@ $total_page = ceil($total_row / $result_per_page);
                     <div class="bg-light text-justify p-4 mb-3">
                         <p>Wanna subscribe your newslatter. Everytime you get an email, if there anything chagnge of updated or added.<br>If you do please subscribe !</p>
                         <div class="input-group" style="width: 100%;">
-                            <form action="subscribe.php" method="get">
+                            <form action="<?php echo GlobalROOT_PATH ?>/subscribe.php" method="get">
                                 <input type="email" class="form-control form-control-lg" placeholder="Your Email" name="email">
                                 <small>Subscribe can get all email by his provided email.</small>
                                 <div class="input-group-append py-3">

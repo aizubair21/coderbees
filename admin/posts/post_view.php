@@ -187,8 +187,9 @@ if (isset($postId)) {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
-                                <div class="card-header bg-primary ">
-                                    <h6 class="m-0 font-weight-bold text-white">Posts Data</h6>
+                                <div class="card-header d-flex justify-content-between align-items-baseline">
+                                    <h6 class="m-0 font-weight-bold">Posts Data</h6>
+                                    <a class="btn btn-primary btn-sm rounded-pill px-3 shadow-lg" href="post_add.php">Add Post</a>
                                 </div>
                                 <div class="card-body">
                                     <table class="table table-bordered table-responsive" id="dataTable" width="100%" cellspacing="0">
@@ -256,7 +257,8 @@ if (isset($postId)) {
                                                     <td style="padding:0px;"><?php echo $row["postUpdated_at"] ?></td>
                                                     <td style="padding:0px;" class="d-flex justify-content-center align-items-center">
                                                         <div class="d-flex">
-                                                            <a name='post_delete' href="post_delete.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a name='post_delete' href="post_delete.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a class="btn btn-outline-success btn-sm" href="post_edit.php?post=<?php echo $row['postId'] ?>"> <i class="fas fa-pen"></i> </a>
 
                                                         </div>
                                                     </td>

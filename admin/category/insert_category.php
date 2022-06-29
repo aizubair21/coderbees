@@ -3,15 +3,15 @@
 
 include "../connection.php";
 
-if(!isset($_SESSION["admin_key"])){
+if (!isset($_SESSION["admin_key"])) {
     header("location: ../index.php");
 }
 
 
- $id = $_REQUEST['id'] ?? "";
+$id = $_REQUEST['id'] ?? "";
 
-if(isset($_POST["category_insert"])){
-    
+if (isset($_POST["category_insert"])) {
+
     $name_error = "";
     $user_name_error = "";
     $email_error = "";
@@ -20,14 +20,14 @@ if(isset($_POST["category_insert"])){
     $error = '';
 
     $name = $_POST["name"];
-    $slug = $slug = strtolower(str_replace(" ","-",$name));
+    $slug = $slug = strtolower(str_replace(" ", "-", $name));
     $author = $auth_admin["adminId"];
     $image = $_FILES["image"]["name"];
     $description = $_POST["description"];
     $created_at = date("y-m-d");
     $cat = mysqli_fetch_assoc(mysqli_query($conn, "SELECT catImage FROM category WHERE catId = '$id'"));
 
-    if(!$_FILES["image"]['name']){
+    if (!$_FILES["image"]['name']) {
 
         $sql = "INSERT INTO category (catName, catSlug, catAuthor, catCreated_at, catDescription) VALUES('$name','$slug','$author','$created_at','$description')";
         if (mysqli_query($conn, $sql)) {
@@ -37,55 +37,49 @@ if(isset($_POST["category_insert"])){
             $slug = '';
             $author = '';
             $description = '';
-        }else{
+        } else {
             echo mysqli_error($conn);
         }
-
-    }else {
+    } else {
         $sql = "INSERT INTO category (catName, catSlug, catAuthor,catCreated_at, catImage, catDescription) VALUES('$name','$slug','$author','$created_at','$image','$description')";
         if (mysqli_query($conn, $sql)) {
-            if ($_FILES["image"]['name'] != ''){
+            if ($_FILES["image"]['name'] != '') {
 
                 if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
-                   
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/category". $_FILES["image"]['name'])) {
-                        @unlink("../../image/category/".$cat["catImage"]);
-                        ?>
-                            <script>
-                                alert("Successfully inserted ");
-                                window.location.href = "index.php";
-                            </script>
-                        <?php
 
-                    }else {
-                        ?>
-                            <script>
-                                alert("Faild to upload ! !");
-                            </script>
-                        <?php
-                    }
-        
-                }else {
-                    ?>
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/category" . $_FILES["image"]['name'])) {
+                        @unlink("../../image/category/" . $cat["catImage"]);
+?>
                         <script>
-                            alert("Only jpg, png, jpeg file support !");
+                            alert("Successfully inserted ");
+                            window.location.href = "index.php";
                         </script>
                     <?php
+
+                    } else {
+                    ?>
+                        <script>
+                            alert("Faild to upload ! !");
+                        </script>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <script>
+                        alert("Only jpg, png, jpeg file support !");
+                    </script>
+<?php
                 }
-        
             };
 
             $name = '';
             $slug = '';
             $author = '';
             $description = '';
-        }else{
+        } else {
             echo mysqli_error($conn);
         }
     }
-       
-    
-    
 }
 
 
@@ -105,9 +99,7 @@ if(isset($_POST["category_insert"])){
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
@@ -121,11 +113,11 @@ if(isset($_POST["category_insert"])){
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php include ADMIN_PATH."sideBar.php"; ?>
+        <?php include  "../sideBar.php"; ?>
         <!-- End of Sidebar -->
 
 
-        
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -133,7 +125,7 @@ if(isset($_POST["category_insert"])){
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include ADMIN_PATH."topBar.php"; ?>
+                <?php include "../topBar.php"; ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -143,7 +135,7 @@ if(isset($_POST["category_insert"])){
                         <div class="col-6">
                             <div class="card">
                                 <div class="bg-primary text-white p-3" style="font-size:20px; text-align:center; font-weight:bold">
-                                    Insert Category 
+                                    Insert Category
                                 </div>
 
                                 <div class="card-body">
@@ -153,26 +145,28 @@ if(isset($_POST["category_insert"])){
 
                                             <div>
                                                 <label class="form-label" for="name ">Name :</label>
-                                                <input type="text" name="name"  id="name" placeholder="Nname..." class="form-control">
+                                                <input type="text" name="name" id="name" placeholder="Nname..." class="form-control">
                                             </div><br>
 
                                             <div>
                                                 <label class="form-label" for="description ">Description :</label>
-                                                <input type="text" name="description"  id="description" placeholder="category description..." class="form-control">
-                                            </div><hr>
+                                                <input type="text" name="description" id="description" placeholder="category description..." class="form-control">
+                                            </div>
+                                            <hr>
 
-                                            
+
 
                                             <div>
 
                                                 <label class="form-label" for="image ">image :</label>
                                                 <input type="file" name="image" id="image" placeholder="image..." class="form-control form-file">
-                                            </div><hr>
-                                        
+                                            </div>
+                                            <hr>
+
                                             <div class="d-flex justify-content-between align-items-baseline">
                                                 <a class="btn btn-danger" href="index.php">Cancel</a>
                                                 <strong>OR</strong>
-                                                <button type="submit" name="category_insert"  class="btn btn-primary">Insert</button>
+                                                <button type="submit" name="category_insert" class="btn btn-primary">Insert</button>
                                             </div>
 
                                     </form>
@@ -187,7 +181,7 @@ if(isset($_POST["category_insert"])){
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            
+
             <!-- End of Footer -->
 
         </div>

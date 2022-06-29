@@ -1,14 +1,14 @@
 <?php
 include "../connection.php";
 
-if(!isset($_SESSION["admin_key"])){
+if (!isset($_SESSION["admin_key"])) {
     header("location: ../index.php");
 }
 
 $key = $_SESSION["admin_key"] ?? "";
 
 
-if(isset($_POST["post"])){
+if (isset($_POST["post"])) {
 
     $title = $_POST["title"];
     $author = $auth_admin["adminId"];
@@ -24,39 +24,36 @@ if(isset($_POST["post"])){
     if (mysqli_query($conn, $sql)) {
 
         //upload post image to server
-        if ($_FILES["image"]['name'] != ''){
+        if ($_FILES["image"]['name'] != '') {
 
             if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
-            
-            if(strlen($_FILES["image"]["name"]) > 50){
-                    ?>
-                        <script>
-                            alert("Image Name Too long. Please short it !");
-                            window.location.href = "post_add.php";
-                        </script>
-                    <?php
-            }else {
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/". $_FILES["image"]['name'])) {
-                        
-                    }else {
-                        ?>
-                            <script>
-                                alert("Faild to upload your image !!");
-                                window.location.href = "post_add.php";
-                            </script>
-                        <?php
-                    }
-            }
 
-            }else {
-                ?>
+                if (strlen($_FILES["image"]["name"]) > 50) {
+?>
                     <script>
-                        alert("Only jpg, png, jpeg file support !");
+                        alert("Image Name Too long. Please short it !");
                         window.location.href = "post_add.php";
                     </script>
+                    <?php
+                } else {
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/" . $_FILES["image"]['name'])) {
+                    } else {
+                    ?>
+                        <script>
+                            alert("Faild to upload your image !!");
+                            window.location.href = "post_add.php";
+                        </script>
                 <?php
+                    }
+                }
+            } else {
+                ?>
+                <script>
+                    alert("Only jpg, png, jpeg file support !");
+                    window.location.href = "post_add.php";
+                </script>
+<?php
             }
-
         };
 
         header("location: post_view.php");
@@ -65,11 +62,9 @@ if(isset($_POST["post"])){
         $author = '';
         $email = '';
         $phone = '';
-    }else{
+    } else {
         echo mysqli_error($conn);
     }
- 
-
 }
 
 ?>
@@ -90,17 +85,15 @@ if(isset($_POST["post"])){
 
     <!-- Custom fonts for this template-->
     <link href="<?php echo ADMIN_PATH ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="<?php echo ADMIN_PATH ?>css/sb-admin-2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    
+
     <style>
-        td{
+        td {
             text-align: center;
             font-size: 12px;
         }
@@ -108,17 +101,17 @@ if(isset($_POST["post"])){
 
 </head>
 
-<body id="page-top" >
+<body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
-            <?php include l_ADMIN_PATH."sideBar.php" ?>
+        <?php include l_ADMIN_PATH . "sideBar.php" ?>
         <!-- End of Sidebar -->
 
 
-        
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -126,70 +119,162 @@ if(isset($_POST["post"])){
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include l_ADMIN_PATH."topBar.php" ?>
+                <?php include l_ADMIN_PATH . "topBar.php" ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid" style="background-color: rgba(0,0,0,0.2);" >
+                <div class="container-fluid">
                     <!-- Content Row -->
-                    
-                    <form action="" method="post" class="card text-dark" enctype="multipart/form-data" >
-                        <div class="card-header">
-                            <h6 class="m-0 font-weight-bold text-primary">Add A New Post</h6>
-                        </div>
-                        <div class="row p-2 card-body">
-                            <div class="col-lg-8">
-                                <label for="title">Post Title :</label>
-                                <input type="text" name="title" id="title" placeholder="post title.." class="form-control">
-                                <div class="form-text">
-                                    give your post a meaningfull and unique title
-                                    <p><?php $name_erro ?? "" ?></p>
-                                </div>
-                                
-                            </div>
-                            <div class="col-lg-4">
-                                <label for="category">Category</label>
-                                <select name="category" id="category"  class="form-select form-control" aria-label="Default select example">
-                                    <option > Select category </option>
-                                    <?php 
-                                        
-                                        $result = mysqli_query($conn, "SELECT * FROM category");
-                                        while ($row = mysqli_fetch_array($result)) {
-                                            echo "<option value='".$row['catId']."'>".$row['catName']."</option>";
-                                        }
-                                    ?>
-                                </select>
-                                <div class="form-text">
-                                    it is required to select a category. it is make easier to find post.
-                                    <p><?php $cat_error ?? "" ?></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 my-2">
-                                <label for="description">Post Details </label>
-                                <textarea class="form-control" name="description" id="summernote"></textarea>
-                                <div class="form-text">
-                                    Describe your post
-                                </div>
-                            </div><hr>
 
-                            <div class="col-lg-6">
-                                <label for="tab">Tag</label>
-                                <input type="text" name="tag" id="tag" class="form-control" placeholder="ex : intetainment">
-                            </div>
 
-                            <div class="col-lg-6">
-                                <label for="image">Post Image</label>
-                                <input type="file" name="image" id="image" class="form-control form-input">
-                                <div>
-                                    Feature imag
-                                    <p><?php echo $image_error ?? "" ?></p>
+                    <h6 class="m-0 font-weight-bold text-light">Add A New Post</h6>
+
+                    <form action="" method="post" class="" enctype="multipart/form-data">
+                        <style>
+                            input,
+                            select {
+                                background-color: transparent !important;
+
+                            }
+                        </style>
+                        <fieldset>
+                            <legend>Add A New Posts</legend>
+                            <div class="row">
+                                <!-- left side -->
+                                <div class="col-lg-8">
+
+                                    <!-- title -->
+                                    <div class="">
+                                        <input type="text" name="title" id="title" placeholder="Post Title.." class="form-control" aria-describedby="titleDescription">
+                                        <div id="titleDescription" class="form-text text-info">
+                                            <i class="fas fa-arrow-circle-right"></i> give your post a meaningfull and unique title
+                                            <p><?php $name_erro ?? "" ?></p>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- post -->
+                                    <div class="my-2">
+                                        <label for="description" class="form-label">Post : </label>
+                                        <textarea class="form-control" name="description" id="summernote"></textarea>
+                                        <div class="form-text text-info">
+                                            <i class="fas fa-arrow-circle-right"></i> Describe your post
+                                        </div>
+                                    </div>
+
+
                                 </div>
-                            </div>
-                            <div class="col-lg-4 float-end">
-                                <input  type="submit" name="post" class="btn btn-primary btn-md float-end" value="Post">
-                            </div>
 
-                        </div>
+
+                                <!-- right side -->
+                                <div class="col-lg-4">
+                                    <!-- category -->
+                                    <div>
+                                        <select name="category" id="category" class="form-select form-control" aria-label="Default select example">
+                                            <option> Select category </option>
+                                            <?php
+
+                                            $result = mysqli_query($conn, "SELECT * FROM category");
+                                            while ($row = mysqli_fetch_array($result)) {
+                                                echo "<option value='" . $row['catId'] . "'>" . $row['catName'] . "</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                        <div class="form-text text-info">
+                                            <i class="fas fa-arrow-circle-right"></i> it is required to select a category. it is make easier to find post.
+                                            <p><?php $cat_error ?? "" ?></p>
+                                        </div>
+                                    </div><br>
+
+                                    <!-- keyword -->
+                                    <div>
+                                        <label for="keyword">Post Keyword :</label>
+                                        <input type="text" name="keyword" id="keyword" placeholder="Give 3 or 4 keyword" class="form-control">
+                                        <div class="form-text text-info">
+                                            <i class="fas fa-arrow-circle-right"></i> keyword makes post easy to find search engine crowler.
+                                        </div>
+                                    </div><br>
+
+                                    <!-- tags -->
+                                    <div>
+                                        <label for="tab">Tag :</label>
+                                        <input type="text" name="tag" id="tag" class="form-control" placeholder="ex : intetainment">
+                                    </div><br>
+
+                                    <!-- meta des -->
+                                    <div>
+                                        <label for="M-des">Meta Description :</label>
+                                        <input type="text" name="meta_descriptin" id="M-des" class="form-control">
+                                        <div class="form-text text-info">
+                                            <i class="fas fa-arrow-circle-right"></i> Meta description are shown in the search engine page.
+                                        </div>
+                                    </div><br>
+
+                                    <!-- image  -->
+                                    <div>
+                                        <style>
+                                            label.label input[type="file"] {
+                                                position: absolute;
+                                                top: -1000px;
+                                            }
+
+                                            .label {
+                                                cursor: pointer;
+                                                border: 1px solid #cccccc;
+                                                border-radius: 5px;
+                                                padding: 5px 15px;
+                                                margin: 5px;
+                                                background: #dddddd;
+                                                display: inline-block;
+                                            }
+
+                                            .label:hover {
+                                                background: #5cbd95;
+                                            }
+
+                                            .label:active {
+                                                background: #9fa1a0;
+                                            }
+
+                                            .label:invalid+span {
+                                                color: #000000;
+                                            }
+
+                                            .label:valid+span {
+                                                color: #ffffff;
+                                            }
+                                        </style>
+                                        <div>
+                                            Feature image
+                                        </div>
+                                        <label class="label">
+                                            <input type="file" name="image" id="image">
+                                            <span> <i class="fas fa-upload"></i> Select a image</span>
+                                        </label>
+                                        <p><?php echo $image_error ?? "" ?></p>
+                                    </div><br>
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        <label class="form-check-label" for="exampleCheck1">Tarms & Condition</label>
+                                        <div class="form-text">
+                                            By clicking this, You are agree our Terms & Condition. we won't share your email or name to another else. we save your info for our security.
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline-primary btn-md shadow-lg rounded-pill"> Add Post <i class="fas fa-arrow-circle-right"></i></button>
+                                </div>
+
+                            </div>
+                        </fieldset>
                     </form>
                     <!-- Content Row -->
 
@@ -232,7 +317,7 @@ if(isset($_POST["post"])){
     <script src="../js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins
-    <script src="<?php PUBLISHER_PATH?>vendor/chart.js/Chart.min.js"></script>
+    <script src="<?php PUBLISHER_PATH ?>vendor/chart.js/Chart.min.js"></script>
 
     
 
@@ -241,11 +326,11 @@ if(isset($_POST["post"])){
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script>
-      $('#summernote').summernote({
-        placeholder: 'Write Your Posts',
-        tabsize: 3,
-        height: 200
-      });
+        $('#summernote').summernote({
+            placeholder: 'Write Your Posts',
+            tabsize: 3,
+            height: 600
+        });
     </script>
 
 </body>

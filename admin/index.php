@@ -1,17 +1,26 @@
 <?php
 include "connection.php";
+include '../controller/admin-controller.php';
+$admin = new adminController;
+$posts = new DBSelect;
 
 if (!isset($_SESSION["admin_key"])) {
     header("location: login.php");
 }
-
 $key = $_SESSION["admin_key"] ?? "";
-$post = "SELECT * FROM posts";
-$total_post = mysqli_num_rows(mysqli_query($conn, $post));
-$post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postStatus = '1'"));
 
 
+$total_post = $posts->select([])->from('posts')->get()->num_rows;
+$post_approved = $posts->select([])->from('posts')->where("postStatus = 1")->get()->num_rows;
 
+if (isset($_GET['approved_id'])) {
+    $response = $admin->approve($_GET['approved_id']);
+    if ($response == "success") {
+        header("location: index.php");
+    } else {
+        echo $response;
+    }
+}
 
 ?>
 
@@ -307,7 +316,7 @@ $post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE 
                                                         <hr>
                                                         <div id="admin_button">
                                                             <a class="text text-danger d-inline" href='posts/reject_post.php?post=<?php echo $req_post["postId"] ?>'>Delete</a>
-                                                            <a class="text text-success px-3 d-inline" href='posts/approve_post.php?post=<?php echo $req_post["postId"] ?>'>Approve</a>
+                                                            <a class="text text-success px-3 d-inline" name='approve' href='index.php?approved_id=<?php echo $req_post['postId'] ?>'>Approve</a>
                                                             <button id="post_modal_button" onclick="openPostModal()" class="text text-secoundry">View</button>
                                                             <div id="post_modal">
                                                                 <div class="card">

@@ -4,6 +4,7 @@ $title = "User Login";
 $active = "login";
 require 'connection.php';
 
+
 //get previous url. if not exist index.php is set.
 $redirectURI = $_SERVER['HTTP_REFERER'];
 // echo $redirectURI;
@@ -84,6 +85,7 @@ if (isset($_POST["user_login"])) {
                                     <strong class="text text-danger">
                                         <?php echo $pass_error ?>
                                     </strong>
+
                                 </div><br>
 
                                 <div>

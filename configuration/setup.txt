@@ -1,0 +1,5 @@
+//------------- This is oop crud query setup -------------------//
+here you find all of inbuild query for your select, insert, update, and delete.
+
+/--------- to wotk -------------/
+#just include both "controller.php" and "QueryHandeler.php" file into you targeted page from where you want eo curd.

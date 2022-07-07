@@ -7,63 +7,67 @@ if (!isset($_SESSION['admin_key'])) {
     header("location: index.php");
 }
 
-if (isset($_POST["insert_publisher"])) {
+// if (isset($_POST["insert_publisher"])) {
 
-    $name_error = "";
-    $user_name_error = "";
-    $email_error = "";
-    $phone_error = "";
-    $password_error = "";
-    $error = '';
+//     $name_error = "";
+//     $user_name_error = "";
+//     $email_error = "";
+//     $phone_error = "";
+//     $password_error = "";
+//     $error = '';
 
-    $name = $_POST["publisher_name"];
-    $user_name = $_POST["publisher_username"];
-    $email = $_POST["publisher_email"];
-    $phone = $_POST["publisher_phone"];
-    $password = password_hash($_POST["publisher_password"], PASSWORD_DEFAULT);
-    $country = $_POST["publisher_country"];
-    $created_at = date("Y-m-d");
-    //echo $created_at;
+//     $name = $_POST["publisher_name"];
+//     $user_name = $_POST["publisher_username"];
+//     $email = $_POST["publisher_email"];
+//     $phone = $_POST["publisher_phone"];
+//     $password = password_hash($_POST["publisher_password"], PASSWORD_DEFAULT);
+//     $country = $_POST["publisher_country"];
+//     $created_at = date("Y-m-d");
+//     //echo $created_at;
 
 
-    if ($user_name == '') {
-        $user_name_error = 'Required fill ';
-    } elseif ($name == '') {
-        $name_error = 'Required fill ';
-    } elseif ($email == '') {
-        $email_error = 'Required fill ';
-    } elseif ($password == '') {
-        $password_error = 'Required fill ';
-    } else {
-        $data = "SELECT * FROM publisher WHERE email='$email'";
-        $result = mysqli_query($conn, $data);
-        $row = mysqli_fetch_assoc($result);
-        if (mysqli_num_rows($result) > 0) {
-            $email_error = "already exists!.";
+//     if ($user_name == '') {
+//         $user_name_error = 'Required fill ';
+//     } elseif ($name == '') {
+//         $name_error = 'Required fill ';
+//     } elseif ($email == '') {
+//         $email_error = 'Required fill ';
+//     } elseif ($password == '') {
+//         $password_error = 'Required fill ';
+//     } else {
+//         $data = "SELECT * FROM publisher WHERE email='$email'";
+//         $result = mysqli_query($conn, $data);
+//         $row = mysqli_fetch_assoc($result);
+//         if (mysqli_num_rows($result) > 0) {
+//             $email_error = "already exists!.";
 
-            if (strlen($_POST['publisher_password']) < 8) {
-                $password_error = "Too short";
-            }
-        } else {
-            if (strlen($_POST['publisher_password']) < 8) {
-                $password_error = "Too short";
-            } else {
-                $sql = "INSERT INTO publisher (name, user_name, email, phone, password, created_at, country) VALUES ('$name','$user_name','$email','$phone','$password','$created_at','$country')";
-                if (mysqli_query($conn, $sql)) {
-                    header("location: ../publisher.php");
+//             if (strlen($_POST['publisher_password']) < 8) {
+//                 $password_error = "Too short";
+//             }
+//         } else {
+//             if (strlen($_POST['publisher_password']) < 8) {
+//                 $password_error = "Too short";
+//             } else {
+//                 $sql = "INSERT INTO publisher (name, user_name, email, phone, password, created_at, country) VALUES ('$name','$user_name','$email','$phone','$password','$created_at','$country')";
+//                 if (mysqli_query($conn, $sql)) {
+//                     header("location: ../publisher.php");
 
-                    $name = '';
-                    $user_name = '';
-                    $email = '';
-                    $phone = '';
-                } else {
-                    echo mysqli_error($conn);
-                }
-            }
-        }
-    }
+//                     $name = '';
+//                     $user_name = '';
+//                     $email = '';
+//                     $phone = '';
+//                 } else {
+//                     echo mysqli_error($conn);
+//                 }
+//             }
+//         }
+//     }
+// }
+
+
+if (isset($_GET['block_id'])) {
+    print_r($_GET);
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -276,9 +280,9 @@ if (isset($_POST["insert_publisher"])) {
                                                     </td>
                                                     <td>
                                                         <?php if ($row["publisherStatus"] == 1) { ?>
-                                                            <a href="publisher/blockPublisher.php?id=<?php echo $row['publisherId'] ?>" title="Want to block this publisher ?" class="btn btn-danger btn-sm"> <i class="fas fa-ban"></i> Block ?</a>
+                                                            <a href="publisher.php?block_id=<?php echo $row['publisherId'] ?>" name='publisher_block' title="Want to block this publisher ?" class="btn btn-danger btn-sm"> <i class="fas fa-ban"></i> Block ?</a>
                                                         <?php } else { ?>
-                                                            <a href="publisher/unblockPublisher.php?id=<?php echo $row['publisherId'] ?>" name="unblock" title="Want to unblock ?" class="btn btn-success btn-sm"> <i class="fas fa-check"></i> Unblock</a>
+                                                            <a href="publisher.php?unblock_id=<?php echo $row['publisherId'] ?>" name="unblock" title="Want to unblock ?" class="btn btn-success btn-sm"> <i class="fas fa-check"></i> Unblock</a>
                                                         <?php } ?>
                                                     </td>
                                                     <td id="action">

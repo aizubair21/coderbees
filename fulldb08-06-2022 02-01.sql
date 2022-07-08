@@ -14,7 +14,7 @@ CREATE TABLE `admin` (
   `amdminImage` varchar(255) DEFAULT NULL,
   `adminPassword` varchar(255) DEFAULT null,
   `adminCreated_at` timestamp(),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8_general_ci;
 
 #
 # TABLE STRUCTURE FOR: category

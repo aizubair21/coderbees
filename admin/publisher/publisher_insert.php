@@ -37,7 +37,7 @@ if (isset($_POST["insert_publisher"]) && $_POST["publisher_username"] != "" && $
         if (strlen($_POST['publisher_password']) < 8) {
             $password_error = "Password at lest 8 digit.";
         } else {
-            $sql = "INSERT INTO publisher (pbulisherName, publisherUser_name, publisherEmail, publisherPhone, publisherPassword, publisherCreated_at, publisherCountry) VALUES ('$name','$user_name','$email','$phone','$password','$created_at','$country')";
+            $sql = "INSERT INTO publisher (publisherName, publisherUser_name, publisherEmail, publisherPhone, publisherPassword, publisherCreated_at, publisherCountry) VALUES ('$name','$user_name','$email','$phone','$password','$created_at','$country')";
             if (mysqli_query($conn, $sql)) {
                 header("location: publisher.php");
 

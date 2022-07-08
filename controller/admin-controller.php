@@ -69,6 +69,7 @@ class adminController extends controller
             $result = $db->select([])->from('admin')->get();
             $count = $result->num_rows;
             $row = $result->fetch_assoc();
+            echo "Admin password : " . $row["adminPassword"];
 
             if ($count == 1) {
 

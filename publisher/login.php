@@ -60,11 +60,6 @@ if (isset($_POST["Publisher_login"])) {
                         <div class="bg-primary text-white p-3" style="font-size:20px; text-align:center; font-weight:bold">
                             Login As Publisher
                         </div>
-                        <?php
-                        if ($_SESSION['stauts'] == 'log_out') {
-                            echo '<strong class="text text-danger pl-2">Successfully loged out.</strong>';
-                        }
-                        ?>
                         <form action="" method="POST" enctype="multipart/form-data">
                             <div class="card-body">
                                 <div class="form-floating mb-3">

@@ -1,5 +1,13 @@
 <?php
 include "../connection.php";
+include "../../configuration/QueryHandeler.php";
+
+//select object
+$select = new DBSelect;
+
+//update object
+$update = new DBUpdate;
+
 
 if (!isset($_SESSION["admin_key"])) {
     header("location: ../index.php");
@@ -8,23 +16,21 @@ if (!isset($_SESSION["admin_key"])) {
 $postStatus = 1;
 $key = $_SESSION["admin_key"] ?? "";
 
-$post = "SELECT * FROM posts";
-$total_post = mysqli_num_rows(mysqli_query($conn, $post));
-$post_approved = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM posts WHERE postStatus = '$postStatus'"));
+$total_post = $select->select([])->from('posts')->get()->num_rows;
+$post_approved = $select->select([])->from('posts')->where("postStatus = $postStatus")->get()->num_rows;
 
 
 
 
-$postId = $_GET['id'] ?? "";
-if (isset($postId)) {
+if (isset($_POST['unapprove'])) {
+    $postId = $_POST['unapprove_id'] ?? "";
 
-    // $post = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM posts"));
-    // $delete = "DELETE FROM posts WHERE postId='$postId'";
+    $result = $update->on("posts")->set(['postStatus'])->value(["NULL"])->where("postId = $postId")->go();
+}
+if (isset($_POST['unblock'])) {
+    $postId = $_POST['unblock_id'] ?? "";
 
-    // if (mysqli_query($conn, $delete)) {
-    //     @unlink('../image/'.$post['image']);
-    // }
-
+    $result = $update->on("posts")->set(['postStatus'])->value(["1"])->where("postId = $postId")->go();
 }
 
 
@@ -244,9 +250,17 @@ if (isset($postId)) {
                                                         if ($row["postStatus"] == NULL) {
                                                             echo "<strong class='text text-warning btn-sm'>Pending</strong>";
                                                         } elseif ($row["postStatus"] == 1) { ?>
-                                                            <a href='post_unapprove.php?post=<?php echo $row["postId"] ?>' class='text text-success'>Unapprove</a>
+                                                            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
+                                                                <input type="hidden" name="unapprove_id" value="<?php echo $row['postId'] ?>">
+                                                                <button type="submit" name="unapprove" class="btn btn-outline-danger btn-sm" title="want to hide this post from site">Hide</button>
+                                                            </form>
+                                                            <!-- <a href='post_unapprove.php?post=<?php echo $row["postId"] ?>' class='text text-success'>Unapprove</a> -->
                                                         <?php } else { ?>
-                                                            <a href='post_unblock.php?post=<?php echo $row["postId"] ?>' class='btn btn-danger btn-sm'>Unblock</a>
+                                                            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
+                                                                <input type="hidden" name="unblock_id" value="<?php echo $row['postId'] ?>">
+                                                                <button type="submit" name="unblock" class="btn btn-outline-success btn-sm" title="want to show this post to website">Show</button>
+                                                            </form>
+                                                            <!-- <a href='post_unblock.php?post=<?php echo $row["postId"] ?>' class='btn btn-danger btn-sm'>Unblock</a> -->
                                                         <?php }
 
                                                         ?>

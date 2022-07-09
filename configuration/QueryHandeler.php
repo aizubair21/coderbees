@@ -16,6 +16,7 @@ class DBSelect extends DB
     public $leftJoin;
     public $query_elements = [' SELECT ', ' FROM ', '  ', ' WHERE ', ' LIMIT '];
 
+
     //setter method. set query data
     public function select(array $columns)
     {
@@ -42,6 +43,7 @@ class DBSelect extends DB
         $this->limit = $limit;
         return $this;
     }
+
 
     //get from server
     public function select_query_builder($selectedColumns = "*")

@@ -3,7 +3,8 @@
 
 include "connection.php";
 include "../configuration/QueryHandeler.php";
-$publisher = new DBUpdate;
+$update = new DBUpdate;
+$delete = new DBDelete;
 
 if (!isset($_SESSION['admin_key'])) {
     header("location: index.php");
@@ -67,9 +68,27 @@ if (!isset($_SESSION['admin_key'])) {
 // }
 
 
+//unblock user
 if (isset($_POST['publisher_unblock'])) {
+    $unblock_id = $_POST['unblock_id'];
     $status = 1;
-    // $publisher->on('publisher')->key()
+    $update->on('publisher')->set(["publisherStatus"])->value(["$status"])->where("publisherId = $unblock_id");
+    $response = $update->go();
+}
+
+//block user
+if (isset($_POST['publisher_block'])) {
+    $block_id = $_POST['block_id'];
+    $status = 0;
+    $update->on('publisher')->set(["publisherStatus"])->value(["$status"])->where("publisherId = $block_id");
+    $response = $update->go();
+}
+
+//delete user
+if (isset($_POST['publisher_delete'])) {
+    $delete_id = $_POST['delete_id'];
+    $status = 0;
+    $response = $delete->from('publisher')->where("publisherId = $delete_id")->go();
 }
 
 ?>
@@ -290,7 +309,7 @@ if (isset($_POST['publisher_unblock'])) {
                                                         <?php } else { ?>
                                                             <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
                                                                 <input type="hidden" name="unblock_id" value="<?php echo $row['publisherId'] ?>">
-                                                                <button type="submit" class="btn btn-sm btn-success" name="publisher_unblock" title="Want to unblock this publisher ?"> <i class="fas fa-chack"></i> unblock </button>
+                                                                <button type="submit" class="btn btn-sm btn-success" name="publisher_unblock" title="Want to unblock this publisher ?"> <i class="fas fa-user-check"></i> unblock </button>
                                                             </form>
                                                         <?php } ?>
                                                     </td>
@@ -298,8 +317,11 @@ if (isset($_POST['publisher_unblock'])) {
 
 
                                                         <div class="d-flex justify-content-between">
-                                                            <a style="border-right:3px solid gray; padding-right:3px" href="publisher/delete.php?id=<?php echo  $row["publisherId"] ?>" title="Delete"><i></i>Delete</a>
-                                                            <a href="publisher/update.php?id=<?php echo  $row["publisherId"] ?>" title="Update"><i></i>Update</a>
+                                                            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+                                                                <input type="hidden" name="delete_id" value="<?php echo $row['publisherId'] ?>">
+                                                                <button type="submit" class="btn btn-sm btn-outline-danger btn-sm" name="publisher_delete" title="Want to delete this publisher ?"> <i class="fas fa-trash"></i> </button>
+                                                            </form>
+                                                            <a href="publisher/update_publisher.php?id=<?php echo  $row["publisherId"] ?>" class="btn btn-outline-info btn-sm" title="Update"><i class="fas fa-sync"></i></a>
                                                         </div>
 
                                                     </td>

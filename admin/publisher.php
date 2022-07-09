@@ -2,6 +2,8 @@
 
 
 include "connection.php";
+include "../configuration/QueryHandeler.php";
+$publisher = new DBUpdate;
 
 if (!isset($_SESSION['admin_key'])) {
     header("location: index.php");
@@ -65,8 +67,9 @@ if (!isset($_SESSION['admin_key'])) {
 // }
 
 
-if (isset($_GET['block_id'])) {
-    print_r($_GET);
+if (isset($_POST['publisher_unblock'])) {
+    $status = 1;
+    // $publisher->on('publisher')->key()
 }
 
 ?>
@@ -229,10 +232,10 @@ if (isset($_GET['block_id'])) {
                 <!-- Begin Page Content -->
                 <div class="row p-1">
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card shadow">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h6 class="m-0 font-weight-bold text-primary">Publisher Data</h6>
-                                <a class="btn btn-primary btn-sm px-3 rounded-pill shadow-lg" href="#">Add publisher</a>
+                                <a class="btn btn-outline-primary btn-sm px-3 rounded-pill shadow-lg" href="publisher/publisher_insert.php">Add publisher</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -280,9 +283,15 @@ if (isset($_GET['block_id'])) {
                                                     </td>
                                                     <td>
                                                         <?php if ($row["publisherStatus"] == 1) { ?>
-                                                            <a href="publisher.php?block_id=<?php echo $row['publisherId'] ?>" name='publisher_block' title="Want to block this publisher ?" class="btn btn-danger btn-sm"> <i class="fas fa-ban"></i> Block ?</a>
+                                                            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+                                                                <input type="hidden" name="block_id" value="<?php echo $row['publisherId'] ?>;">
+                                                                <button type="submit" class="btn btn-danger btn-sm" name="publisher_block" title="Want to block this publisher ?"> <i class="fas fa-ban"></i> Block ? </button>
+                                                            </form>
                                                         <?php } else { ?>
-                                                            <a href="publisher.php?unblock_id=<?php echo $row['publisherId'] ?>" name="unblock" title="Want to unblock ?" class="btn btn-success btn-sm"> <i class="fas fa-check"></i> Unblock</a>
+                                                            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+                                                                <input type="hidden" name="unblock_id" value="<?php echo $row['publisherId'] ?>">
+                                                                <button type="submit" class="btn btn-sm btn-success" name="publisher_unblock" title="Want to unblock this publisher ?"> <i class="fas fa-chack"></i> unblock </button>
+                                                            </form>
                                                         <?php } ?>
                                                     </td>
                                                     <td id="action">

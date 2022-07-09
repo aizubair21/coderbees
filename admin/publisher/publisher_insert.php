@@ -1,12 +1,17 @@
 <?php
 
 include "../connection.php";
+include "../../configuration/QueryHandeler.php";
+$insert = new DBInsert;
+$get = new DBSelect;
 
 if (!isset($_SESSION["admin_key"])) {
-    header("location: login.php");
+    header("location: ../login.php");
 }
 
-if (isset($_POST["insert_publisher"]) && $_POST["publisher_username"] != "" && $_POST["publisher_email"] != "" && $_POST["publisher_password"] != "") {
+
+//if submit button clicked
+if (isset($_POST['insert_publisher'])) {
 
     $name_error = "";
     $user_name_error = "";
@@ -24,31 +29,53 @@ if (isset($_POST["insert_publisher"]) && $_POST["publisher_username"] != "" && $
     $created_at = date("Y-m-d");
     //echo $created_at;
 
-    $data = "SELECT publisherEmail FROM publisher WHERE publisherEmail='$email'";
-    $result = mysqli_query($conn, $data);
-    $row = mysqli_fetch_assoc($result);
-    if (mysqli_num_rows($result) > 0) {
-        $email_error = $email . " already exists!.";
+    //check if inputed email is exist or not.
+    $data = $get->select([])->from('publisher')->where("publisherEmail = '$email'");
+    $result = $data->get()->num_rows;
 
-        if (strlen($_POST['publisher_password']) < 8) {
-            $password_error = "Password at lest 8 digit.";
-        }
-    } else {
-        if (strlen($_POST['publisher_password']) < 8) {
-            $password_error = "Password at lest 8 digit.";
+    //validate input field
+    if (empty($user_name)) {
+        $user_name_error = "Field is required !";
+    };
+    if (empty($name)) {
+        $name_error = "Field is required";
+    }
+    if (empty($email)) {
+        $email_error = "Field is required";
+    }
+    if (empty($_POST["publisher_password"])) {
+        $password_error = "Field is required";
+    }
+
+
+    //insert data into database
+    if (empty($name_error) && empty($email_error) && empty($user_name_error_error) && empty($password_error) && empty($phone_error)) {
+        # code...
+        if ($result > 0) {
+            $email_error = $email . "Email already exists!.";
+
+            if (strlen($_POST['publisher_password']) < 8) {
+                $password_error = "Password at lest 8 digit.";
+            }
         } else {
-            $sql = "INSERT INTO publisher (publisherName, publisherUser_name, publisherEmail, publisherPhone, publisherPassword, publisherCreated_at, publisherCountry) VALUES ('$name','$user_name','$email','$phone','$password','$created_at','$country')";
-            if (mysqli_query($conn, $sql)) {
-                header("location: publisher.php");
-
-                $name = '';
-                $user_name = '';
-                $email = '';
-                $phone = '';
+            if (strlen($_POST['publisher_password']) < 8) {
+                $password_error = "Password at lest 8 digit.";
             } else {
-                echo mysqli_error($conn);
+                $sql = "INSERT INTO publisher (publisherName, publisherUser_name, publisherEmail, publisherPhone, publisherPassword, publisherCreated_at, publisherCountry) VALUES ('$name','$user_name','$email','$phone','$password','$created_at','$country')";
+                if (mysqli_query($conn, $sql)) {
+                    header("location: ../publisher.php");
+
+                    $name = '';
+                    $user_name = '';
+                    $email = '';
+                    $phone = '';
+                } else {
+                    echo mysqli_error($conn);
+                }
             }
         }
+    } else {
+        $error = 'please fill al the required field.';
     }
 }
 
@@ -103,7 +130,7 @@ $key = $_SESSION["admin_key"] ?? "";
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include l_ADMIN_PATH . "topBar.php" ?>
+                <?php include "../topBar.php" ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -111,7 +138,7 @@ $key = $_SESSION["admin_key"] ?? "";
 
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card">
+                            <div class="card shadow-lg">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Add Publisher</h6>
                                 </div>
@@ -119,34 +146,37 @@ $key = $_SESSION["admin_key"] ?? "";
                                     <form action="" method="post" enctype="multipart/form-data">
 
                                         <div>
-                                            <input type="text" name="publisher_name" id="publisher_name" placeholder="Publisher Name" class="form-control">
+                                            <input type="text" name="publisher_name" id="publisher_name" placeholder="Publisher Name" class="form-control <?php echo (!empty($name_error)) ? "is-invalid" : "" ?>">
                                             <strong class="text text-danger">
                                                 <?php echo $name_error ?? "" ?>
                                             </strong>
                                         </div><br>
                                         <div>
 
-                                            <input type="text" name="publisher_username" id="publisher_username" max="11" placeholder="Username" class="form-control" required>
+                                            <input type="text" name="publisher_username" id="publisher_username" max="11" placeholder="Username" class="form-control <?php echo (!empty($user_name_error)) ? "is-invalid" : "" ?>">
                                             <strong class="text text-danger">
                                                 <?php echo $user_name_error ?? "" ?>
                                             </strong>
                                         </div><br>
                                         <div>
 
-                                            <input type="phone" name="publisher_phone" id="publisher_phone" placeholder="phone" class="form-control" require_once>
+                                            <input type="phone" name="publisher_phone" id="publisher_phone" placeholder="phone" class="form-control">
                                             <strong class="text text-danger">
                                                 <?php echo $phone_error ?? "" ?>
                                             </strong>
                                         </div><br>
                                         <div>
-                                            <input type="email" name="publisher_email" id="publisher_email" placeholder="publisher@gmail.com" class="form-control" required>
+                                            <input type="email" name="publisher_email" id="publisher_email" placeholder="publisher@gmail.com" class="form-control <?php echo (!empty($email_error)) ? "is-invalid" : "" ?>">
                                             <strong class="text text-danger">
                                                 <?php echo $email_error ?? "" ?>
                                             </strong>
                                         </div><br>
 
                                         <div>
-                                            <input type="password" name="publisher_password" id="publisher_password" placeholder="Password" class="form-control" required>
+                                            <input type="password" name="publisher_password" id="publisher_password" placeholder="Password" class="form-control <?php echo (!empty($password_error)) ? "is-invalid" : "" ?>">
+                                            <strong class="text text-danger">
+                                                <?php echo $password_error ?? "" ?>
+                                            </strong>
                                         </div><br>
 
                                         <div>

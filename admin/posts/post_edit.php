@@ -31,7 +31,7 @@ if (isset($_POST["post_update"])) {
     $image = $_FILES['image']['name'];
     $description = $_POST["description"];
     $updated_at = date("y-m-d");
-    $status = 0;
+    $status = 1;
     $keyword = $_POST['keyword'];
     $m_des = $_POST['meta_description'];
 

@@ -1,14 +1,15 @@
-<?php 
+<?php
 include "../connection.php";
-if(!isset($_SESSION["admin_key"])){
+include "../../configuration/QueryHandeler.php";
+
+$mysqli = new DBUpdate;
+
+if (!isset($_SESSION["admin_key"])) {
     header("location: ../index.php");
 }
 
-    $post = $_GET["post"];
-    $status = '1';
-    $approve_qry = "UPDATE posts SET postStatus='$status' WHERE postId='$post'";
-    if (mysqli_query($conn, $approve_qry)) {
-        header("location: post_view.php");
-    }else {
-        echo "no work";
-    }
+
+$post = $_GET["post"];
+$status = '1';
+$mysqli->on("posts")->set(["postStatus"])->value(["$status"])->where("postId = $post")->go();
+header("location: post_view.php");

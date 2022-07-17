@@ -1,12 +1,16 @@
-<?php 
+<?php
 include "../connection.php";
-if(!isset($_SESSION["admin_key"])){
+
+include "../../configuration/QueryHandeler.php";
+
+$mysql = new DBDelete;
+if (!isset($_SESSION["admin_key"])) {
     header("location: ../index.php");
 }
 
-    $post = $_GET["post"];
-    $approve_qry = "DELETE FROM posts WHERE postId = '$post'";
-    if (mysqli_query($conn, $approve_qry)) {
-        $_SESSION['status'] = 'rejected';
-        header("location: post_view.php");
-    }
+$post = $_GET["post"];
+$approve_qry = $mysql->from("posts")->where("postId = $post")->go();
+if ($approve_qry == "success") {
+    $_SESSION['status'] = 'rejected';
+    header("location: post_view.php");
+}

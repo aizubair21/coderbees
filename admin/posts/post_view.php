@@ -198,7 +198,7 @@ if (isset($_POST['unblock'])) {
                                     <a class="btn btn-primary btn-sm rounded-pill px-3 shadow-lg" href="post_add.php">Add Post</a>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-bordered table-responsive" id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-bordered table-responsive table-hover" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <style>
                                                 th {
@@ -247,11 +247,11 @@ if (isset($_POST['unblock'])) {
                                                     <td style="padding:0px;">
                                                         <?php
                                                         if ($row["postStatus"] == NULL) {
-                                                            echo "<strong class='text text-warning btn-sm'>Pending</strong>";
+                                                            echo "<strong class='text text-warning btn-sm'>Pending...</strong>";
                                                         } elseif ($row["postStatus"] == 1) { ?>
                                                             <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                                                                 <input type="hidden" name="unapprove_id" value="<?php echo $row['postId'] ?>">
-                                                                <button type="submit" name="unapprove" class="btn btn-outline-danger btn-sm" title="want to hide this post from site">Hide</button>
+                                                                <button type="submit" name="unapprove" class="btn btn-outline-danger btn-sm" title="want to hide this post from site">Hide it ?</button>
                                                             </form>
                                                             <!-- <a href='post_unapprove.php?post=<?php echo $row["postId"] ?>' class='text text-success'>Unapprove</a> -->
                                                         <?php } else { ?>
@@ -270,7 +270,11 @@ if (isset($_POST['unblock'])) {
                                                     <td style="padding:0px;"><?php echo $row["postUpdated_at"] ?></td>
                                                     <td style="padding:0px;" class="d-flex justify-content-center align-items-center">
                                                         <div class="d-flex">
-                                                            <a name='post_delete' href="post_delete.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <form action="post_delete.php" method="post">
+                                                                <input type="hidden" name="delete_id" value="<?php echo $row['postId'] ?>">
+                                                                <button type="submit" name="post_delete" class="btn btn-outline-danger btn-sm shadow"> <i class="fas fa-trash"></i> </button>
+                                                            </form>
+                                                            <!-- <a name='post_delete' href="post_delete.php?id=<?php echo  $row["postId"] ?>" title="Delete" class="btn btn-outline-danger btn-sm"></a> -->
                                                             <a class="btn btn-outline-success btn-sm" href="post_edit.php?post=<?php echo $row['postId'] ?>"> <i class="fas fa-pen"></i> </a>
 
                                                         </div>

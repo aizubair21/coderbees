@@ -2,22 +2,18 @@
 
 
 include "../connection.php";
+include "../../configuration/QueryHandeler.php";
+
+$mysql = new DBInsert;
 
 if (!isset($_SESSION["admin_key"])) {
     header("location: ../index.php");
 }
 
-
-$id = $_REQUEST['id'] ?? "";
-
 if (isset($_POST["category_insert"])) {
 
     $name_error = "";
-    $user_name_error = "";
-    $email_error = "";
-    $phone_error = "";
-    $password_error = "";
-    $error = '';
+    $image_error = '';
 
     $name = $_POST["name"];
     $slug = $slug = strtolower(str_replace(" ", "-", $name));
@@ -25,61 +21,73 @@ if (isset($_POST["category_insert"])) {
     $image = $_FILES["image"]["name"];
     $description = $_POST["description"];
     $created_at = date("y-m-d");
-    $cat = mysqli_fetch_assoc(mysqli_query($conn, "SELECT catImage FROM category WHERE catId = '$id'"));
+    $cat = mysqli_fetch_assoc(mysqli_query($conn, "SELECT catId, catName,catImage FROM category"));
 
-    if (!$_FILES["image"]['name']) {
-
-        $sql = "INSERT INTO category (catName, catSlug, catAuthor, catCreated_at, catDescription) VALUES('$name','$slug','$author','$created_at','$description')";
-        if (mysqli_query($conn, $sql)) {
-            $_SESSION['status'] = 'category_added';
-            header("location: index.php");
-            $name = '';
-            $slug = '';
-            $author = '';
-            $description = '';
-        } else {
-            echo mysqli_error($conn);
-        }
-    } else {
-        $sql = "INSERT INTO category (catName, catSlug, catAuthor,catCreated_at, catImage, catDescription) VALUES('$name','$slug','$author','$created_at','$image','$description')";
-        if (mysqli_query($conn, $sql)) {
-            if ($_FILES["image"]['name'] != '') {
-
-                if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
-
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/category" . $_FILES["image"]['name'])) {
-                        @unlink("../../image/category/" . $cat["catImage"]);
-?>
-                        <script>
-                            alert("Successfully inserted ");
-                            window.location.href = "index.php";
-                        </script>
-                    <?php
-
-                    } else {
-                    ?>
-                        <script>
-                            alert("Faild to upload ! !");
-                        </script>
-                    <?php
-                    }
-                } else {
-                    ?>
-                    <script>
-                        alert("Only jpg, png, jpeg file support !");
-                    </script>
-<?php
-                }
-            };
-
-            $name = '';
-            $slug = '';
-            $author = '';
-            $description = '';
-        } else {
-            echo mysqli_error($conn);
-        }
+    //error handle 
+    if (empty($name)) {
+        $name_error = "Fild is required";
     }
+    if ($cat["catName"] == $name) {
+        $name_error = "Category already exist!";
+    }
+
+
+    //if there no error
+    if ((empty($name_error) && empty($image_error))) :
+        if (!$_FILES["image"]['name']) {
+
+            $sql = $mysql->insert("category", ['catName', 'catSlug', 'catAuthor', 'catCreated_at', 'catDescription'], [$name, $slug, $author, $created_at, $description]);
+            if ($sql == 'success') {
+                $_SESSION['status'] = 'category_added';
+                header("location: index_category.php");
+                $name = '';
+                $slug = '';
+                $author = '';
+                $description = '';
+            } else {
+                echo mysqli_error($conn);
+            }
+        } else {
+            $sql = $mysql->insert('category', ['catName', 'catSlug', 'catAuthor', 'catCreated_at', 'catImage', 'catDescription'], [$name, $slug, $author, $created_at, $image, $description]);
+            if (mysqli_query($conn, $sql)) {
+                if ($_FILES["image"]['name'] != '') {
+
+                    if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
+
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/category" . $_FILES["image"]['name'])) {
+                            @unlink("../../image/category/" . $cat["catImage"]);
+?>
+                            <script>
+                                alert("Successfully inserted ");
+                                window.location.href = "index.php";
+                            </script>
+                        <?php
+
+                        } else {
+                        ?>
+                            <script>
+                                alert("Faild to upload ! !");
+                            </script>
+                        <?php
+                        }
+                    } else {
+                        ?>
+                        <script>
+                            alert("Only jpg, png, jpeg file support !");
+                        </script>
+<?php
+                    }
+                };
+
+                $name = '';
+                $slug = '';
+                $author = '';
+                $description = '';
+            } else {
+                echo mysqli_error($conn);
+            }
+        }
+    endif;
 }
 
 
@@ -145,7 +153,12 @@ if (isset($_POST["category_insert"])) {
 
                                             <div>
                                                 <label class="form-label" for="name ">Name :</label>
-                                                <input type="text" name="name" id="name" placeholder="Nname..." class="form-control">
+                                                <input type="text" name="name" id="name" placeholder="Nname..." class="form-control <?php echo (isset($name_error)) ? "is-invalid" : "" ?>">
+                                                <?php
+                                                if (isset($name_error)) {
+                                                    echo "<strong class='text text-danger'> {$name_error} </strong>";
+                                                }
+                                                ?>
                                             </div><br>
 
                                             <div>
@@ -154,12 +167,14 @@ if (isset($_POST["category_insert"])) {
                                             </div>
                                             <hr>
 
-
-
                                             <div>
-
                                                 <label class="form-label" for="image ">image :</label>
                                                 <input type="file" name="image" id="image" placeholder="image..." class="form-control form-file">
+                                                <?php
+                                                if (isset($image_error)) {
+                                                    echo "<strong class='text text-danger'> {$image_error} </strong>";
+                                                }
+                                                ?>
                                             </div>
                                             <hr>
 

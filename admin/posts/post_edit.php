@@ -5,17 +5,17 @@ if (!isset($_SESSION["admin_key"])) {
     header("location: ../index.php");
 }
 
+
 $key = $_SESSION["admin_key"] ?? "";
 $postId = $_REQUEST["post"];
 
+//include QueryClass
+include "../../configuration/QueryHandeler.php";
+$mysqli = new DBSelect;
 
-//get upldated datq
-$row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT postImage FROM posts WHERE postId = '$postId'"));
-
-
-
-
-//post update 
+//get upldated data
+$rows = $mysqli->select([])->from('posts')->where("postId = $postId")->get();
+$row = $rows->fetch_assoc();
 
 if (isset($_POST["post_update"])) {
 
@@ -24,74 +24,79 @@ if (isset($_POST["post_update"])) {
     $email_error = "";
     $phone_error = "";
     $password_error = "";
-    $error = '';
-
     $name = $_POST["title"];
+    $slug = substr_replace(" ", "-", "$name");
     $tag = $_POST["tag"];
     $author = $auth_admin["adminId"];
-    $image = $_FILES["image"]["name"];
+    $image = $_FILES['image']['name'];
     $description = $_POST["description"];
-    $update = date("y-m-d");
-    $category = $_POST["category"];
+    $updated_at = date("y-m-d");
     $status = 0;
+    $keyword = $_POST['keyword'];
+    $m_des = $_POST['meta_description'];
 
+    //error handle
+    if (empty($name)) {
+        $name_error = "Required Field";
+    }
+    if (empty($description)) {
+        $description_error = "Required Field";
+    }
+    if (empty($image)) {
+        $image_error = "Requird Field";
+    }
+    if (empty($category)) {
+        $category_error = "Required Field";
+    }
+
+    //if image not change.
     if (!$_FILES["image"]['name']) {
 
-        $sql = "UPDATE posts SET postTitle='$name', postTag='$tag',postStatus='$status', postCategory='$category', postPublisher='$author', post='$description', postUpdate_at='$update' WHERE postId = '$postId'";
-        if (mysqli_query($conn, $sql)) {
-            header("location: post_view.php");
-            $name = '';
-            $slug = '';
-            $author = '';
-            $description = '';
+        //if there is no error.
+        if (empty($name_error) && empty($description_error) && empty($image_error) && empty($category_error)) {
         } else {
-            echo mysqli_error($conn);
-        }
-    } else {
-        $sql = "UPDATE `posts` SET `postTitle`='$name',`postPublisher`='$author',`postImage`='$image',`postCategory`='$category',`postTag`='$tag',`postStatus`='$status',`post`='$description',`postUpdate_at`='$update' WHERE postId = '$postId'";
-        if (mysqli_query($conn, $sql)) {
-            @unlink('../../image/' . $row['postImage']);
-            if ($_FILES["image"]['name'] != '') {
-
-                if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
-
-                    if (strlen($_FILES["image"]["name"]) > 100) {
 ?>
-                        <script>
-                            alert("Image Name Too long. Please short it !");
-                            window.location.href = "post_view.php";
-                        </script>
-                        <?php
-                    } else {
-                        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/" . $_FILES["image"]['name'])) {
-                            $_SESSION['status'] = 'post_updated';
-                            header("location: post_view.php");
-                        } else {
-                        ?>
-                            <script>
-                                alert("Faild to upload ! !");
-                            </script>
-                    <?php
-                        }
-                    }
-                } else {
-                    ?>
-                    <script>
-                        alert("Only jpg, png, jpeg file support !");
-                    </script>
+            <script>
+                alert("Please, Fill all the required fields.");
+            </script>
 <?php
-                }
-            };
-
-            $name = '';
-            $slug = '';
-            $author = '';
-            $description = '';
-        } else {
-            echo mysqli_error($conn);
         }
-    }
-}
+        $update = new DBUpdate;
+        $update->on('posts')->set(['postTitle', 'postSlug', 'postTag', 'postStatus', 'post', 'postUpdated_at', 'keywords', 'meta_Description'])->value([$name, $slug, $tag, $status, $description, $updated_at, $keyword, $m_des])->where("postId = $postId");
+        $response = $update->go();
+        echo $response;
+    } else {
+
+        //if image not change
+        $update = new DBUpdate;
+        $update->on('posts')->set(['postTitle', 'postTag', 'postImage', 'postStatus', 'post', 'postUpdated_at', 'keywords', 'meta_Description'])->value([$name, $tag, $image, $status, $description, $updated_at, $keyword, $m_des])->where("postId = $postId");
+        $response = $update->go();
+        echo $response;
+
+        //if image update, the old image delete from database.
+        @unlink('../../image/' . $row['postImage']);
+
+        //image upload
+        if ($_FILES["image"]['name']) {
+
+            if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
+
+                if (strlen($_FILES["image"]["name"]) > 100) {
+                    $image_error = "Image name so long. please short it.";
+                } else {
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/" . $_FILES["image"]['name'])) {
+                        $_SESSION['status'] = 'post_updated';
+                        header("location: post_view.php");
+                    } else {
+                        $image_error = "Faild to upload your image";
+                    }
+                }
+            } else {
+                $image_error = "Only jpg, png, jpeg formate supported.";
+            };
+        };
+    };
+};
 ?>
 
 
@@ -115,11 +120,16 @@ if (isset($_POST["post_update"])) {
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
     <style>
         td {
             text-align: center;
             font-size: 12px;
+        }
+
+        input,
+        select {
+            background-color: transparent !important;
         }
     </style>
 
@@ -150,95 +160,54 @@ if (isset($_POST["post_update"])) {
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <div class="mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Update and Edit post</h1>
                     </div>
 
-                    <!-- Content Row -->
 
-                    <!-- Content Row -->
-
-                    <form action="" method="post" class=" text-dark" enctype="multipart/form-data">
-                        <style>
-                            input,
-                            select {
-                                background-color: transparent !important;
-
-                            }
-                        </style>
-                        <?php
-                        $post_id = $_GET['post'];
-                        $post = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 AND posts.postId = '$post_id'"));
-                        ?>
-
+                    <form action="" method="post" enctype="multipart/form-data">
                         <div class="row">
-                            <!-- left side -->
                             <div class="col-lg-8">
-                                <!-- title -->
                                 <div>
                                     <label for="title">Post Title :</label>
-                                    <input type="text" name="title" id="title" placeholder="post title.." class="form-control" value=" <?php echo $post["postTitle"] ?>">
-                                    <div class="form-text text-info">
-                                        <i class="fas fa-arrow-circle-right"></i> give your post a meaningfull and unique title
-                                        <p><?php $name_erro ?? "" ?></p>
-                                    </div>
+                                    <input type="text" name="title" id="title" class="form-control" value="<?php echo $row['postTitle'] ?>">
+                                    <?php
+                                    if (!empty($name_error)) {
+                                        echo "<strong class='text text-danger'> " . $name_error . " </strong>";
+                                    }
+                                    ?>
+                                </div><br>
 
-                                </div>
-
-                                <!-- post -->
                                 <div>
                                     <label for="description">Post Details :</label>
-                                    <textarea type="text" class="form-control" name="description" id="summernote"><?php echo $post["post"] ?></textarea>
+                                    <textarea type="text" class="form-control" name="description" id="summernote"><?php echo $row["post"] ?></textarea>
                                     <div class="form-text">
                                         Describe your post
                                     </div>
-                                </div>
+                                </div><br>
 
                                 <div class="my-2">
                                     <label for="M-des">Meta Description :</label>
-                                    <input type="text" name="meta_description" id="meta_description" class="form-control" value="">
+                                    <input type="text" name="meta_description" id="meta_description" class="form-control" value="<?php echo $row['meta_Description'] ?>">
                                     <div class="form-text text-info">
                                         <i class="fas fa-arrow-circle-right"></i> Meta Description will show in the search page
                                     </div>
-                                </div>
+                                </div><br>
+
                             </div>
 
                             <!-- right side -->
                             <div class="col-lg-4">
-
-                                <!-- category -->
-                                <div>
-                                    <label for="category">Category :</label>
-                                    <select name="category" id="category" class="form-select form-control" aria-label="Default select example">
-                                        <option> Select category </option>
-                                        <?php
-
-                                        $result = mysqli_query($conn, "SELECT * FROM category");
-                                        while ($row = mysqli_fetch_array($result)) { ?>
-
-                                            <option <?php if ($row["catId"] == $post["postCategory"]) {
-                                                        echo "SELECTED";
-                                                    } ?> value="<?php echo $row["catId"] ?>"><?php echo $row["catName"] ?></option>
-
-                                        <?php }
-                                        ?>
-                                    </select>
-                                    <div class="form-text text-info">
-                                        <i class="fas fa-arrow-circle-right"></i> it is required to select a category. it is make easier to find post.
-                                        <p><?php $cat_error ?? "" ?></p>
-                                    </div>
-                                </div>
-
                                 <!-- tags -->
                                 <div>
                                     <label for="tab">Tag :</label>
-                                    <input type="text" name="tag" id="tag" class="form-control" placeholder="ex : intetainment" value="<?php echo $post["postTag"] ?>">
+                                    <input type="text" name="tag" id="tag" class="form-control" placeholder="ex : intetainment" value="<?php echo $row["postTag"] ?>">
                                 </div><br>
 
                                 <!-- keywords -->
                                 <div>
                                     <label for="keyword">Keywords :</label>
-                                    <input type="text" name="keyword" id="keyword" class="form-control" value="" placeholder="Ex: fashion, design">
+                                    <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $row['keywords'] ?>" placeholder="Ex: fashion, design">
                                     <div class="form-text text text-info">
                                         <i class="fas fa-arrow-circle-right"></i> With perfect keyword it make easy to find by search engine crowler.
                                     </div>
@@ -251,7 +220,7 @@ if (isset($_POST["post_update"])) {
                                     <div>
                                         <label for="image">Feature Image</label>
                                     </div>
-                                    <img width="100%" style="box-sizing: border-box;" src="/coderbees/image/<?php echo $post["postImage"] ?>" alt="Not Found" id="image">
+                                    <img width="100%" style="box-sizing: border-box;" src="/coderbees/image/<?php echo $row["postImage"] ?>" alt="Not Found" id="image">
                                 </div>
                                 <div>
                                     <style>
@@ -292,24 +261,16 @@ if (isset($_POST["post_update"])) {
                                         <span>Update</span>
                                     </label>
 
+
                                     <div>
                                         <p><?php echo $image_error ?? "" ?></p>
                                     </div>
+
+                                    <button type="submit" name="post_update" class="btn btn-outline-success btn-sm rounded-pill shadow px-3"> <i class="fas fa-sync pr-2"></i> save changes </button>
                                 </div>
-
-
                             </div>
                         </div>
-                        <div class="col-lg-6 pe-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Terms & Condition</label>
-                            <div class="form-text">
-                                By clicking update you are agree with our Terms & Conditonal statement. If you not see out Term's and Condition please see Term's page.
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mt-5">
-                            <button class="btn btn-outline-primary btn-md rounded-pill shadow-lg"> <i class="fas fa-sync pr-2 "></i> Edit & Update</button>
-                        </div>
+
                     </form>
 
                 </div>

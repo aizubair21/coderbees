@@ -211,12 +211,11 @@ if (isset($_POST['unblock'])) {
                                                 <th>Category</th>
                                                 <th>Tag</th>
                                                 <th>Author</th>
-                                                <th>Status</th>
+                                                <th>Modify</th>
                                                 <th>Comments</th>
                                                 <th>Feature Image</th>
                                                 <th>Post Date</th>
                                                 <th>Update</th>
-                                                </th>
                                                 <th>E/D</th>
                                             </tr>
                                         </thead>
@@ -266,7 +265,7 @@ if (isset($_POST['unblock'])) {
                                                         ?>
                                                     </td>
                                                     <td style="padding:0px;"></td>
-                                                    <td style="padding:0px;"><img style="width:70px" src="../image/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
+                                                    <td style="padding:0px;"><img style="width:70px" src="../../image/<?php echo $row["postImage"] ?>" alt="Not Fount"></td>
                                                     <td style="padding:0px;"><?php echo $row["postCreated_at"] ?></td>
                                                     <td style="padding:0px;"><?php echo $row["postUpdated_at"] ?></td>
                                                     <td style="padding:0px;" class="d-flex justify-content-center align-items-center">

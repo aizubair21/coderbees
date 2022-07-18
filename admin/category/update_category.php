@@ -2,9 +2,12 @@
 
 
 include "../connection.php";
+include "../../configuration/QueryHandeler.php";
+$update = new DBUpdate;
+$mysql = new DBSelect;
 
 if (!isset($_SESSION["admin_key"])) {
-    header("location: ../index.php");
+    header("location: ../../index.php");
 }
 
 
@@ -15,8 +18,8 @@ if (isset($_POST["category_update"])) {
     $name_error = "";
     $image_error = '';
 
-    $name = $_POST["name"];
-    $slug = strtolower(substr_replace(" ", "-", $name));
+    $name = trim($_POST["name"]);
+    $slug = strtolower(str_replace(" ", "-", $name));
     $author = $_POST["author"];
     $image = $_FILES["image"]["name"];
     $description = $_POST["description"];
@@ -24,7 +27,8 @@ if (isset($_POST["category_update"])) {
     $row = getCategory($id);
     //print_r($row);
     //echo $created_at;
-    $cat = mysqli_fetch_assoc(mysqli_query($conn, "SELECT catId, catName,catImage FROM category"));
+    // $cat_sql = $mysql->select(['catId', 'catName', 'catImage'])->from('category')->where("catId = $id")->get();
+    $cat = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM category WHERE catId = $id"));
 
     //error handle 
     if (empty($name)) {
@@ -39,20 +43,20 @@ if (isset($_POST["category_update"])) {
     if ((empty($name_error) && empty($image_error))) :
         if (!$_FILES["image"]['name']) {
 
-            $sql = "UPDATE category SET catName='$name', catSlug='$slug', catAuthor='$author',catDescription='$description' WHERE catId = '$id'";
-            if (mysqli_query($conn, $sql)) {
-                header("location: index.php");
+            $sql = $update->on("category")->set(['catName', 'catSlug', 'catDescription', 'catAuthor'])->value([$name, $slug, $description, $author])->where("catId = $uid")->go();
+            if ($sql = "success") {
+                header("location: index_category.php");
                 //echo "without image";
                 $name = '';
                 $slug = '';
                 $author = '';
                 $description = '';
             } else {
-                echo mysqli_error($conn);
+                echo $sql;
             }
         } else {
-            $sql = "UPDATE category SET catName='$name', catSlug='$slug', catAuthor='$author', catImage ='$image',catDescription='$description' WHERE catId = '$id'";
-            if (mysqli_query($conn, $sql)) {
+            $sql = $update->on("category")->set(['catName', 'catSlug', 'catImage', 'catDescription', 'catAuthor'])->value([$name, $slug, $image, $description, $author])->where("catId = $uid")->go();
+            if ($sql == "success") {
                 @unlink('../../image/category' . $row['catImage']);
                 if ($_FILES["image"]['name'] != '') {
 
@@ -79,7 +83,7 @@ if (isset($_POST["category_update"])) {
                 $author = '';
                 $description = '';
             } else {
-                echo mysqli_error($conn);
+                echo $sql;
             }
         }
 
@@ -117,58 +121,7 @@ if (isset($_POST["category_update"])) {
     <div id="wrapper">
 
         <!-- Sidebar -->
-
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../index.php">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">CB Admin</div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Admin Control
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-users"></i>
-                    <span>Publisher</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class=" text-white collapse-inner rounded">
-                        <a class="collapse-item" href="../publisher.php">Publisher Controls</a>
-                        <a class="collapse-item" href="../insert.php">Add</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-caret-square-o-left"></i>
-                    <span>Category</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class=" text-white collapse-inner rounded">
-                        <a class="collapse-item" href="index.php">Category Control</a>
-                        <a class="collapse-item" href="insert.php">Category Add</a>
-                    </div>
-                </div>
-            </li>
-
-        </ul>
+        <?php include "../sideBar.php" ?>
 
         <!-- End of Sidebar -->
 

@@ -82,8 +82,8 @@ include "header.php";
                     <?php
                     $post_status = 1;
                     $limit = '5';
-                    $post_restlt = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId=posts.postCategory WHERE postStatus='$post_status' LIMIT 5 ");
-                    while ($posts = mysqli_fetch_assoc($post_restlt)) { ?>
+                    $post_restlt = $mysqli->select([])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postId")->where("postStatus = $post_status")->limit(5)->get();
+                    while ($posts = $post_restlt->fetch_assoc()) { ?>
 
                         <div class="position-relative overflow-hidden" style="height: 435px;">
                             <img class="img-fluid h-100" src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $posts["postImage"] ?>" style="object-fit: cover;">
@@ -92,7 +92,16 @@ include "header.php";
                                     <a class="btn btn-primary btn-sm" href="category/<?php echo $posts["catSlug"] ?>"> <i class="px-1 fas fa-dot-circle"></i> <?php echo $posts["catName"] ?></a>
                                     <span class="px-2 text-white">/</span>
                                     <a class="text-white" href=""> <i class="px-1 fas fa-clock"></i> <?php echo $posts["postCreated_at"] ?></a>
-                                    <a class="btn btn-outline-secondary btn-sm" href="tag.php?tags=<?php echo $posts['postTag'] ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo $posts["postTag"] ?> </a>
+                                    <?php
+                                    $tag = '';
+                                    $tag = explode(",", $posts['postTag']);
+                                    foreach ($tag as $tags) :
+                                    ?>
+                                        <a class="btn btn-outline-secondary btn-sm" href="tag.php?tags=<?php echo $tags ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo $tags ?> </a>
+                                    <?php
+                                    endforeach;
+                                    ?>
+
                                 </div>
                                 <a class="h2 m-0 text-white font-weight-bold" href="posts?post_id=<?php echo $posts['postId'] ?>"><?php echo $posts["postTitle"] ?></a>
                             </div>
@@ -107,8 +116,8 @@ include "header.php";
                 <div class="row">
                     <div class="col-12">
                         <?php
-                        $popular_qry = mysqli_query($conn, "SELECT postId,post,postTitle,postImage, postCreated_at, postCategory, catName FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 ORDER BY posts.postId DESC LIMIT 4 ");
-                        while ($popular = mysqli_fetch_assoc($popular_qry)) { ?>
+                        $popular_qry = $mysqli->select(['postId', 'post', 'postTitle', 'postImage', 'postCreated_at', 'postCategory', 'catName'])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1")->order("posts.postId")->DESC()->limit("4")->get();
+                        while ($popular = $popular_qry->fetch_assoc()) { ?>
                             <div class="d-flex mb-3">
                                 <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover">
                                 <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
@@ -146,8 +155,9 @@ include "header.php";
                 </style>
                 <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                     <?php
-                    $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='business') ORDER BY posts.postId DESC LIMIT 5 ");
-                    while ($business = mysqli_fetch_assoc($business_cat)) { ?>
+                    // $business_cat = $mysqli->select([])->from("posts")->join("OIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = (SELECT catId FROM category WHERE catName='business')")->order("posts.postId")->DESC()->limit("5")->get();
+                    // $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='business') ORDER BY posts.postId DESC LIMIT 5 ");
+                    while ($business = $business_cat->fetch_assoc()) { ?>
 
                         <div class="position-relative">
                             <img class="img-fluid w-100" src="/coderbees/image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">

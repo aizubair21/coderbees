@@ -15,7 +15,7 @@ if (isset($_POST["category_insert"])) {
     $name_error = "";
     $image_error = '';
 
-    $name = $_POST["name"];
+    $name = trim($_POST["name"]);
     $slug = $slug = strtolower(str_replace(" ", "-", $name));
     $author = $auth_admin["adminId"];
     $image = $_FILES["image"]["name"];

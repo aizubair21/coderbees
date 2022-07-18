@@ -3,7 +3,11 @@ if (!session_start()) {
     session_start();
 }
 
-$conn = mysqli_connect('localhost','root','','coderbees');
+//include QueryHandler
+include "configuration/QueryHandeler.php";
+$mysqli = new DBSelect;
+
+$conn = mysqli_connect('localhost', 'root', '', 'coderbees');
 
 $key = $_SESSION["publisher_key"] ?? '';
 
@@ -18,23 +22,23 @@ if ($user_key) {
     if ($user = mysqli_num_rows($user_qyr) > 0) {
         $GLOBALS['auth_user'] = mysqli_fetch_assoc($user_qyr);
     }
-       
 }
 
 //relative URI
 
-define('GlobalROOT_PATH', "/".basename(dirname(__FILE__)));
+define('GlobalROOT_PATH', "/" . basename(dirname(__FILE__)));
 
 define('ROOT_PATH', dirname(__FILE__) . '/');
-define('ADMIN_PATH', ROOT_PATH."admin/");
-define('PUBLISHER_PATH', ROOT_PATH."publisher/");
-define('CATEGORY_PATH', ROOT_PATH."category/");
+define('ADMIN_PATH', ROOT_PATH . "admin/");
+define('PUBLISHER_PATH', ROOT_PATH . "publisher/");
+define('CATEGORY_PATH', ROOT_PATH . "category/");
 
 
-function url_for ($script_url) {
+function url_for($script_url)
+{
     //add the loading '/' if not present.
     if ($script_url[0] != '/') {
-        $script_url = '/'.$script_url;
+        $script_url = '/' . $script_url;
     }
 
     echo GlobalROOT_PATH . $script_url;
@@ -46,35 +50,35 @@ function url_for ($script_url) {
 
 
 
-function getPublisher($key){
-    $conn = mysqli_connect('localhost','root','','coderbees');
+function getPublisher($key)
+{
+    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
     $data = "SELECT * FROM publisher WHERE publisherId='$key'";
     $result = mysqli_query($conn, $data);
-    if(mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) > 0) {
         return $row = mysqli_fetch_assoc($result);
-       
-    }else {
+    } else {
         return "Not found !";
     }
 }
 
 
-function getAllPublisher(){
-    $conn = mysqli_connect('localhost','root','','coderbees');
+function getAllPublisher()
+{
+    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
     $data = "SELECT * FROM publisher";
 
     return mysqli_query($conn, $data);
-     
 }
 
-function getCurd($key){
-    $conn = mysqli_connect('localhost','root','','coderbees');
+function getCurd($key)
+{
+    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
     $data = "SELECT * FROM crud WHERE id='$key'";
     $result = mysqli_query($conn, $data);
-    if(mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) > 0) {
         return $row = mysqli_fetch_assoc($result);
-       
-    }else {
+    } else {
         return "Not found !";
     }
 }
@@ -82,13 +86,12 @@ function getCurd($key){
 
 
 
-function isInAdminDatabase ($user_name) {
-    $conn = mysqli_connect('localhost','root','','coderbees');
+function isInAdminDatabase($user_name)
+{
+    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
     $data = "SELECT * FROM admin WHERE user_name='$user_name'";
     $result = mysqli_query($conn, $data);
-    if(mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) > 0) {
         return mysqli_fetch_assoc($result);
-       
     }
 }
-

@@ -270,7 +270,7 @@ if (isset($_POST['publisher_delete'])) {
                                                 <th>Posts</th>
                                                 <th>Start From</th>
                                                 <th>Status</th>
-                                                <th>Operation</th>
+                                                <th>Modify</th>
                                                 <th>E/D</th>
                                             </tr>
                                         </thead>

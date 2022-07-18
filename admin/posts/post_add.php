@@ -22,7 +22,7 @@ $image_error = '';
 if (isset($_POST["post"])) {
 
     $title = $_POST["title"];
-    $slug = substr_replace(' ', '-', $title);
+    $slug = strtolower(str_replace(" ", "-", $title));
     $category = $_POST["category"];
     $tag = $_POST["tag"];
     $post = $_POST["description"];
@@ -45,7 +45,7 @@ if (isset($_POST["post"])) {
     }
     $response = '';
     //if no errro, submit post
-    if (empty($title_error) && empty($post_error) && empty($cat_error) && empty($keyword_error)) {
+    if (empty($title_error) && empty($post_error)) {
 
         //post 
         $post_insert = new DBInsert;

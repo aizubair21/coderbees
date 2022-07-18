@@ -17,8 +17,6 @@ $cat = $qry->fetch_assoc();
 //sever delete
 $sql = $mysql->from("category")->where("catId = $id");
 $result = $sql->go();
-echo $result;
-die();
 //force delete image from file
 @unlink('../../image/category/' . $cat['catImage']);
 

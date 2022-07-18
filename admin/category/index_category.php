@@ -9,7 +9,7 @@ if (!isset($_SESSION["admin_key"])) {
 }
 
 if (isset($_POST["category_add"]) && $_POST["name"] != "") {
-    $name = $_POST["name"];
+    $name = trim($_POST["name"]);
     $slug = strtolower(str_replace(" ", "-", $name));
     //print_r($auth_user['id']);
     $author = $_SESSION["admin_key"];
@@ -329,7 +329,7 @@ if (isset($_POST["category_add"]) && $_POST["name"] != "") {
         if ($_SESSION['status'] == 'category_deleted') {
         ?>
             <script>
-                toastr.warning('Cateogry Completely Deleted!');
+                toastr.success('Cateogry Completely Deleted!');
             </script>
         <?php
         }

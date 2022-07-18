@@ -24,8 +24,10 @@ if (isset($_POST["post_update"])) {
     $email_error = "";
     $phone_error = "";
     $password_error = "";
-    $name = $_POST["title"];
-    $slug = substr_replace(" ", "-", "$name");
+
+    $name = trim($_POST["title"]);
+
+    $slug = strtolower(str_replace(" ", "-", "$name"));
     $tag = $_POST["tag"];
     $author = $auth_admin["adminId"];
     $image = $_FILES['image']['name'];
@@ -45,15 +47,12 @@ if (isset($_POST["post_update"])) {
     if (empty($image)) {
         $image_error = "Requird Field";
     }
-    if (empty($category)) {
-        $category_error = "Required Field";
-    }
 
     //if image not change.
     if (!$_FILES["image"]['name']) {
 
         //if there is no error.
-        if (empty($name_error) && empty($description_error) && empty($image_error) && empty($category_error)) {
+        if (empty($name_error) && empty($description_error)) {
         } else {
 ?>
             <script>
@@ -64,14 +63,22 @@ if (isset($_POST["post_update"])) {
         $update = new DBUpdate;
         $update->on('posts')->set(['postTitle', 'postSlug', 'postTag', 'postStatus', 'post', 'postUpdated_at', 'keywords', 'meta_Description'])->value([$name, $slug, $tag, $status, $description, $updated_at, $keyword, $m_des])->where("postId = $postId");
         $response = $update->go();
-        echo $response;
+        if ($response == 'success') :
+            header("location: post_view.php");
+        else :
+            echo "<strong class='alert alert-info' > {$response} </strong>";
+        endif;
     } else {
 
         //if image not change
         $update = new DBUpdate;
         $update->on('posts')->set(['postTitle', 'postTag', 'postImage', 'postStatus', 'post', 'postUpdated_at', 'keywords', 'meta_Description'])->value([$name, $tag, $image, $status, $description, $updated_at, $keyword, $m_des])->where("postId = $postId");
         $response = $update->go();
-        echo $response;
+        if ($response == 'success') :
+            header("location: post_view.php");
+        else :
+            echo "<strong class='alert alert-info' > {$response} </strong>";
+        endif;
 
         //if image update, the old image delete from database.
         @unlink('../../image/' . $row['postImage']);

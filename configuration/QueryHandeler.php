@@ -9,12 +9,14 @@ use DBConnection as DB;
 //select from DB
 class DBSelect extends DB
 {
-    public $columns = array();
-    public $table;
-    public $where;
-    public $limit;
-    public $leftJoin;
-    public $query_elements = [' SELECT ', ' FROM ', '  ', ' WHERE ', ' LIMIT '];
+    private $columns = array();
+    private $table;
+    private $where;
+    private $limit;
+    private $leftJoin;
+    private $order;
+    private $by;
+    private $query_elements = [' SELECT ', ' FROM ', '  ', ' WHERE ', ' ORDER BY ', ' ', ' LIMIT '];
 
 
     //setter method. set query data
@@ -36,6 +38,21 @@ class DBSelect extends DB
     public function join(string $join)
     {
         $this->leftJoin = $join;
+        return $this;
+    }
+    public function order(string $order_condition) //posts.postCreated_at
+    {
+        $this->order = $order_condition;
+        return $this;
+    }
+    public function ASEC()
+    {
+        $this->by = "ASEC";
+        return $this;
+    }
+    public function DESC()
+    {
+        $this->by = "DESC";
         return $this;
     }
     public function limit(int $limit)
@@ -67,9 +84,17 @@ class DBSelect extends DB
             $query .= $this->query_elements[3];
             $query .= $this->where;
         }
+        if (!empty($this->order)) {
+            $query .= $this->query_elements[4];
+            $query .= $this->order;
+        }
+        if (!empty($this->by)) {
+            $query .= $this->query_elements[5];
+            $query .= $this->by;
+        }
 
         if (!empty($this->limit)) {
-            $query .= $this->query_elements[4];
+            $query .= $this->query_elements[6];
             $query .= $this->limit;
         }
         return $query;

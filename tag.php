@@ -12,10 +12,10 @@ $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY 
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="container">
-        <nav class="breadcrumb bg-transparent m-0 p-0">
-            <a class="breadcrumb-item" href="index.php">Home</a>
-            <a class="breadcrumb-item" href="tag.php?show=all_tag">Tags</a>
-            <span class="breadcrumb-item active"><?php echo $tags ?></span>
+        <nav class=" ">
+            <a class="breadcrumbs" href="index.php"> <i class="fas fa-home"></i> Home</a>
+            <a class="breadcrumbs-item" href="tag.php?show=all_tag">Tags</a>
+            <span class="breadcrumbs-item-active"><?php echo $tags ?></span>
         </nav>
     </div>
 </div>

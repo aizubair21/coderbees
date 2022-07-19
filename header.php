@@ -42,6 +42,42 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/coderbees/css/style.css" rel="stylesheet">
+    <style>
+        .breadcrumbs {
+            color: #ED1C24;
+            padding: 15px 25px 15px 10px;
+        }
+
+        .breadcrumbs-item {
+            background-color: white;
+            color: black;
+            padding: 15px 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumbs-item:first-child {
+            border-top-left-radius: 25px;
+            border-bottom-left-radius: 25px;
+            box-shadow: -2px 0px 5px gray;
+        }
+
+
+        .breadcrumbs-item:hover {
+            background-color: #ED1C24;
+            color: white;
+        }
+
+        .breadcrumbs-item-active {
+            background-color: #ED1C24;
+            color: white;
+            border-bottom-right-radius: 25px;
+            border-top-right-radius: 25px;
+            padding: 15px 30px;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
 
 
 </head>

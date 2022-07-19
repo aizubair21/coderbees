@@ -5,6 +5,7 @@ include "../connection.php";
 include "../../configuration/QueryHandeler.php";
 
 $mysql = new DBInsert;
+$select = new DBSelect;
 
 if (!isset($_SESSION["admin_key"])) {
     header("location: ../index.php");
@@ -21,7 +22,10 @@ if (isset($_POST["category_insert"])) {
     $image = $_FILES["image"]["name"];
     $description = $_POST["description"];
     $created_at = date("y-m-d");
-    $cat = mysqli_fetch_assoc(mysqli_query($conn, "SELECT catId, catName,catImage FROM category"));
+
+    //database category
+    $cat_qry = $select->select(['catName'])->from('category')->get();
+    $cat = $cat_qry->fetch_assoc();
 
     //error handle 
     if (empty($name)) {
@@ -29,6 +33,7 @@ if (isset($_POST["category_insert"])) {
     }
     if ($cat["catName"] == $name) {
         $name_error = "Category already exist!";
+        $GLOBALS['exist'] = "yes";
     }
 
 
@@ -153,10 +158,10 @@ if (isset($_POST["category_insert"])) {
 
                                             <div>
                                                 <label class="form-label" for="name ">Name :</label>
-                                                <input type="text" name="name" id="name" placeholder="Nname..." class="form-control <?php echo (isset($name_error)) ? "is-invalid" : "" ?>">
+                                                <input type="text" name="name" id="name" placeholder="Nname..." value="<?php echo ($name) ?? "" ?>" class="form-control <?php echo (isset($name_error)) ? "is-invalid" : "" ?>">
                                                 <?php
-                                                if (isset($name_error)) {
-                                                    echo "<strong class='text text-danger'> {$name_error} </strong>";
+                                                if (!empty($name_error)) {
+                                                    echo "<strong class='text text-danger'> $name_error </strong>";
                                                 }
                                                 ?>
                                             </div><br>
@@ -223,18 +228,18 @@ if (isset($_POST["category_insert"])) {
     <script src="../js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="../vendor/chart.js/Chart.min.js"></script>
+    <!-- <script src="../vendor/chart.js/Chart.min.js"></script> -->
 
     <!-- Page level custom scripts -->
-    <script src="../js/demo/chart-area-demo.js"></script>
-    <script src="../js/demo/chart-pie-demo.js"></script>
+    <!-- <script src="../js/demo/chart-area-demo.js"></script> -->
+    <!-- <script src="../js/demo/chart-pie-demo.js"></script> -->
 
     <!-- Page level plugins -->
-    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- <script src="../vendor/datatables/jquery.dataTables.min.js"></script> -->
+    <!-- <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
 
     <!-- Page level custom scripts -->
-    <script src="../js/demo/datatables-demo.js"></script>
+    <!-- <script src="../js/demo/datatables-demo.js"></script> -->
 
 </body>
 

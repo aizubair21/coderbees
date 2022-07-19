@@ -116,10 +116,10 @@ include "header.php";
                 <div class="row">
                     <div class="col-12">
                         <?php
-                        $popular_qry = $mysqli->select(['postId', 'post', 'postTitle', 'postImage', 'postCreated_at', 'postCategory', 'catName'])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1")->order("posts.postId")->DESC()->limit("4")->get();
+                        $popular_qry = $mysqli->select(['postId', 'post', 'postTitle', 'postImage', 'postCreated_at', 'postCategory', 'catName'])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1")->order("posts.view")->DESC()->limit("4")->get();
                         while ($popular = $popular_qry->fetch_assoc()) { ?>
                             <div class="d-flex mb-3">
-                                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover">
+                                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 150px; height: 100px; object-fit: cover">
                                 <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                     <div class="mb-1" style="font-size: 13px;">
                                         <a class="text-primary" href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
@@ -155,12 +155,12 @@ include "header.php";
                 </style>
                 <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                     <?php
-                    // $business_cat = $mysqli->select([])->from("posts")->join("OIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = (SELECT catId FROM category WHERE catName='business')")->order("posts.postId")->DESC()->limit("5")->get();
-                    // $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='business') ORDER BY posts.postId DESC LIMIT 5 ");
+                    // $business_cat = $mysqli->select([])->from("posts")->join("OIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = ($mysqli->select(['catId'])->where('catName' = 'business')->get())")->order("posts.postId")->DESC()->limit("5")->get();
+                    $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='business') ORDER BY posts.postId DESC LIMIT 5 ");
                     while ($business = $business_cat->fetch_assoc()) { ?>
 
                         <div class="position-relative">
-                            <img class="img-fluid w-100" src="/coderbees/image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
+                            <img class="img-fluid w-100 " src="/coderbees/image/<?php echo $business["postImage"] ?>" style="object-fit: cover;height:150px;">
                             <div class="p-2 position-relative bg-light">
                                 <div class="mb-2" style="font-size: 13px;">
                                     <a class="text-primary" href="category.php?category=<?php echo $business["catName"] ?>"><?php echo $business["catName"] ?></a>
@@ -187,7 +187,7 @@ include "header.php";
                     while ($business = mysqli_fetch_assoc($technology_cat)) { ?>
 
                         <div class="position-relative">
-                            <img class="img-fluid w-100" style="height:140px" src="/coderbees/image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
+                            <img class="img-fluid w-100" style="height:150px" src="/coderbees/image/<?php echo $business["postImage"] ?>" style="object-fit: cover;">
                             <div class="p-2 position-relative bg-light">
                                 <div class="mb-2" style="font-size: 13px;">
                                     <a class="text-primary" href="category.php?category=<?php echo $business["catName"] ?>"><?php echo $business["catName"] ?></a>
@@ -228,7 +228,7 @@ include "header.php";
                     while ($intertainment = mysqli_fetch_assoc($intertainment_cat)) { ?>
 
                         <div class="d-flex mb-3">
-                            <img src="/coderbees/image/<?php echo $intertainment["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+                            <img src="/coderbees/image/<?php echo $intertainment["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                 <a class="h6 m-0" href="posts.php?post_id=<?php echo $intertainment["postId"] ?>"><?php echo $intertainment["postTitle"] ?></a>
                                 <div class="mt-1" style="font-size: 13px;">
@@ -252,11 +252,12 @@ include "header.php";
 
                 <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                     <?php
+                    // $sportc_cat_qry = $mysqli->select(['postId', 'postImage', 'postCategory', 'postTag', 'postTitle', 'postCreated_at', 'catName', 'postStatus', 'catId'])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = ($mysqli-select['catId'])->from('category')->where('catName = 'sports')->get()")->order("posts.postId")->DESC()->limit(8)->get();
                     $sportc_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='sports') ORDER BY posts.postId DESC LIMIT 5 ");
                     while ($sports = mysqli_fetch_assoc($sportc_cat)) { ?>
 
                         <div class="d-flex mb-3">
-                            <img src="/coderbees/image/<?php echo $sports["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+                            <img src="/coderbees/image/<?php echo $sports["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                 <a class="h6 m-0" href="posts.php?post_id=<?php echo $sports["postId"] ?>"><?php echo $sports["postTitle"] ?></a>
                                 <div class="mt-1" style="font-size: 13px;">
@@ -280,6 +281,29 @@ include "header.php";
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
+                <!-- show all category -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
+                            <h3 class="m-0">Your favourite in here</h3>
+                            <a class="text-secondary font-weight-medium text-decoration-none" href="#">All Categories</a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 my-3 px-2 d-flex">
+                        <?php
+                        $categories_qry = mysqli_query($conn, "SELECT * FROM category limit 15");
+                        // echo $categories_qry;
+                        while ($categories = mysqli_fetch_assoc($categories_qry)) {
+
+                        ?>
+                            <a href="category.php?category=<?php echo $categories['catName'] ?>" class="btn btn-outline-primary btn-sm mx-2 my-1 shadow rounded"> <?php echo $categories['catName'] ?> </a>
+                        <?php
+                        }
+                        ?>
+                    </div>
+
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
@@ -289,9 +313,10 @@ include "header.php";
                     </div>
 
                     <?php
-
-                    $latest_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 ORDER BY posts.postId DESC LIMIT 8 ");
-                    while ($latest = mysqli_fetch_assoc($latest_qry)) { ?>
+                    $latest_qry = $mysqli->select(['postId', 'postImage', 'postCategory', 'postTag', 'postTitle', 'postCreated_at', 'catName', 'postStatus', 'catId'])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1")->order("posts.postId")->DESC()->limit(8)->get();
+                    // $latest_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 ORDER BY posts.postId DESC LIMIT 8 ");
+                    // echo $latest_qry;
+                    while ($latest = $latest_qry->fetch_assoc()) { ?>
 
                         <div class="col-lg-6 mb-2">
                             <style>
@@ -377,7 +402,7 @@ include "header.php";
                 <!-- Newsletter End -->
 
                 <!-- Ads Start -->
-                <div class="pb-3">
+                <!-- <div class="pb-3">
                     <div class="bg-light py-2 px-4 mb-3">
                         <h3 class="m-0">Categories</h3>
                     </div>
@@ -416,20 +441,20 @@ include "header.php";
 
                         </ul>
                     </div>
-                </div>
+                </div> -->
                 <!-- Ads End -->
 
                 <!-- Popular News Start -->
-                <div class="pb-3">
+                <!-- <div class="pb-3">
                     <div class="bg-light py-2 px-4 mb-3">
                         <h3 class="m-0">Most View </h3>
                     </div>
                     <?php
-                    $popular_qry = mysqli_query($conn, "SELECT postId,post,postTitle,postImage, postCreated_at, postCategory, catName FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 ORDER BY posts.postId DESC LIMIT 4 ");
-                    while ($popular = mysqli_fetch_assoc($popular_qry)) { ?>
+                    $popular_qry = $mysqli->select(['postId', 'postTitle', 'postImage', 'postCreated_at', 'postCategory', 'catName', 'view'])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory ")->where("posts.postStatus = 1")->order("view")->DESC()->limit(5)->get();
+                    // $popular_qry = mysqli_query($conn, "SELECT postId,post,postTitle,postImage, postCreated_at, postCategory, catName FROM posts LEFT JOIN category ON category.catId = posts.postCateIMITgory WHERE postStatus = 1 ORDER BY posts.postId DESC Limit 4 ");
+                    while ($popular = $popular_qry->fetch_assoc()) { ?>
                         <div class="d-flex mb-3">
-                            <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
-                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
+                            <div class="w-100 d-flex flex-column justify-content-center align-items-end bg-light px-3">
                                 <div class="mb-1" style="font-size: 13px;">
                                     <a class='text-primary' href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
                                     <span class="px-1">/</span>
@@ -437,10 +462,11 @@ include "header.php";
                                 </div>
                                 <a class="h6 m-0" href="posts?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
                             </div>
+                            <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 100px; height: 100px; object-fit:cover;">
                         </div>
 
                     <?php } ?>
-                </div>
+                </div> -->
                 <!-- Popular News End -->
 
                 <!-- Tags Start -->
@@ -450,10 +476,21 @@ include "header.php";
                     </div>
                     <div class="d-flex flex-wrap m-n1">
                         <?php
-                        $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts ORDER BY postId DESC LIMIT 10");
-                        if (mysqli_num_rows($tag_qry) > 0) {
-                            while ($tag = mysqli_fetch_assoc($tag_qry)) {
-                                echo ' <a href="tag.php?tags=' . $tag["postTag"] . '" class="btn btn-sm btn-outline-secondary m-1">' . $tag["postTag"] . '</a>';
+                        // $mysqli = new DBSelect;
+                        $tag_sql = $mysqli->select(["postTag"])->from("posts")->limit(10)->get();
+                        if ($tag_sql->num_rows > 0) {
+
+                            while ($result = $tag_sql->fetch_assoc()) {
+                                if (str_word_count($result['postTag']) > 1) {
+                                    $tag = '';
+                                    $tag = explode(",", $result['postTag']);
+                                    foreach ($tag as $tags) {
+                                        echo "<a href='#' class='btn btn-outline-secondary btn-sm m-1'>{$tags}</a>";
+                                    }
+                                } else {
+
+                                    echo "<a class='btn btn-outline-secondary btn-sm m-1'>{$result['postTag']}</a>";
+                                }
                             }
                         }
                         ?>

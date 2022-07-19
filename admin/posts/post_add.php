@@ -48,12 +48,21 @@ if (isset($_POST["post"])) {
     if (empty($title_error) && empty($post_error)) {
 
         //post 
+        $status = 1;
         $post_insert = new DBInsert;
-        $response = $post_insert->insert("posts", ['postTitle', 'postSlug', 'meta_Description', 'post', 'postPublisher', 'postCategory', 'postTag', 'postImage', 'keywords', 'postCreated_at'], [$title, $slug, $M_des, $post, $key, $category, $tag, $image, $keyword, $created_at]);
-        echo '<strong class="alert alert-info"> ' . $response . ' </strong>';
+        $response = $post_insert->insert("posts", ['postTitle', 'postSlug', 'meta_Description', 'post', 'postPublisher', 'postCategory', 'postTag', 'postImage', 'keywords', 'postCreated_at', 'postStatus'], [$title, $slug, $M_des, $post, $key, $category, $tag, $image, $keyword, $created_at, $status]);
+        if ($response == 'success') {
+            header("location: post_view.php");
+        } else {
+?>
+            <script>
+                swal("Warning, <?php echo $response ?>", alert);
+            </script>
+            <?php
+        }
 
         //if image successfully inserted
-        if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/jpeg') {
+        if ($_FILES['image']['type'] == 'image/jpg' || $_FILES['image']['type'] == 'image/png'  || $_FILES['image']['type'] == 'image/webp') {
 
             if (strlen($_FILES["image"]["name"]) > 50) {
                 $image_error = "Image name too long. Short it or change";
@@ -61,7 +70,7 @@ if (isset($_POST["post"])) {
                 if (move_uploaded_file($_FILES["image"]["tmp_name"], "../../image/" . $_FILES["image"]['name'])) {
                 } else {
 
-?>
+            ?>
                     <script>
                         alert("Faild to upload your image !!");
                         window.location.href = "post_add.php";

@@ -216,7 +216,7 @@ include "header.php";
                 <!-- Popular News Start -->
                 <div class="pb-3">
                     <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Tranding</h3>
+                        <h3 class="m-0">Realted Post</h3>
                     </div>
                     <?php
                     $tranding_category = $single_post["postCategory"];
@@ -247,10 +247,24 @@ include "header.php";
                     </div>
                     <div class="d-flex flex-wrap m-n1">
                         <?php
-                        $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts ORDER BY postId DESC LIMIT 10");
-                        if (mysqli_num_rows($tag_qry) > 0) {
-                            while ($tag = mysqli_fetch_assoc($tag_qry)) {
-                                echo ' <a href="tag.php?tags=' . $tag["postTag"] . '" class="btn btn-sm btn-outline-secondary m-1">' . $tag["postTag"] . '</a>';
+                        // $mysqli = new DBSelect;
+
+                        //current category
+                        $cat = $single_post['postCategory'];
+                        $tag_sql = $mysqli->select(["postTag"])->from("posts")->where("postCategory = $cat")->limit(5)->get();
+                        if ($tag_sql->num_rows > 0) {
+
+                            while ($result = $tag_sql->fetch_assoc()) {
+                                if (str_word_count($result['postTag']) > 1) {
+                                    $tag = '';
+                                    $tag = explode(",", $result['postTag']);
+                                    foreach ($tag as $tags) {
+                                        echo "<a href='#' class='btn btn-outline-secondary btn-sm m-1'>{$tags}</a>";
+                                    }
+                                } else {
+
+                                    echo "<a class='btn btn-outline-secondary btn-sm'>{$result['postTag']}</a>";
+                                }
                             }
                         }
                         ?>

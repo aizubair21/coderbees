@@ -1,3 +1,6 @@
+<?php
+$mysqli = new DBSelect;
+?>
 <div class="container-fluid bg-light pt-5 px-sm-3 px-md-5">
     <div class="row">
         <div class="col-lg-3 col-md-6 mb-5">
@@ -25,11 +28,13 @@
             <div class="d-flex flex-wrap m-n1">
                 <?php
 
-                $cat_qry = mysqli_query($conn, "SELECT catId, catName, catSlug FROM category ORDER BY catId DESC LIMIT 10");
-                if (mysqli_num_rows($cat_qry) > 0) {
+                $cat_qry = $mysqli->select(["catId", "catName", "catSlug"])->from("category")->get();
+                if ($cat_qry->num_rows > 0) {
                     while ($cat = mysqli_fetch_assoc($cat_qry)) {
                         echo '<a href="category.php?category=' . $cat["catName"] . '" class="btn btn-sm btn-outline-secondary m-1">' . $cat["catName"] . '</a>';
                     }
+                } else {
+                    echo "<button class='btn btn-outline-secondary btn-sm'>Uncategory</button>";
                 }
                 ?>
 
@@ -40,14 +45,23 @@
             <h4 class="font-weight-bold mb-4">Tags</h4>
             <div class="d-flex flex-wrap m-n1">
                 <?php
-                $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts GROUP BY postTag LIMIT 10");
-                if (mysqli_num_rows($tag_qry) > 0) {
-                    while ($tag = mysqli_fetch_assoc($tag_qry)) {
-                        echo ' <a href="tag.php?tags=' . $tag["postTag"] . '" class="btn btn-sm btn-outline-secondary m-1">' . $tag["postTag"] . '</a>';
+                $tag_sql = $mysqli->select(["postTag"])->from("posts")->limit(3)->get();
+                if ($tag_sql->num_rows > 0) {
+
+                    while ($result = $tag_sql->fetch_assoc()) {
+                        if (str_word_count($result['postTag']) > 1) {
+                            $tag = '';
+                            $tag = explode(",", $result['postTag']);
+                            foreach ($tag as $tags) {
+                                echo "<a href='#' class='btn btn-outline-secondary btn-sm m-1'>{$tags}</a>";
+                            }
+                        } else {
+
+                            echo "<a class='btn btn-outline-secondary btn-sm m-1'>{$result['postTag']}</a>";
+                        }
                     }
                 }
                 ?>
-
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">

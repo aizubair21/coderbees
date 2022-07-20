@@ -1,5 +1,5 @@
 <!-- Topbar Start -->
-<div class="container-fluid">
+<!-- <div class="container-fluid">
     <div class="row align-items-center bg-light px-lg-5">
         <div class="col-12 col-md-8">
             <div class="d-flex justify-content-between">
@@ -22,7 +22,7 @@
             <img class="img-fluid" src="/coderbees/img/ads-700x70.jpg" alt="">
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Topbar End -->
 <!-- nav start -->

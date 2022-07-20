@@ -81,6 +81,13 @@
             position: relative;
             z-index: 1;
         }
+
+        .sticy_nav {
+            position: static;
+            top: 0;
+            width: 100%;
+            z-index: 9;
+        }
     </style>
 
 
@@ -90,11 +97,24 @@
 
 
     <!-- Navbar Start -->
-    <div class="container-fluid p-0 mb-3">
+    <div class="container-fluid p-0 mb-3" id="main_nav">
 
         <nav class="navbar navbar-expand-lg bg-light navbar-light py-2 py-lg-0 px-lg-5">
 
 
+            <script>
+                document.addEventListener("scroll", function() {
+                    // console.log(document.documentElement.scrollTop);
+
+                    if (document.documentElement.scrollTop > 100) {
+                        document.getElementById('main_nav').classList.add("sticy_nav");
+                    } else {
+
+                        document.getElementById('main_nav').classList.remove("sticy_nav");
+                    }
+
+                })
+            </script>
             <div class="collapse navbar-collapse justify-content-between align-items-center px-0 px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
                     <a href="<?php url_for('index.php') ?>" class="nav-item nav-link <?php if ($active == "home") {
@@ -145,4 +165,6 @@
 
 
     </div>
+
+
     <!-- Navbar End -->

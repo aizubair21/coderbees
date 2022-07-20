@@ -1,5 +1,12 @@
 <?php
 include "../connection.php";
+include "../../configuration/QueryHandeler.php";
+$mysql = new DBSelect;
+
+//get all data from database
+$result = $mysql->select([])->from("home_page")->get();
+$data = $result->fetch_assoc();
+
 
 if (!isset($_SESSION["admin_key"])) {
     header("location: login.php");
@@ -68,7 +75,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                 <i class="fas fa-cog f-1 fw-bolder text-primary p-3 rounded-circle bg-light" style='font-size:35px;line-height:25px'></i>
                             </div>
                             <div class="card-body">
-                                <form action="../function/home_page_setting.php" method="post">
+                                <form name="setting">
 
                                     <!-- left  -->
                                     <div class="row justify-content-evenly my-2">
@@ -79,7 +86,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                             <div class="form-text">
                                                 Define is your main slider running or not.
                                             </div>
-                                            <select name="main_slider" id="main-slider" class="form-control">
+                                            <select name="main_slider" id="main_slider" class="form-control" onchange="go(setting.main_slider.name, setting.main_slider.value)">
                                                 <option value="0">Stop Showing Slides</option>
                                                 <option value="1">Running</option>
                                             </select>
@@ -90,7 +97,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                             <div class="form-text">
                                                 How many slides do you want to show in your slider slides ?
                                             </div>
-                                            <input type="number" name="main_slider_item" id="slider-item" onchange="slider_item(this.value)" class="form-control">
+                                            <input type="number" name="main_slider_item" id="slider-item" class="form-control" value="<?php echo $data["main_slider_item"] ?>" onchange="go(setting.main_slider_item.name, setting.main_slider_item.value)">
                                         </div>
 
                                         <!-- main slider order  -->
@@ -99,19 +106,19 @@ $key = $_SESSION["admin_key"] ?? "";
                                             <div class="form-text">
                                                 Which order you slides show ? ASEC [a-z], DESC [z-a]
                                             </div>
-                                            <select name="main_slider_order" id="slider-order" class="form-control">
-                                                <option value="ASEC">ASEC</option>
-                                                <option value="DESC">DESC</option>
+                                            <select name="main_slider_order" id="slider-order" class="form-control" onchange="go(setting.main_slider_order.name, setting.main_slider_order.value)">
+                                                <option <?php echo ($data['main_slider_order'] == 'ASEC') ? "SELECTED" : "" ?> value="ASEC">ASEC</option>
+                                                <option <?php echo ($data['main_slider_order'] == 'DESC') ? "SELECTED" : "" ?> value="DESC">DESC</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-3 p-2 my-2">
                                             <label for="post-tag">Post Tag :</label>
                                             <div class="form-text">
-                                                Do you want to show post targ in main slider.
+                                                Do you want to show post tag into main slider.
                                             </div>
-                                            <select name="show_post_tag" id="post-tag" class="form-control form-select">
-                                                <option value="0">Hide</option>
-                                                <option value="1">Show</option>
+                                            <select name="show_post_tag" id="post-tag" class="form-control form-select" onchange=" go(setting.show_post_tag.name, setting.show_post_tag.value)">
+                                                <option <?php echo ($data['show_post_tag'] == '0') ? "SELECTED" : "" ?> value="0">No</option>
+                                                <option <?php echo ($data['show_post_tag'] == '1') ? "SELECTED" : "" ?> value="1">Yes</option>
                                             </select>
                                         </div>
 
@@ -120,13 +127,14 @@ $key = $_SESSION["admin_key"] ?? "";
                                     <div class="row my-2 justify-content-evenly">
 
                                         <div class="col-lg-3 p-2 my-2">
-                                            <label for="follow-widget">Follow Widgets ?</label>
+                                            <label for="follow-widget">Follow Widgets :</label>
                                             <div class="form-text">
                                                 Is your follow us widgets shown in home page or not.
                                             </div>
-                                            <select name="follow_us" id="follow" class="form-control">
-                                                <option value="0">Hide from homepage</option>
-                                                <option value="1">Shown in homepage</option>
+                                            <select name="follow_us" id="follow" class="form-control" onchange="go(setting.follow_us.name, setting.follow_us.value)">
+                                                <option <?php echo ($data['follow_us'] == '0') ? "SELECTED" : "" ?> value="0">No</option>
+                                                <option <?php echo ($data['follow_us'] == '1') ? "SELECTED" : "" ?> value="1">Yes</option>
+                                                <!-- <option value="1">Shown in homepage</option> -->
                                             </select>
                                         </div>
 
@@ -135,9 +143,9 @@ $key = $_SESSION["admin_key"] ?? "";
                                             <div class="form-text">
                                                 Newsletter subscription field shown in homepage or not.
                                             </div>
-                                            <select name="newsletter" id="newsletter" class="form-control">
-                                                <option value="0">Hide</option>
-                                                <option value="1">Show</option>
+                                            <select name="newsletter" id="newsletter" class="form-control" onchange="go(setting.newsletter.name, setting.newsletter.value)">
+                                                <option <?php echo ($data['newsletter'] == '0') ? "SELECTED" : "" ?> value="0">No</option>
+                                                <option <?php echo ($data['newsletter'] == '1') ? "SELECTED" : "" ?> value="1">Yes</option>
                                             </select>
                                         </div>
 
@@ -146,9 +154,10 @@ $key = $_SESSION["admin_key"] ?? "";
                                             <div class="form-text">
                                                 Where do you want to show your category. by default in main content.
                                             </div>
-                                            <select name="cat_show_in" id="category" class="form-control">
-                                                <option value="main">Show in main content</option>
-                                                <option value="sideBar">Show in right side bar</option>
+                                            <select name="cat_show_in" id="category" class="form-control" onchange="go(setting.category.name, setting.category.value)">
+                                                <option <?php echo ($data['cat_show_in'] == 'main') ? "SELECTED" : "" ?> value="main">Into Main Content</option>
+                                                <option <?php echo ($data['cat_show_in'] == 'sideBar') ? "SELECTED" : "" ?> value="sideBar">Right SideBar</option>
+
                                             </select>
                                         </div>
 
@@ -158,7 +167,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                             <div class="form-text">
                                                 How many post show in latest post part.
                                             </div>
-                                            <input type="number" name="latest" id="latest" class="form-control">
+                                            <input type="number" name="latest" id="latest" class="form-control" value="<?php echo $data["latest"] ?>" onchange="go(setting.latest.name, setting.latest.value)">
                                         </div>
                                     </div>
 
@@ -169,28 +178,70 @@ $key = $_SESSION["admin_key"] ?? "";
                                             <strong>Homepage post show accroding following category :</strong>
                                         </div>
 
+                                        <?php
+                                        $cat = $mysql->select([])->from('category')->get();
+                                        // $category = $cat->fetch_assoc();
+                                        // $cat_len = $cat->num_rows;
+
+                                        ?>
+
                                         <div class="col-lg-3 p-2 my-2">
                                             <div class="label bg-info text-light p-2" for="first">First Category :</div>
-                                            <select class="form-control" name="cat_1" id="first">
-                                                <option value=""></option>
+                                            <select class="form-control" name="cat_1" id="first" onchange="go(setting.cat_1.name, setting.cat_1.value)">
+                                                <option value="">select category</option>
+                                                <?php
+                                                while ($category = $cat->fetch_assoc()) {
+                                                ?>
+                                                    <option <?php echo ($data['cat_1'] == $category["catId"]) ? "SELECTED" : "" ?> value="<?php echo  $category["catId"] ?>"> <?php echo $category["catName"] ?> </option>
+                                                <?php
+                                                }
+                                                ?>
+
                                             </select>
                                         </div>
                                         <div class="col-lg-3 p-2 my-2">
                                             <div class="label bg-info text-light p-2" for="second">Second Category :</div>
-                                            <select class="form-control" name="cat_2" id="second">
-                                                <option value=""></option>
+                                            <select class="form-control" name="cat_2" id="second" onchange="go(setting.cat_2.name, setting.cat_2.value)">
+                                                <option value="">select category</option>
+                                                <?php
+
+                                                $cat = $mysql->select([])->from('category')->get();
+                                                while ($category = $cat->fetch_assoc()) {
+                                                ?>
+                                                    <option <?php echo ($data['cat_2'] == $category["catId"]) ? "SELECTED" : "" ?> value="<?php echo  $category["catId"] ?>"> <?php echo $category["catName"] ?> </option>
+                                                <?php
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                         <div class="col-lg-3 p-2 my-2">
                                             <div class="label bg-info text-light p-2" for="third">Third Category :</div>
-                                            <select class="form-control" name="cat_3" id="third">
-                                                <option value=""></option>
+                                            <select class="form-control" name="cat_3" id="third" onchange="go(setting.cat_3.name, setting.cat_3.value)">
+                                                <option value="">select category</option>
+                                                <?php
+
+                                                $cat = $mysql->select([])->from('category')->get();
+                                                while ($category3 = $cat->fetch_assoc()) {
+                                                ?>
+                                                    <option <?php echo $data['cat_3'] == $category3['catId'] ? "SELECTED" : "" ?> value="<?php echo  $category3["catId"] ?> "><?php echo $category3["catName"] ?></option>
+                                                <?php
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                         <div class="col-lg-3 p-2 my-2">
                                             <div class="label bg-info text-light p-2" for="forth">Forth Category :</div>
-                                            <select class="form-control" name="cat_4" id="forth">
-                                                <option value=""></option>
+                                            <select class="form-control" name="cat_4" id="forth" onchange="go(setting.cat_4.name, setting.cat_4.value)">
+                                                <option value="">select category</option>
+                                                <?php
+
+                                                $cat = $mysql->select([])->from('category')->get();
+                                                while ($category4 = $cat->fetch_assoc()) {
+                                                ?>
+                                                    <option <?php echo $data['cat_4'] == $category4['catId'] ? "SELECTED" : "" ?> value="<?php echo  $category4["catId"] ?> "><?php echo $category4["catName"] ?></option>
+                                                <?php
+                                                }
+                                                ?>
                                             </select>
                                         </div>
 
@@ -202,7 +253,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                             <div class="form-text">
                                                 Post tags wigets shown in homepage right sidebar
                                             </div>
-                                            <select name="tags_in_main" id="tags" class="form-control">
+                                            <select name="tags_in_main" id="tags" class="form-control" onchange="go(setting.tags_in_main.name, setting.tags_in_main.value)">
                                                 <option value="0">Hide</option>
                                                 <option value="1">Show</option>
                                             </select>
@@ -277,6 +328,17 @@ $key = $_SESSION["admin_key"] ?? "";
     <script>
         function slider_item(val) {
             document.getElementById("slider-item").innerHTML = val;
+        }
+
+
+        function go(name, value) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function() {
+                alert(this.responseText);
+            }
+            xhttp.open("GET", "../function/home_page.php?fild=" + name + "&value=" + value, true);
+            xhttp.send();
+
         }
     </script>
 </body>

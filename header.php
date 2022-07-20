@@ -43,6 +43,10 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/coderbees/css/style.css" rel="stylesheet">
     <style>
+        h2 {
+            font-family: "oswald";
+        }
+
         .breadcrumbs {
             color: #ED1C24;
             padding: 15px 25px 15px 10px;
@@ -59,7 +63,7 @@
         .breadcrumbs-item:first-child {
             border-top-left-radius: 25px;
             border-bottom-left-radius: 25px;
-            box-shadow: -2px 0px 5px gray;
+            box-shadow: -3px 3px 5px gray;
         }
 
 

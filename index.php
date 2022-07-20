@@ -60,7 +60,8 @@ include "header.php";
 
 
 <style>
-    h3 {
+    h3,
+    h2 {
         font-family: "oswald";
     }
 
@@ -155,8 +156,9 @@ include "header.php";
                 </style>
                 <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
                     <?php
-                    // $business_cat = $mysqli->select([])->from("posts")->join("OIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = ($mysqli->select(['catId'])->where('catName' = 'business')->get())")->order("posts.postId")->DESC()->limit("5")->get();
+                    // $business_cat = $mysqli->select([])->from("posts")->join("OIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = (SELECT catId FROM category where catName = 'business')")->order("posts.postId")->DESC()->limit(5)->get();
                     $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='business') ORDER BY posts.postId DESC LIMIT 5 ");
+                    // echo $business_cat;
                     while ($business = $business_cat->fetch_assoc()) { ?>
 
                         <div class="position-relative">
@@ -285,7 +287,7 @@ include "header.php";
                 <div class="row">
                     <div class="col-12">
                         <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
-                            <h3 class="m-0">Your favourite in here</h3>
+                            <h3 class="m-0">Your favourite are here</h3>
                             <a class="text-secondary font-weight-medium text-decoration-none" href="#">All Categories</a>
                         </div>
                     </div>
@@ -347,7 +349,24 @@ include "header.php";
                                         <span class="px-1">/</span>
                                         <span style='font-size:small'> <i class=" px-1 fas fa-clock"></i> <?php echo $latest['postCreated_at'] ?>
                                         </span>
-                                        <a class="text-secondary" style='font-size:small' href="tag.php?tags=<?php echo $latest['postTag'] ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo $latest['postTag'] ?> </a>
+
+                                        <?php
+                                        if (str_word_count($latest['postTag']) > 1) {
+                                            $s_tag = '';
+                                            $s_tag = explode(",", $latest['postTag']);
+                                            foreach ($s_tag as $s_tags) {
+                                        ?>
+                                                <a class="text text-secondary" style='font-size:small' href="tag.php?tags=<?php echo $s_tags ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo $s_tags ?> </a>
+                                            <?php
+                                                // echo "<a href='#' class='btn btn-outline-secondary btn-sm m-1'>{$tags}</a>";
+                                            }
+                                        } else {
+                                            ?>
+                                            <a class="text text-secondary" style='font-size:small' href="tag.php?tags=<?php echo $latest['postTag'] ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo $latest["postTag"] ?> </a>
+                                        <?php
+                                            // echo "<a class='btn btn-outline-secondary btn-sm m-1'>{$latest['postTag']}</a>";
+                                        }
+                                        ?>
                                     </div>
                                     <a class="h6 p-2" href="posts.php?post_id=<?php echo $latest['postId'] ?>"><?php echo $latest['postTitle'] ?></a>
                                 </div>

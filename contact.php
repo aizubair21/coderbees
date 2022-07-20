@@ -14,9 +14,9 @@ include "header.php";
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="container">
-        <nav class="">
-            <a class="breadcrumbs" href="index.php"> <i class="fas fa-home"></i> Home</a>
-            <a class="breadcrumbs"> Contact Us</a>
+        <nav class="breadcrumbs">
+            <a class="breadcrumbs-item" href="index.php"> <i class="fas fa-home"></i> Home</a>
+            <a href="#" class="breadcrumbs-item-active"> Contact Us</a>
         </nav>
     </div>
 </div>

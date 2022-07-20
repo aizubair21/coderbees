@@ -25,13 +25,11 @@ $setting = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM site_setting ")
     <title>Coderbees - Admin Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../../fontawesome-free-5.15.3-web/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-    <!-- toaster Plugin -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
 
     <style>
         td {
@@ -184,46 +182,6 @@ $setting = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM site_setting ")
 
     <!-- Custom scripts for all pages-->
     <script src="<?php echo  ADMIN_PATH ?>js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="<?php echo  ADMIN_PATH ?>vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="<?php echo  ADMIN_PATH ?>js/demo/chart-area-demo.js"></script>
-    <script src="<?php echo  ADMIN_PATH ?>js/demo/chart-pie-demo.js"></script>
-    <script src="<?php echo  ADMIN_PATH ?>js/demo/datatables-demo.js"></script>
-
-    <!-- toaster plugin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-
-
-    <?php
-    if (isset($_SESSION['status'])) {
-        if ($_SESSION['status'] == 'post_approved') {
-    ?>
-            <script>
-                toastr.success('Post Finally Approved. Post now shown in homee.');
-            </script>
-        <?php
-        };
-
-        if ($_SESSION['status'] == 'post_deleted') {
-        ?>
-            <script>
-                toastr.warning('Post Completely Deleted!');
-            </script>
-        <?php
-        }
-        if ($_SESSION['status'] == 'post_updated') {
-        ?>
-            <script>
-                toastr.success('Post Successfully Updated!');
-            </script>
-    <?php
-        }
-    }
-    include '../../unset_session.php';
-    ?>
 
 </body>
 

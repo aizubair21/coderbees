@@ -91,7 +91,7 @@
                 <a class="collapse-item" href="show_subscribe.php">Subscriber</a>
                 <a class="collapse-item" href="social_media_control.php">Social Media Control</a>
                 <a class="collapse-item" href="<?php echo ADMIN_PATH ?>settings/site_setting.php">General Site Setting</a>
-                <a class="collapse-item" href="<?php echo ADMIN_PATH ?>category/insert_category.php">Homepage Setting</a>
+                <a class="collapse-item" href="<?php echo ADMIN_PATH ?>settings/home_page_setting.php">Homepage Setting</a>
             </div>
         </div>
     </li>

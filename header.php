@@ -63,7 +63,6 @@
         .breadcrumbs-item:first-child {
             border-top-left-radius: 25px;
             border-bottom-left-radius: 25px;
-            box-shadow: -3px 3px 5px gray;
         }
 
 
@@ -80,13 +79,26 @@
             padding: 15px 30px;
             position: relative;
             z-index: 1;
+            box-shadow: 3px 3px 5px gray;
         }
 
         .sticy_nav {
-            position: static;
+            position: fixed;
             top: 0;
+            left: 0;
+            height: auto;
             width: 100%;
             z-index: 9;
+            box-shadow: 0px 0px 5px gray;
+
+        }
+
+        /* container-fluid */
+
+
+        .container {
+            padding-top: 15px;
+            box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
         }
     </style>
 
@@ -96,48 +108,56 @@
 <body>
 
 
-    <!-- Navbar Start -->
-    <div class="container-fluid p-0 mb-3" id="main_nav">
+    <!-- bootstrap nav -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="main_nav">
+        <script>
+            document.addEventListener("scroll", function() {
+                console.log(document.documentElement.scrollTop);
 
-        <nav class="navbar navbar-expand-lg bg-light navbar-light py-2 py-lg-0 px-lg-5">
+                if (document.documentElement.scrollTop > 100) {
+                    document.getElementById('main_nav').classList.add("sticy_nav");
+                } else {
 
+                    document.getElementById('main_nav').classList.remove("sticy_nav");
+                }
 
-            <script>
-                document.addEventListener("scroll", function() {
-                    // console.log(document.documentElement.scrollTop);
-
-                    if (document.documentElement.scrollTop > 100) {
-                        document.getElementById('main_nav').classList.add("sticy_nav");
-                    } else {
-
-                        document.getElementById('main_nav').classList.remove("sticy_nav");
-                    }
-
-                })
-            </script>
-            <div class="collapse navbar-collapse justify-content-between align-items-center px-0 px-lg-3" id="navbarCollapse">
-                <div class="navbar-nav mr-auto py-0">
-                    <a href="<?php url_for('index.php') ?>" class="nav-item nav-link <?php if ($active == "home") {
+            })
+        </script>
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a href="<?php url_for('index.php') ?>" class="nav-item nav-link <?php if ($active == "home") {
+                                                                                                echo "active";
+                                                                                            } ?> ">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php url_for('blog.php') ?>" class="nav-item nav-link <?php if ($active == "category") {
                                                                                             echo "active";
-                                                                                        } ?> ">Home</a>
-                    <a href="<?php url_for('blog.php') ?>" class="nav-item nav-link <?php if ($active == "category") {
-                                                                                        echo "active";
-                                                                                    } ?> ">Blog</a>
-                    <a class="nav-item nav-link <?php if ($active == "posts") {
-                                                    echo "active";
-                                                } ?> ">Single Post</a>
-
-                    <a href="<?php url_for('contact.php') ?>" class="nav-item nav-link <?php if ($active == "contact") {
-                                                                                            echo "active";
-                                                                                        } ?> ">Contact</a>
-                </div>
-                <form action="<?php echo GlobalROOT_PATH ?>/search.php" method="GET" class="m-0">
+                                                                                        } ?> ">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link disabled <?php if ($active == "posts") {
+                                                                    echo "active";
+                                                                } ?> ">Single Post</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php url_for('contact.php') ?>" class="nav-item nav-link <?php if ($active == "contact") {
+                                                                                                echo "active";
+                                                                                            } ?> ">Contact</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
                     <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
                         <input type="text" class="form-control" placeholder="Keyword" name="search">
                         <button class="input-group-text text-secondary"><i class="fa fa-search"></i></button>
 
                     </div>
                 </form>
+
                 <div class="navbar-nav mr-5 py-0">
                     <div class="nav-item dropdown">
                         <div class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user-circle"></i></div>
@@ -161,7 +181,34 @@
                     </div>
                 </div>
             </div>
-        </nav>
+        </div>
+    </nav>
+    <!-- bootstrap nav end  -->
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid p-0 mb-3">
+
+        <!-- <nav class="navbar navbar-expand-lg bg-light navbar-light py-2 py-lg-0 px-lg-5">
+
+
+
+            <div class="collapse navbar-collapse justify-content-between align-items-center px-0 px-lg-3" id="navbarCollapse">
+                <div class="navbar-nav mr-auto py-0">
+
+                    
+                    
+
+                    <a href="<?php url_for('contact.php') ?>" class="nav-item nav-link <?php if ($active == "contact") {
+                                                                                            echo "active";
+                                                                                        } ?> ">Contact</a>
+                </div>
+                <form action="<?php echo GlobalROOT_PATH ?>/search.php" method="GET" class="m-0">
+                    
+                </form>
+                
+            </div>
+        </nav> -->
 
 
     </div>

@@ -43,6 +43,16 @@ $key = $_SESSION["admin_key"] ?? "";
             text-align: center;
             font-size: 12px;
         }
+
+        .form-text {
+            line-height: 16px;
+            padding: 5px 0px;
+            font-size: 13px;
+        }
+
+        .label {
+            font-family: sans-serif;
+        }
     </style>
 
 </head>
@@ -80,31 +90,35 @@ $key = $_SESSION["admin_key"] ?? "";
                                     <!-- left  -->
                                     <div class="row justify-content-evenly my-2">
 
+                                        <div class="col-lg-12 bg-info text-light p-2 m-2">
+                                            Main Slider Setting
+                                        </div>
+
                                         <div class="col-lg-3 p-2 my-2">
 
-                                            <div class="label bg-info text-light p-2" for="main-slider">Main Slider </div>
+                                            <label class="bg-info text-light p-2" for="main-slider">Main Slider :</label>
                                             <div class="form-text">
                                                 Define is your main slider running or not.
                                             </div>
-                                            <select name="main_slider" id="main_slider" class="form-control" onchange="go(setting.main_slider.name, setting.main_slider.value)">
+                                            <select name="main_slider" id="main-slider" class="form-control" onchange="go(setting.main_slider.name, setting.main_slider.value)">
                                                 <option value="0">Stop Showing Slides</option>
                                                 <option value="1">Running</option>
                                             </select>
 
                                         </div>
                                         <div class="col-lg-3 p-2 my-2">
-                                            <div class="form-label bg-info text-light p-2" for="slider-item">Main Slider Item : <span id="slider-item"></span> </div>
+                                            <label class=" bg-info text-light p-2" for="slider-item">Main Slider Item : <span id="slider-item"></span> </label>
                                             <div class="form-text">
-                                                How many slides do you want to show in your slider slides ?
+                                                How many slides do you want to show in slider slides ?
                                             </div>
                                             <input type="number" name="main_slider_item" id="slider-item" class="form-control" value="<?php echo $data["main_slider_item"] ?>" onchange="go(setting.main_slider_item.name, setting.main_slider_item.value)">
                                         </div>
 
                                         <!-- main slider order  -->
                                         <div class="col-lg-3 p-2 my-2">
-                                            <div class="label bg-info text-light p-2" for="slider-order">Main Slider Order : <span id="slider-order"></span> </div>
+                                            <label class=" bg-info text-light p-2" for="slider-order">Main Slider Order : <span id="slider-order"></span> </label>
                                             <div class="form-text">
-                                                Which order you slides show ? ASEC [a-z], DESC [z-a]
+                                                Which order slides show ? ASEC [a-z], DESC [z-a]
                                             </div>
                                             <select name="main_slider_order" id="slider-order" class="form-control" onchange="go(setting.main_slider_order.name, setting.main_slider_order.value)">
                                                 <option <?php echo ($data['main_slider_order'] == 'ASEC') ? "SELECTED" : "" ?> value="ASEC">ASEC</option>
@@ -112,7 +126,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                             </select>
                                         </div>
                                         <div class="col-lg-3 p-2 my-2">
-                                            <label for="post-tag">Post Tag :</label>
+                                            <lable class=" bg-info text-light p-2" id="post-tag" for="post-tag">Main Slider Post Tag :</lable>
                                             <div class="form-text">
                                                 Do you want to show post tag into main slider.
                                             </div>
@@ -126,31 +140,77 @@ $key = $_SESSION["admin_key"] ?? "";
                                     </div>
                                     <div class="row my-2 justify-content-evenly">
 
-                                        <div class="col-lg-3 p-2 my-2">
-                                            <label for="follow-widget">Follow Widgets :</label>
+                                        <div class="col-lg-12 bg-primary text-light p-2 m-2">Right Side Widgets</div>
+
+                                        <div class="col-lg-2 m-2 my-2">
+                                            <label class="bg-primary text-light p-2" for="site_audit">Site Audit :</label>
                                             <div class="form-text">
-                                                Is your follow us widgets shown in home page or not.
+                                                Site audit short overview show or not.
                                             </div>
-                                            <select name="follow_us" id="follow" class="form-control" onchange="go(setting.follow_us.name, setting.follow_us.value)">
-                                                <option <?php echo ($data['follow_us'] == '0') ? "SELECTED" : "" ?> value="0">No</option>
-                                                <option <?php echo ($data['follow_us'] == '1') ? "SELECTED" : "" ?> value="1">Yes</option>
+                                            <select name="site_audit" id="site_audit" class="form-control" onchange="go(setting.follow_us.name, setting.follow_us.value)">
+                                                <option <?php echo ($data['site_audit'] == '0') ? "SELECTED" : "" ?> value="0">Hide</option>
+                                                <option <?php echo ($data['site_audit'] == '1') ? "SELECTED" : "" ?> value="1">Show</option>
                                                 <!-- <option value="1">Shown in homepage</option> -->
                                             </select>
                                         </div>
 
                                         <div class="col-lg-3 p-2 my-2">
-                                            <label for="newsletter">Newsletter :</label>
+                                            <label class="bg-primary text-light p-2" for="follow-widget">Follow Widget :</label>
                                             <div class="form-text">
-                                                Newsletter subscription field shown in homepage or not.
+                                                Is your follow us widgets shown or not.
                                             </div>
-                                            <select name="newsletter" id="newsletter" class="form-control" onchange="go(setting.newsletter.name, setting.newsletter.value)">
-                                                <option <?php echo ($data['newsletter'] == '0') ? "SELECTED" : "" ?> value="0">No</option>
-                                                <option <?php echo ($data['newsletter'] == '1') ? "SELECTED" : "" ?> value="1">Yes</option>
+                                            <select name="follow_us" id="follow-widget" class="form-control" onchange="go(setting.follow_us.name, setting.follow_us.value)">
+                                                <option <?php echo ($data['follow_us'] == '0') ? "SELECTED" : "" ?> value="0">Hide</option>
+                                                <option <?php echo ($data['follow_us'] == '1') ? "SELECTED" : "" ?> value="1">Show</option>
+                                                <!-- <option value="1">Shown in homepage</option> -->
                                             </select>
                                         </div>
 
                                         <div class="col-lg-3 p-2 my-2">
-                                            <label for="category">Category :</label>
+                                            <label class="bg-primary text-light p-2" for="newsletter">Newsletter Widget :</label>
+                                            <div class="form-text">
+                                                Newsletter subscription field shown or not.
+                                            </div>
+                                            <select name="newsletter" id="newsletter" class="form-control" onchange="go(setting.newsletter.name, setting.newsletter.value)">
+                                                <option <?php echo ($data['newsletter'] == '0') ? "SELECTED" : "" ?> value="0">Hide</option>
+                                                <option <?php echo ($data['newsletter'] == '1') ? "SELECTED" : "" ?> value="1">Show</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-lg-3 p-2 my-2">
+                                            <div class="label bg-primary text-light p-2">Post Tags Widget :</div>
+                                            <div class="form-text">
+                                                Post tags wigets shown in homepage right sidebar or not ?
+                                            </div>
+                                            <select name="tags_in_main" id="tags" class="form-control" onchange="go(setting.tags_in_main.name, setting.tags_in_main.value)">
+                                                <option <?php echo ($data['tags_in_main'] == '0') ? "SELECTED" : "" ?> value="0">Hide</option>
+                                                <option <?php echo ($data['tags_in_main'] == '1') ? "SELECTED" : "" ?> value="1">Show</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- most view post -->
+                                        <div class="col-lg-3 p-2 my-2">
+                                            <div class="label bg-primary text-light p-2">Most Visited Posts :</div>
+                                            <div class="form-text">
+                                                Post tags wigets shown in homepage right sidebar or not ?
+                                            </div>
+                                            <select name="most_visited" id="tags" class="form-control" onchange="go(setting.most_visited.name, setting.most_visited.value)">
+                                                <option <?php echo ($data['most_visited'] == '0') ? "SELECTED" : "" ?> value="0">Hide</option>
+                                                <option <?php echo ($data['most_visited'] == '1') ? "SELECTED" : "" ?> value="1">Show</option>
+                                            </select>
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12 bg-info text-light p-2 m-2">
+                                            Category
+                                        </div>
+
+                                        <div class="col-lg-3 p-2 my-2">
+                                            <label class="label bg-info text-light p-2 m-2" for="category">Category :</label>
                                             <div class="form-text">
                                                 Where do you want to show your category. by default in main content.
                                             </div>
@@ -161,20 +221,22 @@ $key = $_SESSION["admin_key"] ?? "";
                                             </select>
                                         </div>
 
-
                                         <div class="col-lg-3 p-2 my-2">
-                                            <label for="latest">Latest Post :</label>
+                                            <label class="bg-info text-light p-2 m-2" for="cat-item">Category Item :</label>
                                             <div class="form-text">
-                                                How many post show in latest post part.
+                                                How many category name want to show into category widgets
                                             </div>
-                                            <input type="number" name="latest" id="latest" class="form-control" value="<?php echo $data["latest"] ?>" onchange="go(setting.latest.name, setting.latest.value)">
+
+                                            <input type="number" name="category_item" id="cat-item" class="form-control" value="<?php echo $data['category_item'] ?>" onchange="go(setting.category_item.name, setting.category_item.value)">
                                         </div>
+
+
                                     </div>
 
                                     <!-- define 4 category  -->
                                     <div class="row my-2">
 
-                                        <div class="col-12 bg-info text-light p-3">
+                                        <div class="col-12 bg-warning text-light p-2">
                                             <strong>Homepage post show accroding following category :</strong>
                                         </div>
 
@@ -186,7 +248,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                         ?>
 
                                         <div class="col-lg-3 p-2 my-2">
-                                            <div class="label bg-info text-light p-2" for="first">First Category :</div>
+                                            <div class="label bg-warning text-light p-2" for="first">First Category :</div>
                                             <select class="form-control" name="cat_1" id="first" onchange="go(setting.cat_1.name, setting.cat_1.value)">
                                                 <option value="">select category</option>
                                                 <?php
@@ -200,7 +262,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                             </select>
                                         </div>
                                         <div class="col-lg-3 p-2 my-2">
-                                            <div class="label bg-info text-light p-2" for="second">Second Category :</div>
+                                            <div class="label bg-warning text-light p-2" for="second">Second Category :</div>
                                             <select class="form-control" name="cat_2" id="second" onchange="go(setting.cat_2.name, setting.cat_2.value)">
                                                 <option value="">select category</option>
                                                 <?php
@@ -215,7 +277,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                             </select>
                                         </div>
                                         <div class="col-lg-3 p-2 my-2">
-                                            <div class="label bg-info text-light p-2" for="third">Third Category :</div>
+                                            <div class="label bg-warning text-light p-2" for="third">Third Category :</div>
                                             <select class="form-control" name="cat_3" id="third" onchange="go(setting.cat_3.name, setting.cat_3.value)">
                                                 <option value="">select category</option>
                                                 <?php
@@ -230,7 +292,7 @@ $key = $_SESSION["admin_key"] ?? "";
                                             </select>
                                         </div>
                                         <div class="col-lg-3 p-2 my-2">
-                                            <div class="label bg-info text-light p-2" for="forth">Forth Category :</div>
+                                            <div class="label bg-warning text-light p-2" for="forth">Forth Category :</div>
                                             <select class="form-control" name="cat_4" id="forth" onchange="go(setting.cat_4.name, setting.cat_4.value)">
                                                 <option value="">select category</option>
                                                 <?php
@@ -248,15 +310,12 @@ $key = $_SESSION["admin_key"] ?? "";
                                     </div>
 
                                     <div class="row my-2">
-                                        <div class="col-lg-3 p-2 m-2">
-                                            <div class="label bg-info text-light p-2">Post Tags Wigets :</div>
+                                        <div class="col-lg-3 p-2 my-2">
+                                            <div class="label bg-primary text-light p-2" for="latest">Latest Post :</div>
                                             <div class="form-text">
-                                                Post tags wigets shown in homepage right sidebar
+                                                How many post show in latest post part.
                                             </div>
-                                            <select name="tags_in_main" id="tags" class="form-control" onchange="go(setting.tags_in_main.name, setting.tags_in_main.value)">
-                                                <option value="0">Hide</option>
-                                                <option value="1">Show</option>
-                                            </select>
+                                            <input type="number" name="latest" id="latest" class="form-control" value="<?php echo $data["latest"] ?>" onchange="go(setting.latest.name, setting.latest.value)">
                                         </div>
                                     </div>
 

@@ -107,15 +107,6 @@ $mysqli = new DBSelect;
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
-<script>
-    document.body.addEventListener('scroll', () => {
-        if (document.documentElement.scrollTop > 350) {
-            document.getElementById('main_nav').style.position = fixed;
-        };
-        console.log(document.documentElement.scrollTop);
-        console.log('document.documentElement.scrollTop');
-    })
-</script>
 </body>
 
 </html>

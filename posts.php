@@ -148,24 +148,9 @@ include "header.php";
                 <!-- Social Follow End -->
 
                 <!-- Newsletter Start -->
-                <div class="pb-3">
-                    <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Newsletter</h3>
-                    </div>
-                    <div class="bg-light text-justify p-4 mb-3">
-                        <p>Wanna subscribe your newslatter. Everytime you get an email, if there anything chagnge of updated or added.<br>If you do please subscribe !</p>
-                        <div class="input-group" style="width: 100%;">
-                            <form action="<?php echo GlobalROOT_PATH ?>/subscribe.php" method="get">
-                                <input type="email" class="form-control form-control-lg" placeholder="Your Email" name="email" required>
-                                <small>Subscribe can get all emaail by his provided email.</small>
-                                <div class="input-group-append py-3">
-                                    <button name="subscribe" class="btn btn-primary">Subscribe</button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                include "partial/newsletter.php";
+                ?>
                 <!-- Newsletter End -->
 
                 <!-- Ads Start -->
@@ -180,22 +165,7 @@ include "header.php";
                         <h3 class="m-0">Realted Post</h3>
                     </div>
                     <?php
-                    $tranding_category = $single_post["postCategory"];
-                    $tranding_qry = mysqli_query($conn, "SELECT posts.postTitle, posts.postCreated_at, posts.postCategory, posts.postImage, category.catName FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postCategory = $tranding_category ORDER BY posts.postId LIMIT 5");
-                    while ($tranding = mysqli_fetch_assoc($tranding_qry)) { ?>
-
-                        <div class="d-flex mb-3">
-                            <img src="/coderbees/image/<?php echo $tranding["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
-                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                <div class="mb-1" style="font-size: 13px;">
-                                    <a href="category.php?category=<?php echo $tranding['catName'] ?>"> <?php echo $tranding["catName"] ?></a>
-                                    <span class="px-1">/</span>
-                                    <span><?php echo $tranding["postCreated_at"] ?></span>
-                                </div>
-                                <a class="h6 m-0" href=""><?php echo $tranding["postTitle"] ?></a>
-                            </div>
-                        </div>
-                    <?php }
+                    category_related_post($single_post['postCategory'], $conn);
                     ?>
 
                 </div>
@@ -212,22 +182,7 @@ include "header.php";
 
                         //current category
                         $cat = $single_post['postCategory'];
-                        $tag_sql = $mysqli->select(["postTag"])->from("posts")->where("postCategory = $cat")->limit(5)->get();
-                        if ($tag_sql->num_rows > 0) {
 
-                            while ($result = $tag_sql->fetch_assoc()) {
-                                if (str_word_count($result['postTag']) > 1) {
-                                    $tag = '';
-                                    $tag = explode(",", $result['postTag']);
-                                    foreach ($tag as $tags) {
-                                        echo "<a href='#' class='btn btn-outline-secondary btn-sm m-1'>{$tags}</a>";
-                                    }
-                                } else {
-
-                                    echo "<a class='btn btn-outline-secondary btn-sm'>{$result['postTag']}</a>";
-                                }
-                            }
-                        }
                         ?>
                     </div>
                 </div>

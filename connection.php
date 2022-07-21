@@ -3,6 +3,12 @@ if (!session_start()) {
     session_start();
 }
 
+//function 
+include "function/make_tags.php";
+
+//partisl content
+include "partial/related_post.php";
+
 //include QueryHandler
 include "configuration/QueryHandeler.php";
 $mysqli = new DBSelect;

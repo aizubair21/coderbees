@@ -5,15 +5,15 @@ include "connection.php";
 include "header.php";
 
 $tags = $_GET["tags"] ?? "";
-$tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY postId DESC ");
+// $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY postId DESC ");
 ?>
 
 
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="container">
-        <nav class=" ">
-            <a class="breadcrumbs" href="index.php"> <i class="fas fa-home"></i> Home</a>
+        <nav class="breadcurmbs">
+            <a class="breadcrumbs-item" href="index.php"> <i class="fas fa-home"></i> Home</a>
             <a class="breadcrumbs-item" href="tag.php?show=all_tag">Tags</a>
             <span class="breadcrumbs-item-active"><?php echo $tags ?></span>
         </nav>
@@ -45,20 +45,20 @@ $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY 
 
                     <?php
 
-                    $tag_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postTag = '$tags' AND posts.postStatus = 1");
-                    if (mysqli_num_rows($tag_qry) > 0) {
-                        while ($posts = mysqli_fetch_assoc($tag_qry)) { ?>
+                    $tag_qry = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postTag = '$tags' AND posts.postStatus = 1")->get();
+                    if ($tag_qry->num_rows > 0) {
+                        while ($posts = $tag_qry->fetch_assoc()) { ?>
 
                             <div class="col-lg-6">
                                 <div class="d-flex mb-3">
-                                    <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
-                                    <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
+                                    <img src="image/<?php echo $posts["postImage"] ?>" style="width: 130px; height: 100px; object-fit: cover;">
+                                    <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: 100px;">
+                                        <a class="h5 m-0" href="posts.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
                                         <div class="mb-1" style="font-size: 13px;">
                                             <a href="category.php?category=<?php echo $posts["catName"] ?>"><?php echo $posts["catName"] ?></a>
                                             <span class="px-1">/</span>
-                                            <span><?php echo $posts["postCreated_at"] ?></span>
+                                            <span><?php echo $posts["postCreated_at"]; ?></span>
                                         </div>
-                                        <a class="h6 m-0" href="posts.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
                                     </div>
                                 </div>
                             </div>
@@ -66,20 +66,20 @@ $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY 
                             <?php }
                     } elseif (isset($_GET["show"])) {
 
-                        $tag_qry = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1");
-                        if (mysqli_num_rows($tag_qry) > 0) {
-                            while ($posts = mysqli_fetch_assoc($tag_qry)) { ?>
+                        $tag_qry = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postTag = '$tags' AND posts.postStatus = 1")->get();
+                        if ($tag_qry->num_rows > 0) {
+                            while ($posts = $tag_qry->fetch_assoc()) { ?>
 
                                 <div class="col-lg-6">
                                     <div class="d-flex mb-3">
-                                        <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
-                                        <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
+                                        <img src="image/<?php echo $posts["postImage"] ?>" style="width: 130px; height: 100px; object-fit: cover;">
+                                        <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: 100px;">
+                                            <a class="h5 m-0" href="single_post.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
                                             <div class="mb-1" style="font-size: 13px;">
                                                 <a href="category.php?category=<?php echo $posts["catName"] ?>"><?php echo $posts["catName"] ?></a>
                                                 <span class="px-1">/</span>
                                                 <span><?php echo $posts["postCreated_at"] ?></span>
                                             </div>
-                                            <a class="h6 m-0" href="single_post.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
                                         </div>
                                     </div>
                                 </div>
@@ -92,6 +92,8 @@ $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY 
 
 
                 </div>
+
+                <!-- paginaiton paginate -->
                 <div class="row">
                     <div class="col-12">
                         <nav aria-label="Page navigation">
@@ -115,6 +117,11 @@ $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY 
                         </nav>
                     </div>
                 </div>
+
+
+                <!-- read more -->
+
+
             </div>
 
             <div class="col-lg-4 pt-3 pt-lg-0">
@@ -123,24 +130,7 @@ $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY 
                 <!-- Social Follow End -->
 
                 <!-- Newsletter Start -->
-                <div class="pb-3">
-                    <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Newsletter</h3>
-                    </div>
-                    <div class="bg-light text-justify p-4 mb-3">
-                        <p>Wanna subscribe your newslatter. Everytime you get an email, if there anything chagnge of updated or added.<br>If you do please subscribe !</p>
-                        <div class="input-group" style="width: 100%;">
-                            <form action="subscribe.php" method="get">
-                                <input type="email" class="form-control form-control-lg" placeholder="Your Email" name="email">
-                                <small>Subscribe can get all emaail by his provided email.</small>
-                                <div class="input-group-append py-3">
-                                    <button name="subscribe" class="btn btn-primary">Subscribe</button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                <?php include "partial/newsletter.php"; ?>
                 <!-- Newsletter End -->
 
                 <!-- Ads Start -->
@@ -150,47 +140,11 @@ $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY 
                 <!-- Ads End -->
 
                 <!-- Popular News Start -->
-                <div class="pb-3">
-                    <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Latest</h3>
-                    </div>
-                    <?php
-                    $tranding_qry = mysqli_query($conn, "SELECT posts.postTitle, posts.postCreated_at, posts.postCategory, posts.postImage, category.catName FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 ORDER BY posts.postId DESC LIMIT 4");
-                    while ($tranding = mysqli_fetch_assoc($tranding_qry)) { ?>
 
-                        <div class="d-flex mb-3">
-                            <img src="image/<?php echo $tranding["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
-                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
-                                <div class="mb-1" style="font-size: 13px;">
-                                    <a href="category.php?category=<?php echo $tranding['catName'] ?>"> <?php echo $tranding["catName"] ?></a>
-                                    <span class="px-1">/</span>
-                                    <span><?php echo $tranding["postCreated_at"] ?></span>
-                                </div>
-                                <a class="h6 m-0" href=""><?php echo $tranding["postTitle"] ?></a>
-                            </div>
-                        </div>
-                    <?php }
-                    ?>
-
-                </div>
                 <!-- Popular News End -->
 
                 <!-- Tags Start -->
-                <div class="pb-3">
-                    <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Tags</h3>
-                    </div>
-                    <div class="d-flex flex-wrap m-n1">
-                        <?php
-                        $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts ORDER BY postId DESC LIMIT 10");
-                        if (mysqli_num_rows($tag_qry) > 0) {
-                            while ($tag = mysqli_fetch_assoc($tag_qry)) {
-                                echo ' <a href="tag.php?tags=' . $tag["postTag"] . '" class="btn btn-sm btn-outline-secondary m-1">' . $tag["postTag"] . '</a>';
-                            }
-                        }
-                        ?>
-                    </div>
-                </div>
+
                 <!-- Tags End -->
             </div>
         </div>

@@ -10,11 +10,22 @@ function tags($tag_sql)
                 $tag = '';
                 $tag = explode(",", $result['postTag']);
                 foreach ($tag as $tags) {
-                    echo "<a href='#' class='btn btn-outline-secondary btn-sm m-1'>{$tags}</a>";
+                    if (!empty($tags)) :
+?>
+                        <a href="tag.php?tags=<?php echo $tags ?>" class='btn btn-outline-secondary btn-sm m-1'> <?php echo $tags ?> </a>
+
+                    <?php
+                    endif;
                 }
             } else {
+                if (!empty($result['postTaag'])) :
 
-                echo "<a class='btn btn-outline-secondary btn-sm m-1'>{$result['postTag']}</a>";
+                    ?>
+
+                    <a href="tag.php?tags=<?php echo $result['postTag'] ?>" class='btn btn-outline-secondary btn-sm m-1'> <?php echo $result['postTag'] ?></a>
+
+            <?php
+                endif;
             }
         }
     }
@@ -30,7 +41,7 @@ function make_tag_for_posts($string_tags)
         $tag = explode(",", $string_tags);
         foreach ($tag as $tags) {
 
-?>
+            ?>
             <a class="btn btn-outline-secondary btn-sm" href="tag.php?tags=<?php echo $tags ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo $tags ?> </a>
         <?php
         }

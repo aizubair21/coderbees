@@ -96,10 +96,10 @@
         /* container-fluid */
 
 
-        .container {
+        /* .container {
             padding-top: 15px;
             box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
-        }
+        } */
     </style>
 
 

@@ -5,7 +5,7 @@ $mysqli = new DBSelect;
     <div class="row">
         <div class="col-lg-3 col-md-6 mb-5">
             <a href="index.php" class="navbar-brand">
-                <h1 class="mb-2 mt-n2 display-5 text-uppercase"><span class="text-primary">Coder</span>bees</h1>
+                <h1 class="mb-2 mt-n2 display-5 text-uppercase"><span class="text-primary">Coder</span>bee</h1>
             </a>
             <p>Volup amet magna clita tempor. Tempor sea eos vero ipsum. Lorem lorem sit sed elitr sed kasd et</p>
             <div class="d-flex justify-content-start align-items-center mt-4">
@@ -42,27 +42,7 @@ $mysqli = new DBSelect;
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
-            <h4 class="font-weight-bold mb-4">Tags</h4>
-            <div class="d-flex flex-wrap m-n1">
-                <?php
-                $tag_sql = $mysqli->select(["postTag"])->from("posts")->limit(3)->get();
-                if ($tag_sql->num_rows > 0) {
-
-                    while ($result = $tag_sql->fetch_assoc()) {
-                        if (str_word_count($result['postTag']) > 1) {
-                            $tag = '';
-                            $tag = explode(",", $result['postTag']);
-                            foreach ($tag as $tags) {
-                                echo "<a href='#' class='btn btn-outline-secondary btn-sm m-1'>{$tags}</a>";
-                            }
-                        } else {
-
-                            echo "<a class='btn btn-outline-secondary btn-sm m-1'>{$result['postTag']}</a>";
-                        }
-                    }
-                }
-                ?>
-            </div>
+            <?php include "partial/tags.php"; ?>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
             <h4 class="font-weight-bold mb-4">Quick Links</h4>

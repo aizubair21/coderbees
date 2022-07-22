@@ -160,24 +160,7 @@ $total_page = ceil($total_row / $result_per_page);
                 <!-- Social Follow End -->
 
                 <!-- Newsletter Start -->
-                <div class="pb-3">
-                    <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Newsletter</h3>
-                    </div>
-                    <div class="bg-light text-justify p-4 mb-3">
-                        <p>Wanna subscribe your newslatter. Everytime you get an email, if there anything chagnge of updated or added.<br>If you do please subscribe !</p>
-                        <div class="input-group" style="width: 100%;">
-                            <form action="subscribe.php" method="get">
-                                <input type="email" class="form-control form-control-lg" placeholder="Your Email" name="email" required>
-                                <small>Subscribe can get all emaail by his provided email.</small>
-                                <div class="input-group-append py-3">
-                                    <button name="subscribe" class="btn btn-primary">Subscribe</button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                <?php include "partial/newsletter.php"; ?>
                 <!-- Newsletter End -->
 
                 <!-- Ads Start -->
@@ -203,23 +186,7 @@ $total_page = ceil($total_row / $result_per_page);
                     </div> -->
                 <!-- Popular News End -->
 
-                <!-- Tags Start -->
-                <div class="pb-3">
-                    <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Tags</h3>
-                    </div>
-                    <div class="d-flex flex-wrap m-n1">
-                        <?php
-                        $tag_qry = mysqli_query($conn, "SELECT postTag FROM posts ORDER BY postId DESC LIMIT 10");
-                        if (mysqli_num_rows($tag_qry) > 0) {
-                            while ($tag = mysqli_fetch_assoc($tag_qry)) {
-                                echo ' <a href="tag.php?tags=' . $tag["postTag"] . '" class="btn btn-sm btn-outline-secondary m-1">' . $tag["postTag"] . '</a>';
-                            }
-                        }
-                        ?>
-                    </div>
-                </div>
-                <!-- Tags End -->
+
             </div>
         </div>
     </div>

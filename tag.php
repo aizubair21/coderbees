@@ -1,10 +1,11 @@
 <?php
 $active = "category";
 $title = "Tag - coderbees";
+
 include "connection.php";
 include "header.php";
 
-$tags = $_GET["tags"] ?? "";
+$tags = trim($_GET["tags"] ?? "");
 // $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY postId DESC ");
 ?>
 
@@ -45,19 +46,22 @@ $tags = $_GET["tags"] ?? "";
 
                     <?php
 
-                    $tag_qry = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postTag = '$tags' AND posts.postStatus = 1")->get();
+                    $tag_qry = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postTag LIKE '%$tags%' AND posts.postStatus = 1")->get();
                     if ($tag_qry->num_rows > 0) {
                         while ($posts = $tag_qry->fetch_assoc()) { ?>
 
                             <div class="col-lg-6">
                                 <div class="d-flex mb-3">
-                                    <img src="image/<?php echo $posts["postImage"] ?>" style="width: 130px; height: 100px; object-fit: cover;">
-                                    <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: 100px;">
+                                    <img src="image/<?php echo $posts["postImage"] ?>" style="width: 130px; height: auto; object-fit: cover;">
+                                    <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height:auto">
                                         <a class="h5 m-0" href="posts.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
                                         <div class="mb-1" style="font-size: 13px;">
                                             <a href="category.php?category=<?php echo $posts["catName"] ?>"><?php echo $posts["catName"] ?></a>
                                             <span class="px-1">/</span>
                                             <span><?php echo $posts["postCreated_at"]; ?></span>
+                                            <?php
+                                            make_tag_for_posts($posts["postTag"]);
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -72,13 +76,16 @@ $tags = $_GET["tags"] ?? "";
 
                                 <div class="col-lg-6">
                                     <div class="d-flex mb-3">
-                                        <img src="image/<?php echo $posts["postImage"] ?>" style="width: 130px; height: 100px; object-fit: cover;">
-                                        <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: 100px;">
+                                        <img src="image/<?php echo $posts["postImage"] ?>" style="width: 130px; height:auto; object-fit: cover;">
+                                        <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: auto;">
                                             <a class="h5 m-0" href="single_post.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
                                             <div class="mb-1" style="font-size: 13px;">
                                                 <a href="category.php?category=<?php echo $posts["catName"] ?>"><?php echo $posts["catName"] ?></a>
                                                 <span class="px-1">/</span>
                                                 <span><?php echo $posts["postCreated_at"] ?></span>
+                                                <?php
+                                                make_tag_for_posts($posts["postTag"]);
+                                                ?>
                                             </div>
                                         </div>
                                     </div>

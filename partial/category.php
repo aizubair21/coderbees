@@ -27,9 +27,14 @@
         </style>
         <ul style="list-style-type:none;">
             <?php
-            $cat_qry = mysqli_query($conn, "SELECT catId, catName FROM category LIMIT 7");
+            $mysql = new DBSelect;
 
-            while ($category = mysqli_fetch_assoc($cat_qry)) {
+            $mysql_select = new DBSelect;
+            $cat_limit_qry = $mysql->select(['category_item'])->from("home_page")->get();
+            $cat_limit = $cat_limit_qry->fetch_assoc();
+            $cat_qry = $mysql->select(["catName"])->from("category")->limit($cat_limit['category_item'])->get();
+
+            while ($category = $cat_qry->fetch_assoc()) {
                 echo '<li class=" m-2"><a  href="category.php?category=' . $category["catName"] . '"style="font-size:18px;"> <i class="fas fa-caret-right px-2 ;" ></i>' . $category["catName"] . '</a></li>';
             }
 

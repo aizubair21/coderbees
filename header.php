@@ -150,7 +150,7 @@
                                                                                             } ?> ">Contact</a>
                     </li>
                 </ul>
-                <form class="d-flex">
+                <form class="d-flex" action=" <?php GlobalROOT_PATH ?> search.php">
                     <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
                         <input type="text" class="form-control" placeholder="Keyword" name="search">
                         <button class="input-group-text text-secondary"><i class="fa fa-search"></i></button>

@@ -379,7 +379,7 @@ $setting = $set->fetch_assoc();
                                         </span>
 
                                         <?php
-                                        make_tag_for_posts($latest["postTag"]);
+                                        //make_tag_for_posts($latest["postTag"]);
 
                                         ?>
                                     </div>

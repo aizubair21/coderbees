@@ -89,7 +89,7 @@
             height: auto;
             width: 100%;
             z-index: 9;
-            box-shadow: 0px 0px 5px gray;
+            box-shadow: 0px 0px 10px 5px #ED1C24;
 
         }
 
@@ -112,12 +112,11 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="main_nav">
         <script>
             document.addEventListener("scroll", function() {
-                console.log(document.documentElement.scrollTop);
+                //console.log(document.documentElement.scrollTop);
 
-                if (document.documentElement.scrollTop > 100) {
+                if (document.documentElement.scrollTop > 200) {
                     document.getElementById('main_nav').classList.add("sticy_nav");
                 } else {
-
                     document.getElementById('main_nav').classList.remove("sticy_nav");
                 }
 

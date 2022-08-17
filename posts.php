@@ -5,7 +5,15 @@ $single_post_id = $_GET["post_id"] ?? "";
 if (isset($_GET["post_id"])) {
 
     //get the post which url was clicked
-    $single_post = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisher.publisherId = posts.postPublisher WHERE posts.postId = $single_post_id AND posts.postStatus = 1"));
+    // $single_post = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisher.publisherId = posts.postPublisher WHERE posts.postId = $single_post_id AND posts.postStatus = 1"));
+
+
+    $single_post_query = $mysqli->select([])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory LEFT JOIN publisher ON publisher.publisherId = posts.postPublisher")->where("posts.postId = $single_post_id AND posts.postStatus = 1")->get();
+    // echo "<pre>";
+    // print_r($single_post_query);
+
+    // echo "</pre>";
+    $single_post = $single_post_query->fetch_assoc();
 
     //if post not found. 
     if ($single_post) {
@@ -154,9 +162,9 @@ include "header.php";
                 <!-- Newsletter End -->
 
                 <!-- Ads Start -->
-                <div class="mb-3 pb-3">
+                <!-- <div class="mb-3 pb-3">
                     <a href=""><img class="img-fluid" src="img/news-500x280-4.jpg" alt=""></a>
-                </div>
+                </div> -->
                 <!-- Ads End -->
 
                 <!-- Popular News Start -->
@@ -165,6 +173,8 @@ include "header.php";
                         <h4 class="m-0 py-2 px-4 text-light bg-primary d-inline-flex">Realted Post</h4>
                     </div>
                     <?php
+
+                    //category_related_post() method/function are defined at coderbees/partial/related_post.php file
                     category_related_post($single_post['postCategory'], $conn);
                     ?>
 
@@ -172,7 +182,7 @@ include "header.php";
                 <!-- Popular News End -->
 
                 <!-- Tags Start -->
-                <div class="pb-3">
+                <!-- <div class="pb-3">
                     <div class="border-bottom border-primary mb-3">
                         <h4 class="m-0 text-light bg-primary d-inline-flex py-2 px-4">Tags</h3>
                     </div>
@@ -185,7 +195,7 @@ include "header.php";
 
                         ?>
                     </div>
-                </div>
+                </div> -->
                 <!-- Tags End -->
             </div>
         </div>

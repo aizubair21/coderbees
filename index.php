@@ -91,6 +91,7 @@ $setting = $set->fetch_assoc();
                     while ($posts = $post_restlt->fetch_assoc()) { ?>
 
                         <div class="position-relative overflow-hidden" style="height: 435px;">
+
                             <img class="img-fluid h-100" src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $posts["postImage"] ?>" style="object-fit: cover;">
                             <div class="overlay">
                                 <div class="mb-1">
@@ -120,14 +121,16 @@ $setting = $set->fetch_assoc();
                         $popular_qry = $mysqli->select(['postId', 'post', 'postTitle', 'postImage', 'postCreated_at', 'postCategory', 'catName'])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1")->order("posts.view")->DESC()->limit("4")->get();
                         while ($popular = $popular_qry->fetch_assoc()) { ?>
                             <div class="d-flex mb-3">
-                                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 30%; height: 100px">
+                                <div style="width:40%">
+                                    <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 100%; height: 100px">
+                                </div>
                                 <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px; width:70%">
                                     <div class="mb-1" style="font-size: 13px;">
                                         <a class="text-primary" href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
                                         <span class="px-1">/</span>
                                         <span><?php echo $popular["postCreated_at"] ?></span>
                                     </div>
-                                    <a class="h5 m-0" href="posts.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
+                                    <a class="h6 m-0" href="posts.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
                                 </div>
                             </div>
 
@@ -177,7 +180,9 @@ $setting = $set->fetch_assoc();
                     <div class="col-lg-12 mb-2">
 
                         <div class="d-flex mb-3">
-                            <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $first_category["postImage"] ?>" style="width: 30%; height: 100px">
+                            <div style="width: 30%;">
+                                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $first_category["postImage"] ?>" style="width: 100%; height: 100px">
+                            </div>
                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px; width:70%">
                                 <div class="mb-1" style="font-size: 13px;">
                                     <a class="text-primary" href="category.php?category=<?php echo $first_category["catName"] ?>"><?php echo $first_category["catName"] ?></a>
@@ -217,7 +222,9 @@ $setting = $set->fetch_assoc();
 
                     <div class="position-relative col-12 mb-2">
                         <div class="d-flex mb-3">
-                            <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $secound_category["postImage"] ?>" style="width: 30%; height: 100px">
+                            <div style="width:30%;">
+                                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $secound_category["postImage"] ?>" style="width: 100%; height: 100px">
+                            </div>
                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px; width:70%">
                                 <div class="mb-1" style="font-size: 13px;">
                                     <a class="text-primary" href="category.php?category=<?php echo $secound_category["catName"] ?>"><?php echo $secound_category["catName"] ?></a>
@@ -269,7 +276,9 @@ $setting = $set->fetch_assoc();
                     <div class="col-12 mb-2">
 
                         <div class="d-flex align-items-start mb-3">
-                            <img src="/coderbees/image/<?php echo $third_category["postImage"] ?>" style="width: 150px; height: 100px; object-fit: cover;">
+                            <div style="width:30%">
+                                <img src="/coderbees/image/<?php echo $third_category["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover;">
+                            </div>
                             <div class="w-100 d-flex flex-column justify-content-evenly align-items-start bg-light px-3" style="height: 100px;">
                                 <a class="h5 m-0" href="posts.php?post_id=<?php echo $third_category["postId"] ?>"><?php echo $third_category["postTitle"] ?></a>
                                 <div class="mt-1" style="font-size: 13px;">
@@ -307,7 +316,9 @@ $setting = $set->fetch_assoc();
                     <div class="col-12 mb-2">
 
                         <div class="d-flex mb-3">
-                            <img src="/coderbees/image/<?php echo $forth_category["postImage"] ?>" style="width: 150px; height: 100px; object-fit: cover;">
+                            <div style="width:30%">
+                                <img src="/coderbees/image/<?php echo $forth_category["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover;">
+                            </div>
                             <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: 100px;">
                                 <a class="h5 m-0" href="posts.php?post_id=<?php echo $forth_category["postId"] ?>"><?php echo $forth_category["postTitle"] ?></a>
                                 <div class="mt-1" style="font-size: 13px;">

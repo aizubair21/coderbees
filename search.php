@@ -84,7 +84,7 @@ $total_page = ceil($total_row / $result_per_page);
                     <?php
                     if (isset($_GET["search"])) {
 
-                        $search_qry = mysqli_query($conn, "SELECT postId, postTitle, postTag, postCategory, postImage, postCreated_at, catName, catId FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE (posts.postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%') ORDER BY posts.postId DESC LIMIT $page_first_result, $result_per_page");
+                        $search_qry = mysqli_query($conn, "SELECT postId, postTitle, postTag, postCategory, postImage, postCreated_at, catName, catId FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%' ORDER BY posts.postId DESC LIMIT $page_first_result, $result_per_page");
                         if ($_GET["search"] == "") {
                             echo "<strong class='alert alert-warning'>Nothing Else !</strong>";
                         } else {

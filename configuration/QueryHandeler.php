@@ -110,7 +110,7 @@ class DBSelect extends DB
             //this return an mysqli_query string;
             return $data;
         } else {
-            return "You have an error in select statement";
+            echo "<strong class='alert alert-warning'>You have an error in select statement</strong>";
         }
     }
 }
@@ -137,7 +137,7 @@ class DBInsert extends DB
             return 'success';
         } else {
             // return "Error : " . mysqli_error($this->mysqli);
-            return "You have an error in your mysqli statement";
+            echo "<strong class='alert alert-warning'>You have an error in your mysqli statement</strong>";
         }
     }
 }
@@ -256,7 +256,7 @@ class DBUpdate extends DB
                 return "Error, You have an erro in Update Statement";
             }
         } else {
-            return "You have an error in update statement.";
+            echo  "<strong class='alert alert-warning'>You have an error in update statement.</strong>";
         }
     }
 }
@@ -297,7 +297,7 @@ class DBDelete extends DB
             if ($result) {
                 return "success";
             } else {
-                return "You have an error in Delete statement";
+                echo "<strong class='alert alert-warning'>You have an error in Delete statement</strong>";
             }
         }
     }

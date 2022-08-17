@@ -6,7 +6,9 @@ function category_related_post($category, $conn)
     while ($tranding = mysqli_fetch_assoc($tranding_qry)) { ?>
 
         <div class="d-flex mb-3">
-            <img src="/coderbees/image/<?php echo $tranding["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+            <div style="width: 40%;">
+                <img src="/coderbees/image/<?php echo $tranding["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover;">
+            </div>
             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                 <div class="mb-1" style="font-size: 13px;">
                     <a href="category.php?category=<?php echo $tranding['catName'] ?>"> <?php echo $tranding["catName"] ?></a>
@@ -26,7 +28,9 @@ function tag_related_post($tags, $conn)
     while ($tranding = mysqli_fetch_assoc($tranding_qry)) { ?>
 
         <div class="d-flex mb-3">
-            <img src="/coderbees/image/<?php echo $tranding["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+            <div style="width: 40%">
+                <img src="/coderbees/image/<?php echo $tranding["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover;">
+            </div>
             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                 <div class="mb-1" style="font-size: 13px;">
                     <a href="category.php?category=<?php echo $tranding['catName'] ?>"> <?php echo $tranding["catName"] ?></a>

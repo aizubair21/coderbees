@@ -5,7 +5,7 @@ $title = "Tag - coderbees";
 include "connection.php";
 include "header.php";
 
-$tags = trim($_GET["tags"] ?? "");
+$tags = trim($_GET["tags"] ?? "all_tag");
 // $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY postId DESC ");
 ?>
 
@@ -38,21 +38,48 @@ $tags = trim($_GET["tags"] ?? "");
 
                 </div>
 
-                <div class="mb-3">
+                <!-- adds start -->
+                <!-- <div class="mb-3">
                     <a href=""><img class="img-fluid w-100" src="img/ads-700x70.jpg" alt=""></a>
-                </div>
+                </div> -->
+                <!-- adds end -->
                 <br>
                 <div class="row">
 
                     <?php
 
-                    $tag_qry = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postTag LIKE '%$tags%' AND posts.postStatus = 1")->get();
+                    //page paginate configuration
+                    if (isset($_GET["page"])) {
+                        $page = $_GET["page"];
+                    } else {
+                        $page = 1;
+                    }
+                    // echo $page;
+
+                    //pagnation limit
+                    // how many data you want to display per page
+                    $result_per_page = 2;
+
+                    //pagination offset
+                    //from where start showing item every page. 
+                    $page_first_result = ($page - 1) * $result_per_page;
+
+                    $tag_qry = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postTag LIKE '%$tags%' AND posts.postStatus = 1")->limit($page_first_result, $result_per_page)->get();
+
+                    //total page into paginate.
+                    //total paginate item to show. 
+                    $total_page = ceil($tag_qry->num_rows / $result_per_page);
+                    echo $total_page;
+
+
                     if ($tag_qry->num_rows > 0) {
                         while ($posts = $tag_qry->fetch_assoc()) { ?>
 
                             <div class="col-lg-6">
                                 <div class="d-flex mb-3">
-                                    <img src="image/<?php echo $posts["postImage"] ?>" style="width: 130px; height: auto; object-fit: cover;">
+                                    <div style="width:40%; height:100px">
+                                        <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100%; height:100px; object-fit: cover;">
+                                    </div>
                                     <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height:auto">
                                         <a class="h5 m-0" href="posts.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
                                         <div class="mb-1" style="font-size: 13px;">
@@ -71,12 +98,15 @@ $tags = trim($_GET["tags"] ?? "");
                     } elseif (isset($_GET["show"])) {
 
                         $tag_qry = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postTag = '$tags' AND posts.postStatus = 1")->get();
+
                         if ($tag_qry->num_rows > 0) {
                             while ($posts = $tag_qry->fetch_assoc()) { ?>
 
                                 <div class="col-lg-6">
                                     <div class="d-flex mb-3">
-                                        <img src="image/<?php echo $posts["postImage"] ?>" style="width: 130px; height:auto; object-fit: cover;">
+                                        <div style="width:40%; height:100px;">
+                                            <img src="image/<?php echo $posts["postImage"] ?>" style="width:100%; height:100px; object-fit: cover;">
+                                        </div>
                                         <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: auto;">
                                             <a class="h5 m-0" href="single_post.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
                                             <div class="mb-1" style="font-size: 13px;">
@@ -101,29 +131,63 @@ $tags = trim($_GET["tags"] ?? "");
                 </div>
 
                 <!-- paginaiton paginate -->
-                <div class="row">
-                    <div class="col-12">
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span class="fa fa-angle-double-left" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span class="fa fa-angle-double-right" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+
+
+                <?php
+                if ($total_page > 1) :
+                ?>
+                    <div class="row">
+                        <div class="col-12">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item <?php if ($page < 2) {
+                                                                echo "d-none";
+                                                            } ?>">
+                                        <form action="tag.php" method="get">
+                                            <input type="hidden" name="tags" value="<?php echo $tags ?>">
+                                            <button class="page-link" href="tag.php?page=1" aria-label="Previous">
+                                                <span class="fa fa-angle-double-left" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <?php
+                                    for ($i = 1; $i <= $total_page; $i++) {
+                                    ?>
+
+                                        <li class="page-item d-flex  <?php echo ($i == $page) ? "active" : "" ?>">
+                                            <form action="tag.php" method="get">
+                                                <input type="hidden" name="tags" value="<?php echo $tags ?>">
+                                                <button class="page-link" name="page" value="<?php echo $i ?>">
+                                                    <?php echo $i ?>
+                                                </button>
+                                            </form>
+                                        </li>
+                                        <!-- <li class="page-item active"><a class="page-link" href="search.php?page=<?php echo $i ?>"><?php echo $i ?></a></li> -->
+
+                                    <?php
+                                    }
+                                    ?>
+                                    <!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                                    <li class="page-item <?php
+                                                            echo ($page == $total_page && $total_page < 2) ? "d-none " : "";
+                                                            ?>">
+                                        <form action="tag.php" method="get">
+                                            <input type="hidden" name="tags" value="<?php echo $tags ?>">
+                                            <button class="page-link" aria-label="Next" name="page" value="<?php echo $total_page ?>">
+                                                <span class="fa fa-angle-double-right" aria-hidden="true"></span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
-                </div>
+
+                <?php
+                endif;
+                ?>
 
 
                 <!-- read more -->

@@ -33,11 +33,11 @@ include "connection.php";
 include "header.php";
 
 //get all info from home_page setting tagle
-$set = $mysqli->select([])->from('home_page')->get();
+// echo "Valu pacche an ekhane. onoo vabe try korte hobe...";
+
+$mysql_setting = new DBSelect;
+$set = $mysql_setting->select([])->from('home_page')->get();
 $setting = $set->fetch_assoc();
-
-
-
 
 // $data = [
 //     'id' => 3,
@@ -120,14 +120,14 @@ $setting = $set->fetch_assoc();
                         $popular_qry = $mysqli->select(['postId', 'post', 'postTitle', 'postImage', 'postCreated_at', 'postCategory', 'catName'])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1")->order("posts.view")->DESC()->limit("4")->get();
                         while ($popular = $popular_qry->fetch_assoc()) { ?>
                             <div class="d-flex mb-3">
-                                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 150px; height: 100px; object-fit: cover">
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
+                                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 30%; height: 100px">
+                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px; width:70%">
                                     <div class="mb-1" style="font-size: 13px;">
                                         <a class="text-primary" href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
                                         <span class="px-1">/</span>
                                         <span><?php echo $popular["postCreated_at"] ?></span>
                                     </div>
-                                    <a class="h6 m-0" href="posts.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
+                                    <a class="h5 m-0" href="posts.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
                                 </div>
                             </div>
 
@@ -147,7 +147,14 @@ $setting = $set->fetch_assoc();
         <div class="row">
 
             <div class="col-lg-6 py-3">
-
+                <div class="mb-3 border-bottom border-primary">
+                    <h3 class="m-0 py-1 px-4 bg-primary d-inline-flex text-light">
+                        <?php
+                        $cat_1 = $setting["cat_1"];
+                        echo getCategoryName($cat_1);
+                        ?>
+                    </h3>
+                </div>
                 <style>
                     .owl-nav {
                         position: absolute;
@@ -159,24 +166,25 @@ $setting = $set->fetch_assoc();
                 //first category[plr]
 
                 $cat_1 = $setting["cat_1"];
-                $first_cat = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = $cat_1")->order("posts.postId")->DESC()->limit(4)->get();
+                $first_cat = $mysql->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = '$cat_1'")->order("posts.postId")->DESC()->limit(4)->get();
                 // $business_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='business') ORDER BY posts.postId DESC LIMIT 5 ");
 
+                // print_r($first_cat);
 
 
                 while ($first_category = $first_cat->fetch_assoc()) : ?>
 
                     <div class="col-lg-12 mb-2">
 
-                        <div class="position-relative">
-                            <img class="img-fluid w-100 " src="/coderbees/image/<?php echo $first_category["postImage"] ?>" style="object-fit: cover;height:200px;">
-                            <div class="p-2 position-relative bg-light">
-                                <div class="mb-2" style="font-size: 13px;">
+                        <div class="d-flex mb-3">
+                            <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $first_category["postImage"] ?>" style="width: 30%; height: 100px">
+                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px; width:70%">
+                                <div class="mb-1" style="font-size: 13px;">
                                     <a class="text-primary" href="category.php?category=<?php echo $first_category["catName"] ?>"><?php echo $first_category["catName"] ?></a>
                                     <span class="px-1">/</span>
                                     <span><?php echo $first_category["postCreated_at"] ?></span>
                                 </div>
-                                <a class="h6 m-0" href="posts.php?post_id=<?php echo $first_category["postId"] ?>"><?php echo $first_category["postTitle"] ?></a>
+                                <a class="h5 m-0" href="posts.php?post_id=<?php echo $first_category["postId"] ?>"><?php echo $first_category["postTitle"] ?></a>
                             </div>
                         </div>
                     </div>
@@ -188,28 +196,36 @@ $setting = $set->fetch_assoc();
                 <!-- </div> -->
             </div>
             <div class="col-lg-6 py-3">
-
+                <div class=" mb-3 border-bottom border-primary">
+                    <h3 class="m-0 d-inline-flex py-1 px-4 bg-primary text-light">
+                        <?php
+                        $cat_2 = $setting["cat_2"];
+                        echo getCategoryName($cat_2);
+                        ?>
+                    </h3>
+                </div>
                 <!-- <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative"> -->
                 <?php
 
 
                 //second category
-                $cat_2 = $setting["cat_2"];
-                $secound_cat = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = $cat_2")->DESC()->limit(5)->get();
+                $secound_cat = $mysql->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = '$cat_2'")->DESC()->limit(5)->get();
 
 
                 // $technology_cat = mysqli_query($conn, "SELECT * FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE postStatus = 1 AND postCategory = (SELECT catId FROM category WHERE catName='technology') ORDER BY posts.postId DESC LIMIT 5 ");
                 while ($secound_category = $secound_cat->fetch_assoc()) { ?>
 
                     <div class="position-relative col-12 mb-2">
-                        <img class="img-fluid w-100" style="height:200px" src="/coderbees/image/<?php echo $secound_category["postImage"] ?>" style="object-fit: cover;">
-                        <div class="p-2 position-relative bg-light">
-                            <div class="mb-2" style="font-size: 13px;">
-                                <a class="text-primary" href="category.php?category=<?php echo $secound_category["catName"] ?>"><?php echo $secound_category["catName"] ?></a>
-                                <span class="px-1">/</span>
-                                <span><?php echo $secound_category["postCreated_at"] ?></span>
+                        <div class="d-flex mb-3">
+                            <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $secound_category["postImage"] ?>" style="width: 30%; height: 100px">
+                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px; width:70%">
+                                <div class="mb-1" style="font-size: 13px;">
+                                    <a class="text-primary" href="category.php?category=<?php echo $secound_category["catName"] ?>"><?php echo $secound_category["catName"] ?></a>
+                                    <span class="px-1">/</span>
+                                    <span><?php echo $secound_category["postCreated_at"] ?></span>
+                                </div>
+                                <a class="h5 m-0" href="posts.php?post_id=<?php echo $secound_category["postId"] ?>"><?php echo $secound_category["postTitle"] ?></a>
                             </div>
-                            <a class="h6 m-0" href="posts.php?post_id=<?php echo $secound_category["postId"] ?>"><?php echo $secound_category["postTitle"] ?></a>
                         </div>
                     </div>
 
@@ -229,9 +245,14 @@ $setting = $set->fetch_assoc();
     <div class="container">
         <div class="row">
             <div class="col-lg-6 py-3">
-                <!-- <div class="bg-light py-2 px-4 mb-3">
-                    <h3 class="m-0"></h3>
-                </div> -->
+                <div class="border-bottom border-primary mb-3">
+                    <h3 class="m-0 py-1 px-4 d-inline-flex text-light bg-primary">
+                        <?php
+                        $cat_3 = $setting["cat_3"];
+                        echo getCategoryName($cat_3);
+                        ?>
+                    </h3>
+                </div>
                 <style>
                     .owl-nav {
                         position: absolute;
@@ -240,8 +261,7 @@ $setting = $set->fetch_assoc();
                 <!-- <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative"> -->
                 <?php
                 //third category
-                $cat_3 = $setting["cat_3"];
-                $third_cat = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = $cat_3")->DESC()->limit(5)->get();
+                $third_cat = $mysql->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = '$cat_3'")->DESC()->limit(5)->get();
 
 
                 while ($third_category = $third_cat->fetch_assoc()) { ?>
@@ -251,7 +271,7 @@ $setting = $set->fetch_assoc();
                         <div class="d-flex align-items-start mb-3">
                             <img src="/coderbees/image/<?php echo $third_category["postImage"] ?>" style="width: 150px; height: 100px; object-fit: cover;">
                             <div class="w-100 d-flex flex-column justify-content-evenly align-items-start bg-light px-3" style="height: 100px;">
-                                <a class="h6 m-0" href="posts.php?post_id=<?php echo $third_category["postId"] ?>"><?php echo $third_category["postTitle"] ?></a>
+                                <a class="h5 m-0" href="posts.php?post_id=<?php echo $third_category["postId"] ?>"><?php echo $third_category["postTitle"] ?></a>
                                 <div class="mt-1" style="font-size: 13px;">
                                     <a class="text-primary" href="category.php?category=<?php echo $third_category["catName"] ?>"><?php echo $third_category["catName"] ?></a>
                                     <span class="px-1">/</span>
@@ -268,24 +288,28 @@ $setting = $set->fetch_assoc();
                 <!-- </div> -->
             </div>
             <div class="col-lg-6 py-3">
-                <!-- <div class="bg-light py-2 px-4 mb-3">
-                    <h3 class="m-0"></h3>
-                </div> -->
+                <div class="mb-3 border-bottom border-primary">
+                    <h3 class="m-0 py-1 px-4 bg-primary d-inline-flex text-light">
+                        <?php
+                        $cat_4 = $setting["cat_4"];
+                        echo getCategoryName($cat_4);
+                        ?>
+                    </h3>
+                </div>
 
                 <!-- owl carousel -->
                 <!-- <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative"> -->
                 <?php
 
                 //forth category
-                $cat_4 = $setting["cat_4"];
-                $forth_cat = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = $cat_4")->DESC()->limit(5)->get();
+                $forth_cat = $mysql->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1 AND posts.postCategory = '$cat_4'")->DESC()->limit(5)->get();
                 while ($forth_category = $forth_cat->fetch_assoc()) { ?>
                     <div class="col-12 mb-2">
 
                         <div class="d-flex mb-3">
                             <img src="/coderbees/image/<?php echo $forth_category["postImage"] ?>" style="width: 150px; height: 100px; object-fit: cover;">
                             <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: 100px;">
-                                <a class="h6 m-0" href="posts.php?post_id=<?php echo $forth_category["postId"] ?>"><?php echo $forth_category["postTitle"] ?></a>
+                                <a class="h5 m-0" href="posts.php?post_id=<?php echo $forth_category["postId"] ?>"><?php echo $forth_category["postTitle"] ?></a>
                                 <div class="mt-1" style="font-size: 13px;">
                                     <a class="text-primary" href="category.php?category=<?php echo $forth_category["catName"] ?>"><?php echo $forth_category["catName"] ?></a>
                                     <span class="px-1">/</span>
@@ -303,7 +327,8 @@ $setting = $set->fetch_assoc();
         </div>
     </div>
 </div>
-<!-- News With Sidebar Start -->
+
+
 <div class="container-fluid py-3">
     <div class="container">
         <div class="row">
@@ -335,8 +360,8 @@ $setting = $set->fetch_assoc();
                 <?php endif; ?>
                 <div class="row">
                     <div class="col-12">
-                        <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
-                            <h3 class="m-0">Latest</h3>
+                        <div class="d-flex align-items-center justify-content-between border-bottom border-primary mb-3">
+                            <h3 class="m-0 py-1 px-4 d-inline-flex bg-primary text-light">Latest</h3>
                             <a class="text-secondary font-weight-medium text-decoration-none" href="#">View All</a>
                         </div>
                     </div>
@@ -409,29 +434,38 @@ $setting = $set->fetch_assoc();
                 </style> -->
             </div>
 
+
+
+            <!-- right side bar -->
+
             <div class="col-lg-4 pt-3 pt-lg-0">
                 <!-- Social Follow Start -->
                 <?php
                 if ($setting['follow_us']) :
-                    include "social_media.php";
+                    include "partial/social_media.php";
                 endif;
                 ?>
                 <!-- Social Follow End -->
 
                 <!-- Newsletter Start -->
                 <!-- if admin stop it, or not -->
-                <?php if ($setting['newsletter']) :
+                <?php
+
+                if ($setting['newsletter']) :
                     include "partial/newsletter.php";
-                endif; ?>
+                endif;
+                ?>
                 <!-- Newsletter End -->
 
 
                 <!-- category start -->
 
                 <!-- where admin shown it -->
-                <?php if ($setting['cat_show_in'] == "sideBar") :
+                <?php
+                if ($setting['cat_show_in'] == "sideBar") :
                     include "partial/category.php";
-                endif; ?>
+                endif;
+                ?>
                 <!-- category end -->
 
                 <!-- Popular News Start -->
@@ -443,9 +477,12 @@ $setting = $set->fetch_assoc();
                 <!-- Popular News End -->
 
                 <!-- Tags Start -->
-                <?php if ($setting['tags_in_main']) :
+                <!-- if admin set "show" in  home page setting. Tag section show, else hide -->
+                <?php
+                if ($setting['tags_in_main']) :
                     include "partial/tags.php";
-                endif; ?>
+                endif;
+                ?>
                 <!-- Tags End -->
             </div>
         </div>
@@ -457,7 +494,7 @@ $setting = $set->fetch_assoc();
 
 <!-- Footer Start -->
 <?php
-
+//include footer
 include "footer.php";
 // require_once 'greeting.php';
 ?>

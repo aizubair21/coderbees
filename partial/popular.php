@@ -1,6 +1,6 @@
 <div class="pb-3">
-    <div class="bg-light py-2 px-4 mb-3">
-        <h3 class="m-0">Most View </h3>
+    <div class="border-bottom border-primary mb-3">
+        <h3 class="m-0 py-1 px-4 text-light bg-primary d-inline-flex">Most View </h3>
     </div>
     <?php
     $popular_qry = $mysqli->select(['postId', 'postTitle', 'postImage', 'postCreated_at', 'postCategory', 'catName', 'view'])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory ")->where("posts.postStatus = 1")->order("view")->DESC()->limit(5)->get();
@@ -31,14 +31,16 @@
                 }
             </style>
             <div class="w-100 d-flex flex-column justify-content-evenly align-items-end bg-light px-3">
-                <a class="h6 m-0 test-right" href="posts?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
-                <div class="mb-1" style="font-size: 13px;">
+                <a class="h6 m-0 test-left" href="posts?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
+                <div class="mb-1 text-left" style="font-size: 13px;">
                     <a class='text-primary' href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
                     <span class="px-1">/</span>
                     <span><?php echo $popular["postCreated_at"] ?></span>
                 </div>
             </div>
-            <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 150px; height: 100px; object-fit:cover;">
+            <div style="width:40%; height:100px">
+                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 100%; height: 100px; object-fit:cover;">
+            </div>
             <div id="wrapper_div"><?php echo $popular["view"] . " Views" ?></div>
         </div>
 

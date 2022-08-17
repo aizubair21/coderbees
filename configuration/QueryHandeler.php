@@ -106,6 +106,8 @@ class DBSelect extends DB
         // echo $qry;
         // $data = $this->connect->query(" SELECT * FROM publisher WHERE publisherUser_name = publisher21 ");
         if ($data = $this->mysqli->query($qry)) {
+
+            //this return an mysqli_query string;
             return $data;
         } else {
             return "You have an error in select statement";
@@ -114,7 +116,7 @@ class DBSelect extends DB
 }
 
 //insert into DB
-// $select = new DBSelect;
+$mysql = new DBSelect;
 
 //* -------------------------- How to use DBSelect ------------------------------------------ */
 // $select = new DBSelect;

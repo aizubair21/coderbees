@@ -30,6 +30,15 @@ if ($user_key) {
     }
 }
 
+//get category name from category id
+function getCategoryName($category_id)
+{
+    $mysqli = new DBSelect;
+    $getCategorySql = $mysqli->select(['catName'])->from('category')->where("catId = '$category_id'")->get()->fetch_assoc();
+    $getCategory = $getCategorySql['catName'];
+    return $getCategory;
+}
+
 //relative URI
 
 define('GlobalROOT_PATH', "/" . basename(dirname(__FILE__)));

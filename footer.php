@@ -24,7 +24,7 @@ $mysqli = new DBSelect;
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
-            <h4 class="font-weight-bold mb-4">Categories</h4>
+            <h3 class="font-weight-bold mb-4">Categories</h3>
             <div class="d-flex flex-wrap m-n1">
                 <?php
 
@@ -41,9 +41,13 @@ $mysqli = new DBSelect;
 
             </div>
         </div>
+
+
         <div class="col-lg-3 col-md-6 mb-5">
             <?php include "partial/tags.php"; ?>
         </div>
+
+
         <div class="col-lg-3 col-md-6 mb-5">
             <h4 class="font-weight-bold mb-4">Quick Links</h4>
             <div class="d-flex flex-column justify-content-star">

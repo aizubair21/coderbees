@@ -1,10 +1,10 @@
 <div class="pb-3">
-    <div class="bg-light py-2 px-4 mb-3">
-        <h3 class="m-0">Follow Us</h3>
+    <div class="border-bottom border-primary mb-3">
+        <h3 class="m-0 py-1 px-4 text-light bg-primary d-inline-flex">Follow Us</h3>
     </div>
-    <?php 
+    <?php
 
-            $follow = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM social_media_link"))
+    $follow = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM social_media_link"))
 
     ?>
     <div class="d-flex mb-3">

@@ -395,9 +395,9 @@ $key = $_SESSION["admin_key"] ?? "";
             xhttp.onload = function() {
                 alert(this.responseText);
             }
+            //coderbees/admin/funciton/home_page.php
             xhttp.open("GET", "../function/home_page.php?fild=" + name + "&value=" + value, true);
             xhttp.send();
-
         }
     </script>
 </body>

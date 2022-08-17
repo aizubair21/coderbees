@@ -133,7 +133,7 @@ $tags = trim($_GET["tags"] ?? "");
 
             <div class="col-lg-4 pt-3 pt-lg-0">
                 <!-- Social Follow Start -->
-                <?php include "social_media.php" ?>
+                <?php include "partial/social_media.php" ?>
                 <!-- Social Follow End -->
 
                 <!-- Newsletter Start -->
@@ -141,9 +141,9 @@ $tags = trim($_GET["tags"] ?? "");
                 <!-- Newsletter End -->
 
                 <!-- Ads Start -->
-                <div class="mb-3 pb-3">
+                <!-- <div class="mb-3 pb-3">
                     <a href=""><img class="img-fluid" src="img/news-500x280-4.jpg" alt=""></a>
-                </div>
+                </div> -->
                 <!-- Ads End -->
 
                 <!-- Popular News Start -->

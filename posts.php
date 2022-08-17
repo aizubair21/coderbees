@@ -144,7 +144,7 @@ include "header.php";
 
             <div class="col-lg-4 pt-3 pt-lg-0">
                 <!-- Social Follow Start -->
-                <?php include "social_media.php" ?>
+                <?php include "partial/social_media.php" ?>
                 <!-- Social Follow End -->
 
                 <!-- Newsletter Start -->
@@ -161,8 +161,8 @@ include "header.php";
 
                 <!-- Popular News Start -->
                 <div class="pb-3">
-                    <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Realted Post</h3>
+                    <div class="border-bottom border-primary mb-3">
+                        <h4 class="m-0 py-2 px-4 text-light bg-primary d-inline-flex">Realted Post</h4>
                     </div>
                     <?php
                     category_related_post($single_post['postCategory'], $conn);
@@ -173,8 +173,8 @@ include "header.php";
 
                 <!-- Tags Start -->
                 <div class="pb-3">
-                    <div class="bg-light py-2 px-4 mb-3">
-                        <h3 class="m-0">Tags</h3>
+                    <div class="border-bottom border-primary mb-3">
+                        <h4 class="m-0 text-light bg-primary d-inline-flex py-2 px-4">Tags</h3>
                     </div>
                     <div class="d-flex flex-wrap m-n1">
                         <?php
@@ -207,7 +207,10 @@ include "header.php";
                 <div>
 
                     <h5 class="modal-title" id="exampleModalLabel"> Post's Comment </h5>
-                    <h6 class="text-primary"><?php echo $single_post['postTitle'] ?></h6>
+                    <a href="/coderbees/posts.php?post_id=<?php echo trim($single_post["postId"]) ?>">
+                        <h6 class="text-primary"><?php echo $single_post['postTitle'] ?></h6>
+
+                    </a>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

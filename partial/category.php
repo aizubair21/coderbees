@@ -1,6 +1,6 @@
 <div class="pb-3">
-    <div class="bg-light py-2 px-4 mb-3">
-        <h3 class="m-0">Categories</h3>
+    <div class="border-bottom border-primary mb-3">
+        <h4 class="m-0 py-1 px-4 text-light bg-primary d-inline-flex">Categories</h3>
     </div>
     <div class="bg-light py-2 text-left mb-4">
         <style>

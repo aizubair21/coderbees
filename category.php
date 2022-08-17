@@ -156,7 +156,7 @@ $total_page = ceil($total_row / $result_per_page);
 
             <div class="col-lg-4 pt-3 pt-lg-0">
                 <!-- Social Follow Start -->
-                <?php include "social_media.php" ?>
+                <?php include "partial/social_media.php" ?>
                 <!-- Social Follow End -->
 
                 <!-- Newsletter Start -->

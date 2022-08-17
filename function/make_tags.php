@@ -17,11 +17,12 @@ function tags($tag_sql)
                 }
             } else {
                 //if every post have a tag
-                if (!empty($result['postTaag'])) :
+                if (!empty($result['postTag'])) :
                     ?>
                     <a href="tag.php?tags=<?php echo trim($result['postTag']) ?>" class='btn btn-outline-secondary btn-sm m-1'> <?php echo trim($result['postTag']) ?></a>
 
             <?php
+
                 endif;
             }
         }

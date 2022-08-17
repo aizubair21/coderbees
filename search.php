@@ -72,7 +72,7 @@ $total_page = ceil($total_row / $result_per_page);
                         <h4 class="fs-6">
                             <?php
                             if ($key != '') { ?>
-                                Fount <?php echo $total_row ?> Reasult for "<?php echo $_GET["search"] ?? "" ?>"
+                                Found <?php echo $total_row ?> Reasult for "<?php echo $_GET["search"] ?? "" ?>"
 
                             <?php }
                             ?>
@@ -84,7 +84,7 @@ $total_page = ceil($total_row / $result_per_page);
                     <?php
                     if (isset($_GET["search"])) {
 
-                        $search_qry = mysqli_query($conn, "SELECT postId, postTitle, postTag, postCategory, postImage, postCreated_at, catName, catId FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE posts.postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%' ORDER BY posts.postId DESC LIMIT $page_first_result, $result_per_page");
+                        $search_qry = mysqli_query($conn, "SELECT postId, postTitle, postTag, postCategory, postImage, postCreated_at, catName, catId FROM posts LEFT JOIN category ON category.catId = posts.postCategory WHERE (posts.postStatus = 1 AND posts.postTitle LIKE '%$key%' OR posts.post LIKE '%$key%') ORDER BY posts.postId DESC LIMIT $page_first_result, $result_per_page");
                         if ($_GET["search"] == "") {
                             echo "<strong class='alert alert-warning'>Nothing Else !</strong>";
                         } else {
@@ -93,7 +93,10 @@ $total_page = ceil($total_row / $result_per_page);
                                 while ($search_item = mysqli_fetch_array($search_qry)) { ?>
                                     <div class="col-lg-6">
                                         <div class="d-flex mb-3">
-                                            <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $search_item["postImage"] ?>" style="width: 50%; height: 100px; object-fit: cover;">
+                                            <div style="width:40%; height:100px">
+
+                                                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $search_item["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover;">
+                                            </div>
                                             <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: 100px;">
                                                 <a class="h6 m-0 " href="posts.php?post_id=<?php echo $search_item["postId"] ?>"><?php echo $search_item["postTitle"] ?></a>
                                                 <div class="mb-1" style="font-size: 13px;">
@@ -141,16 +144,16 @@ $total_page = ceil($total_row / $result_per_page);
 
             <div class="col-lg-4 pt-3 pt-lg-0">
                 <!-- Social Follow Start -->
-                <?php include "social_media.php"; ?>
+                <!-- <?php include "partial/social_media.php"; ?> -->
                 <!-- Social Follow End -->
 
                 <!-- Newsletter Start -->
                 <?php include "partial/newsletter.php"; ?>
                 <!-- Newsletter End -->
 
-                <!-- Ads Start -->
-                <?php include "partial/category.php"; ?>
-                <!-- Ads End -->
+                <!-- category Start -->
+                <!-- <?php include "partial/category.php"; ?> -->
+                <!-- category End -->
 
                 <!-- Popular News Start -->
                 <?php include "partial/popular.php"; ?>

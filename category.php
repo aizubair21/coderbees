@@ -152,6 +152,26 @@ $total_page = ceil($total_row / $result_per_page);
                         </nav>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="common-heading">
+                            <h4 class="heading">Categories</h4>
+                        </div>
+                        <?php
+
+                        $mysql_cat_query = new DBSelect;
+                        $get_cat = $mysql_cat_query->select([])->from('category')->get();
+
+                        while ($cat = $get_cat->fetch_assoc()) {
+                        ?>
+                            <div class="d-inline-block my-1">
+                                <a class="btn btn-outline-secondary btn-sm" href="catgory.php?category=<?php $cat['catName'] ?>"> <?php echo $cat["catName"] ?> </a>
+                            </div>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-4 pt-3 pt-lg-0">

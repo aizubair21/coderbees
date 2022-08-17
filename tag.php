@@ -5,7 +5,7 @@ $title = "Tag - coderbees";
 include "connection.php";
 include "header.php";
 
-$tags = trim($_GET["tags"] ?? "all_tag");
+$tags = trim($_GET["tags"] ?? "All Tags");
 // $tag_qry = mysqli_query($conn, "SELECT * FROM post WHERE postTag=$tags ORDER BY postId DESC ");
 ?>
 
@@ -15,7 +15,7 @@ $tags = trim($_GET["tags"] ?? "all_tag");
     <div class="container">
         <nav class="breadcurmbs">
             <a class="breadcrumbs-item" href="index.php"> <i class="fas fa-home"></i> Home</a>
-            <a class="breadcrumbs-item" href="tag.php?show=all_tag">Tags</a>
+            <a class="breadcrumbs-item" href="tag.php">Tags</a>
             <span class="breadcrumbs-item-active"><?php echo $tags ?></span>
         </nav>
     </div>
@@ -28,15 +28,21 @@ $tags = trim($_GET["tags"] ?? "all_tag");
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
-                            <h3 class="m-0"> <?php echo "show blogs for tag " . $tags ?></h3>
-                            <!-- <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a> -->
+                <?php
+                if (isset($_GET['tags'])) {
+                ?>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
+                                <h3 class="m-0"> <?php echo "show blogs for tag " . $tags ?></h3>
+                                <!-- <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a> -->
+                            </div>
                         </div>
-                    </div>
 
-                </div>
+                    </div>
+                <?php
+                }
+                ?>
 
                 <!-- adds start -->
                 <!-- <div class="mb-3">
@@ -69,7 +75,7 @@ $tags = trim($_GET["tags"] ?? "all_tag");
                     //total page into paginate.
                     //total paginate item to show. 
                     $total_page = ceil($tag_qry->num_rows / $result_per_page);
-                    echo $total_page;
+                    // echo $total_page;
 
 
                     if ($tag_qry->num_rows > 0) {
@@ -94,39 +100,23 @@ $tags = trim($_GET["tags"] ?? "all_tag");
                                 </div>
                             </div>
 
-                            <?php }
-                    } elseif (isset($_GET["show"])) {
-
-                        $tag_qry = $mysqli->select([])->from("posts")->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postTag = '$tags' AND posts.postStatus = 1")->get();
-
-                        if ($tag_qry->num_rows > 0) {
-                            while ($posts = $tag_qry->fetch_assoc()) { ?>
-
-                                <div class="col-lg-6">
-                                    <div class="d-flex mb-3">
-                                        <div style="width:40%; height:100px;">
-                                            <img src="image/<?php echo $posts["postImage"] ?>" style="width:100%; height:100px; object-fit: cover;">
-                                        </div>
-                                        <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: auto;">
-                                            <a class="h5 m-0" href="single_post.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
-                                            <div class="mb-1" style="font-size: 13px;">
-                                                <a href="category.php?category=<?php echo $posts["catName"] ?>"><?php echo $posts["catName"] ?></a>
-                                                <span class="px-1">/</span>
-                                                <span><?php echo $posts["postCreated_at"] ?></span>
-                                                <?php
-                                                make_tag_for_posts($posts["postTag"]);
-                                                ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                     <?php }
-                        }
-                    } else {
-                        //if not found in database
-                        echo "<strong class='alert alert-waring'> Not Found ! </strong>";
-                    } ?>
+                    }
+                    //if not found in database
+                    //we want to show all tags
+                    $mysql_tag = new DBSelect;
+                    $tag_query = $mysql_tag->select(['postTag'])->from('posts GROUP BY postTag')->get();
+                    ?>
 
+                    <div class="d-inline">
+                        <div class="common-heading">
+                            <h4 class="heading"> Tags </h4>
+                        </div>
+                        <?php
+
+                        tags($tag_query);
+                        ?>
+                    </div>
 
                 </div>
 

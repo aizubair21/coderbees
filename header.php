@@ -42,6 +42,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/coderbees/css/style.css" rel="stylesheet">
+    <link href="/coderbees/css/site.custom.css" rel="stylesheet">
     <style>
         h2 {
             font-family: "oswald";

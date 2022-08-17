@@ -26,6 +26,8 @@ function tags($tag_sql)
                 endif;
             }
         }
+    } else {
+        echo "<strong class='text text-warning'> No Tags Found in post!</strong>";
     }
 }
 

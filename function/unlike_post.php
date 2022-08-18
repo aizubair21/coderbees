@@ -2,7 +2,7 @@
 include "../connection.php";
 $id = $_GET['post'] ?? "";
 
-if ($user = $_SESSION['user_key']) {
+if ($user = isset($_SESSION['user_key'])) {
     $postId = $id;
     $userId = $user;
     $category = 'user';
@@ -13,14 +13,20 @@ if ($user = $_SESSION['user_key']) {
     if ($is_like) {
         $sql = mysqli_query($conn, "DELETE FROM follow WHERE postId = $postId AND userId = $userId");
         if ($sql) {
-            $_SESSION['status'] = 'unlike';
-            header("location: /coderbees/posts.php?post_id=$postId");
+            // $_SESSION['status'] = 'unlike';
+            // header("location: /coderbees/posts.php?post_id=$postId");
+
+            echo "success";
         }
     } else {
-        $_SESSION['status'] = 'not_liked_yet';
-        header("location: /coderbees/posts.php?post_id=$postId");
+        // $_SESSION['status'] = 'not_liked_yet';
+        // header("location: /coderbees/posts.php?post_id=$postId");
+
+        echo "not_liked_yet";
     }
 } else {
-    $_SESSION['status'] = 'like_login_error';
-    header("location: /coderbees/posts.php?post_id=$id");
+    // $_SESSION['status'] = 'like_login_error';
+    // header("location: /coderbees/posts.php?post_id=$id");
+
+    echo "login_error";
 }

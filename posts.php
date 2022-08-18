@@ -30,7 +30,10 @@ if (isset($_GET["post_id"])) {
     header("location: $redirectURI");
 }
 
+//for which item will be active in navigation item.
 $active = "posts";
+
+//for page title 
 $title =  $single_post['postTitle'];
 include "header.php";
 
@@ -101,22 +104,42 @@ include "header.php";
                             <div class="d-flex align-items-center justify-content-start text-center">
 
                                 <div class="d-flex align-items-center">
-                                    <a href=" <?php echo GlobalROOT_PATH ?>/function/like_post.php?post=<?php echo $single_post['postId'] ?>" type="button" name="like" title="Like" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-up"></i> </a>
-                                    <div class="text-secondary px-2 ">
+
+                                    <!-- for like -->
+                                    <form action="" method="get" name="like_form">
+                                        <input type="hidden" name="post_id" value="<?php echo $single_post['postId'] ?>">
+                                        <button title="like" type="button" class="btn btn-outline-secondary btn-sm" onclick="makeLike(like_form.post_id.value)"> <i class="fas fa-caret-up"></i> </button>
+                                    </form>
+                                    <!-- <a href=" <?php echo GlobalROOT_PATH ?>/function/like_post.php?post=<?php echo $single_post['postId'] ?>" type="button" name="like" title="Like" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-up"></i> </a> -->
+
+                                    <!-- show reaction -->
+                                    <div class="text-secondary px-2 " id="post_react_show">
+                                        <script>
+
+                                        </script>
                                         <?php
                                         $postId = $single_post['postId'];
-                                        $like_sql = mysqli_query($conn, "SELECT * FROM follow WHERE postId = $postId");
-                                        echo mysqli_num_rows($like_sql);
+
                                         ?>
                                     </div>
-                                    <a href="<?php echo GlobalROOT_PATH ?>/function/unlike_post.php?post=<?php echo $single_post['postId'] ?>" title="Dislike" name="unlike" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-down"></i> </a>
+
+                                    <!-- for unlike  -->
+                                    <form action="" method="get" name="unlike_form">
+                                        <input type="hidden" name="post_id" value="<?php echo $single_post['postId'] ?>">
+                                        <button title="like" type="button" class="btn btn-outline-secondary btn-sm" onclick="makeike(like_form.post_id.value)"> <i class="fas fa-caret-up"></i> </button>
+                                    </form>
+                                    <!-- <a href="<?php echo GlobalROOT_PATH ?>/function/unlike_post.php?post=<?php echo $single_post['postId'] ?>" title="Dislike" name="unlike" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-down"></i> </a> -->
                                 </div>
+
+                                <!-- button for showing comments modals -->
                                 <button type="button" class="mx-2 px-2 btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#commentsModal"> <i class="fas fa-comment pe-2"></i>
                                     <?php
                                     $comnt = mysqli_query($conn, "SELECT * FROM comments WHERE commentsPostId = $single_post_id AND commentStatus = 1");
                                     echo mysqli_num_rows($comnt);
                                     ?>
                                 </button>
+
+                                <!-- show how many time watch this post -->
                                 <button type="button" class="px-2 btn btn-outline-secondary btn-sm"> <i class="fas fa-eye pe-2"></i> <?php echo $single_post['view'] ?> </button>
                             </div>
                         </div>

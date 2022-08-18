@@ -1,7 +1,10 @@
 <?php
-
+//site title
 $title = "User Login";
+
+//active nav
 $active = "login";
+
 require 'connection.php';
 
 
@@ -15,33 +18,6 @@ if ($key = $_SESSION['user_key'] ?? "") {
 
 $email_error = '';
 $pass_error = '';
-
-if (isset($_POST["user_login"])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    //take user from server by email
-    $data = "SELECT * FROM users WHERE userEmail='$email'";
-    $result = mysqli_query($conn, $data);
-    $count = mysqli_num_rows($result);
-    $row = mysqli_fetch_assoc($result);
-
-    //if user exist, means row gretter then 0
-    if ($count == 1) {
-
-        $db_password = $row['userPassword'];
-        if (password_verify($password, $row["userPassword"]) || $password == $row["userPassword"]) {
-            $_SESSION["user_key"] = $row["userId"];
-            $_SESSION["status"] = "greeting";
-            header("location: $redirectURI");
-        } else {
-            $pass_error = "Password not matched !";
-        }
-    } else {
-        //if user not exist.
-        $email_error = "No users fount associative this email.";
-    }
-}
 
 ?>
 <?php include "header.php " ?>
@@ -68,7 +44,8 @@ if (isset($_POST["user_login"])) {
                         <div class="bg-primary text-white p-3" style="font-size:20px; text-align:center; font-weight:bold">
                             User Login
                         </div>
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form name="UserLogin" action="" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="uri" value="<?php echo $redirectURI ?>">
                             <div class="card-body">
                                 <div class="form-floating mb-3">
 
@@ -89,7 +66,7 @@ if (isset($_POST["user_login"])) {
                                 </div><br>
 
                                 <div>
-                                    <button class="btn btn-primary btn-lg" name="user_login" type="submit">Login</button>
+                                    <button class="btn btn-primary btn-lg" name="user_login" type="button" onclick="userLogin(UserLogin.email.value, UserLogin.password.value, UserLogin.uri.value)" id="userLoginButton">Login</button>
                                 </div>
 
                                 <hr>

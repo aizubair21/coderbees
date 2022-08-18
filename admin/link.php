@@ -28,6 +28,8 @@ function isActive($modifier)
 </body>
 <script src="../bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
 <script src="../bootstrap-5.1.0-dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </body>
 
 </html>

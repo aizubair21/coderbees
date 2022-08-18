@@ -59,7 +59,8 @@ if (isset($_POST["login"])) {
                         <div class="bg-primary text-white p-3" style="font-size:20px; text-align:center; font-weight:bold">
                             Log in
                         </div>
-                        <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST" enctype="multipart/form-data">
+                        <strong id="error" class="alert text-danger px-4 py-1"></strong>
+                        <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                             <div class="card-body">
                                 <div class="form-floating mb-3">
 
@@ -75,7 +76,7 @@ if (isset($_POST["login"])) {
                                 </div><br>
 
                                 <div>
-                                    <button class="btn btn-primary btn-lg" name="login" type="submit">Login</button>
+                                    <button class="btn btn-primary btn-lg" name="login" type="button" id="adminLogin">Login</button>
                                 </div>
 
                                 <hr>
@@ -90,12 +91,47 @@ if (isset($_POST["login"])) {
                                 </div>
                             </div>
 
+                        </form>
                     </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
+<script>
+    document.querySelector('#adminLogin').addEventListener("click", (e) => {
+        let email = document.querySelector("#floatingInput").value;
+        let password = document.querySelector("#floatingPassword").value;
+
+        let targetButton = e.target.innerHTML;
+
+        // console.log(email);
+        // axios({
+        //         method: "post",
+        //         url: "function/admin.login.php",
+        //         data: {
+        //             u_email: email,
+        //             u_password: password,
+        //         }
+        //     })
+        //     .then(function(response) {
+        //         console.log(response.data);
+        //     })
+        axios.post("function/admin.login.php?email=" + email + "&password=" + password, )
+        targetButton = '<div class="spinner-border spinner-border-sm" role="status"></div>'
+            .then(function(response) {
+                if (response.data == "success") {
+                    window.location.reload();
+                } else {
+
+                    document.getElementById('error').innerHTML = response.data;
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    })
+</script>
 
 </html>

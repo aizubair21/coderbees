@@ -107,7 +107,7 @@ include "header.php";
 
                                     <!-- for like -->
                                     <form action="" method="get" name="like_form">
-                                        <input type="hidden" name="post_id" value="<?php echo $single_post['postId'] ?>">
+                                        <input type="hidden" name="post_id" id="post_id" value="<?php echo $single_post['postId'] ?>">
                                         <button title="like" type="button" class="btn btn-outline-secondary btn-sm" onclick="makeLike(like_form.post_id.value)"> <i class="fas fa-caret-up"></i> </button>
                                     </form>
                                     <!-- <a href=" <?php echo GlobalROOT_PATH ?>/function/like_post.php?post=<?php echo $single_post['postId'] ?>" type="button" name="like" title="Like" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-up"></i> </a> -->
@@ -115,12 +115,21 @@ include "header.php";
                                     <!-- show reaction -->
                                     <div class="text-secondary px-2 " id="post_react_show">
                                         <script>
+                                            function showPostReaction() {
+                                                let postId = document.getElementById('post_id').value;
+                                                var xmlhttp = new XMLHttpRequest();
+                                                xmlhttp.onreadystatechange = function() {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        document.getElementById('post_react_show').innerHTML = this.responseText;
+                                                    }
+                                                };
+                                                xmlhttp.open("GET", "/coderbees/function/post_react.count.php?post_id=" + postId);
+                                                xmlhttp.send();
+                                            }
 
+                                            showPostReaction();
                                         </script>
-                                        <?php
-                                        $postId = $single_post['postId'];
 
-                                        ?>
                                     </div>
 
                                     <!-- for unlike  -->

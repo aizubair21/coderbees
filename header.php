@@ -166,7 +166,7 @@
                         <div class="nav-link dropdown-toggle" data-toggle="dropdown">
                             <i class="fas fa-user-circle"></i>
                             <?php
-                            if ($u_key = $_SESSION['user_key']) {
+                            if ($u_key = isset($_SESSION['user_key'])) {
                                 $conn = mysqli_connect("localhost", "root", "", "coderbees");
                                 $u = mysqli_query($conn, "SELECT * FROM users WHERE(userId = $u_key)");
                                 $user = mysqli_fetch_assoc($u);

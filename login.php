@@ -66,7 +66,7 @@ $pass_error = '';
                                 </div><br>
 
                                 <div>
-                                    <button class="btn btn-primary btn-lg" name="user_login" type="button" onclick="userLogin(UserLogin.email.value, UserLogin.password.value, UserLogin.uri.value)" id="userLoginButton">Login</button>
+                                    <button class="btn btn-primary btn-lg" name="user_login" type="button" id="userLoginButton" onclick="userLogin(this, UserLogin.email.value, UserLogin.password.value, UserLogin.uri.value)" id="userLoginButton">Login</button>
                                 </div>
 
                                 <hr>

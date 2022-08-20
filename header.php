@@ -52,16 +52,17 @@
             color: #ED1C24;
             display: inline-flex;
             border: 1px solid #ED1C24;
-            border-radius: 25px;
-            ;
+            border-radius: 35px;
+            background-color: white;
         }
 
         .breadcrumbs-item {
             background-color: white;
-            color: black;
+            color: white;
             padding: 15px 30px;
             position: relative;
             z-index: 1;
+            background-color: #ED1C24;
         }
 
         .breadcrumbs-item:first-child {
@@ -70,20 +71,18 @@
         }
 
 
-        .breadcrumbs-item:hover {
+        .breadcrumbs-item-active:hover {
             background-color: #ED1C24;
             color: white;
         }
 
         .breadcrumbs-item-active {
-            background-color: #ED1C24;
-            color: white;
+            color: #ED1C24;
             border-bottom-right-radius: 25px;
             border-top-right-radius: 25px;
             padding: 15px 30px;
             position: relative;
             z-index: 1;
-            box-shadow: 3px 3px 5px gray;
         }
 
         .sticy_nav {

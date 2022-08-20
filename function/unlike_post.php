@@ -2,7 +2,7 @@
 include "../connection.php";
 $id = $_GET['post'] ?? "";
 
-if ($user = isset($_SESSION['user_key'])) {
+if ($user = $_SESSION['user_key']) {
     $postId = $id;
     $userId = $user;
     $category = 'user';

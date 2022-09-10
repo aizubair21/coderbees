@@ -17,7 +17,7 @@
                     content: "";
                     position: absolute;
                     top: 70%;
-                    left: 60%;
+                    left: 74%;
                     border-top-right-radius: 103xp;
                     opacity: 1;
                     transform: translate;
@@ -26,13 +26,13 @@
                     padding: 2px;
                     width: 175px;
                     font-weight: 600;
-                    font-size: 20px;
+                    font-size: 16px;
                     padding: 2px;
                 }
             </style>
             <div class="w-100 d-flex flex-column justify-content-evenly align-items-end bg-light px-3">
-                <a class="h6 m-0 test-left" href="posts?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
-                <div class="mb-1 text-left" style="font-size: 13px;">
+                <a class="h6 m-0 text-left" href="posts?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
+                <div class="mb-1 text-left w-100" style="font-size: 13px;">
                     <a class='text-primary' href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
                     <span class="px-1">/</span>
                     <span><?php echo $popular["postCreated_at"] ?></span>

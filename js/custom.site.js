@@ -13,6 +13,7 @@ function makeLike(id) {
             };
             if (response.data == "success") {
                 toastr.success("Liked counted.");
+                showPostReaction();
             }
 
         })
@@ -25,7 +26,8 @@ function makeLike(id) {
 
 // method for unlike post
 function makeUnLike(id) {
-    axios.post("/coderbees/function/like_post.php?post=" + id)
+    alert("unlike trigrared !");
+    axios.post("/coderbees/function/unlike_post.php?post=" + id)
         .then(function (response) {
 
             // if user not logged in on system
@@ -38,6 +40,7 @@ function makeUnLike(id) {
             };
 
             if (response.data == "success") {
+
                 toastr.success("Unliked .");
             }
 

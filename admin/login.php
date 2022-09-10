@@ -35,16 +35,6 @@ if (isset($_POST["login"])) {
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
 <body>
 
 
@@ -100,37 +90,47 @@ if (isset($_POST["login"])) {
 </body>
 
 <script>
+    //make login with ajux
     document.querySelector('#adminLogin').addEventListener("click", (e) => {
-        let email = document.querySelector("#floatingInput").value;
-        let password = document.querySelector("#floatingPassword").value;
 
-        let targetButton = e.target.innerHTML;
+        //get form input  data by id
+        let email = document.querySelector("#floatingInput");
+        let password = document.querySelector("#floatingPassword");
 
-        // console.log(email);
-        // axios({
-        //         method: "post",
-        //         url: "function/admin.login.php",
-        //         data: {
-        //             u_email: email,
-        //             u_password: password,
-        //         }
-        //     })
-        //     .then(function(response) {
-        //         console.log(response.data);
-        //     })
-        axios.post("function/admin.login.php?email=" + email + "&password=" + password, )
-        targetButton = '<div class="spinner-border spinner-border-sm" role="status"></div>'
+        //make a bootstrap spinner for ajux loading
+        let spinner = '<div><span class="spinner-border spinner-border-sm" role="status"></span> Verifying...</div>'
+
+        //get the login button for make ajux loading
+        let targetButton = e.target;
+
+        //when this function call, spinner show in login button
+        targetButton.innerHTML = spinner;
+
+        axios.post("function/admin.login.php?email=" + email.value + "&password=" + password.value, )
             .then(function(response) {
+
+                //empty input field after get response from server
+                email.value = "";
+                password.value = "";
+
                 if (response.data == "success") {
                     window.location.reload();
                 } else {
 
+                    //whten get response from server, it stop showing spinner animation
+                    targetButton.innerHTML = "Login";
                     document.getElementById('error').innerHTML = response.data;
+
                 }
             })
             .catch(function(error) {
+                //empty input field after get response
+                email.value = "";
+                password.value = "";
                 console.log(error);
             });
+
+
     })
 </script>
 

@@ -20,7 +20,7 @@ if (isset($_SESSION['admin_key'])) {
 
 $email_error = '';
 $pass_error = '';
-if (!empty($email) || !empty($password)) {
+if (!empty($email) && !empty($password)) {
     $db = new DBSelect;
     $result = $db->select(['adminEmail', 'adminPassword', 'adminId'])->from('admin')->where("adminEmail = '$email'")->get();
     $count = $result->num_rows;
@@ -44,5 +44,5 @@ if (!empty($email) || !empty($password)) {
         echo "Please, Give a valid email address";
     }
 } else {
-    echo "Fill al required field";
+    echo "Please, Fill all the required field";
 }

@@ -39,6 +39,8 @@ $mysql_setting = new DBSelect;
 $set = $mysql_setting->select([])->from('home_page')->get();
 $setting = $set->fetch_assoc();
 
+
+
 // $data = [
 //     'id' => 3,
 //     'name' => 'zubair3',

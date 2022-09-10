@@ -142,6 +142,8 @@ $total_page = ceil($total_row / $result_per_page);
                 </div>
             </div>
 
+
+            <!-- right sidebar start -->
             <div class="col-lg-4 pt-3 pt-lg-0">
                 <!-- Social Follow Start -->
                 <!-- <?php include "partial/social_media.php"; ?> -->
@@ -163,9 +165,11 @@ $total_page = ceil($total_row / $result_per_page);
                 <?php include "partial/tags.php"; ?>
                 <!-- Tags End -->
             </div>
+
+            <!-- right sidebar end -->
+
         </div>
     </div>
-</div>
 </div>
 <!-- News With Sidebar End -->
 

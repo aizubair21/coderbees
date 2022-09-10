@@ -21,15 +21,17 @@ function isActive($modifier)
     <title> <?php echo (isset($title)) ?? "Admin Dashboard - coderbees" ?> </title>
     <link rel="stylesheet" href="../bootstrap-5.1.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../fontawesome-free-5.15.3-web/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
 </head>
 
 <body>
 
 </body>
 <script src="../bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
-<script src="../bootstrap-5.1.0-dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- toaster_plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 
 </html>

@@ -27,10 +27,11 @@ function makeLike(id) {
 
 // method for unlike post
 function makeUnLike(id) {
-    alert("unlike trigrared !");
+    // alert("unlike trigrared !");
     axios.post("function/unlike_post.php?post=" + id)
         .then(function (response) {
 
+            // console.log(response.data);
             // if user not logged in on system
             if (response.data == "login_error") {
                 toastr.warning("Please login to react.");
@@ -61,7 +62,7 @@ function userLogin(e, email, password, uri) {
     loginButton.innerHTML = spinner;
 
     console.log(loginButton);
-    axios.post("function/user.login.php?email=" + email + "&password=" + password + "&uri=" + uri)
+    axios.post("/coderbees/function/user.login.php?email=" + email + "&password=" + password + "&uri=" + uri)
         .then(function (response) {
 
             loginButton.innerHTML = "Login";
@@ -124,7 +125,7 @@ function getNewsletter(clientEmail) {
     } else {
         axios.post("/coderbees/function/subscribe.php?email=" + clientEmail)
             .then((res) => {
-                
+
                 console.log(res.data);
                 if (res.data == "error") {
                     toastr.alert("Something Wrong !");
@@ -142,3 +143,6 @@ function getNewsletter(clientEmail) {
     }
 }
 // document.getElementById('newsletterButton').addEventListener('click', getNewsletter());
+
+
+//method for post comment 

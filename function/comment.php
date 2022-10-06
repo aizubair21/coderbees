@@ -18,6 +18,7 @@ if (isset($_GET["leave_comment"])) {
         // $_SESSION['status'] = 'comment_success';
         // header("location: posts.php?post_id=$postId");
         echo "success";
+
     } else {
         // $_SESSION['status'] = 'comment_reject';
         echo "reject";

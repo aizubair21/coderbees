@@ -39,6 +39,10 @@
 
     <!-- Libraries Stylesheet -->
     <link href="/coderbees/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/coderbees/css/style.css" rel="stylesheet">

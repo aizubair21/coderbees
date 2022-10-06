@@ -141,10 +141,10 @@ include "header.php";
                                 </div>
 
                                 <!-- button for showing comments modals -->
-                                <button type="button" class="mx-2 px-2 btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#commentsModal"> <i class="fas fa-comment pe-2"></i>
+                                <button type="button" id="commentModal" class="mx-2 px-2 btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#commentsModal"> <i class="fas fa-comment pe-2"></i>
                                     <?php
-                                    $comnt = mysqli_query($conn, "SELECT * FROM comments WHERE commentsPostId = $single_post_id AND commentStatus = 1");
-                                    echo mysqli_num_rows($comnt);
+                                        $comnt = mysqli_query($conn, "SELECT * FROM comments WHERE commentsPostId = $single_post_id AND commentStatus = 1");
+                                        echo mysqli_num_rows($comnt);
                                     ?>
                                 </button>
 

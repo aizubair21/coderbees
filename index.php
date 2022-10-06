@@ -82,7 +82,7 @@ $setting = $set->fetch_assoc();
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="owl-carousel owl-carousel-2 carousel-item-1 position-relative mb-3 mb-lg-0">
+                <div class="owl-carousel mb-3 mb-lg-0" id="owl-carousel-1">
 
                     <?php
                     $post_status = 1;
@@ -92,7 +92,7 @@ $setting = $set->fetch_assoc();
                     $post_restlt = $mysqli->select([])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("postStatus = $post_status")->order("posts.postId")->DESC()->limit($slider_item)->get();
                     while ($posts = $post_restlt->fetch_assoc()) { ?>
 
-                        <div class="position-relative overflow-hidden" style="height: 435px;">
+                        <div class="position-relative overflow-hidden slick_slider" style="height: 435px;">
 
                             <img class="img-fluid h-100" src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $posts["postImage"] ?>" style="object-fit: cover;">
                             <div class="overlay">

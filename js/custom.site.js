@@ -172,3 +172,23 @@ function makeComment(postId, publisherId, comment) {
             })
     }
 }
+
+$(".slick_slide").slick({
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+});
+
+$("#owl-carousel-1").owlCarousel({
+    center:true,
+    autoplay: true,
+    smartSpeed: 1500,
+    items: 1,
+    dots: false,
+    loop: true,
+    nav: true,
+    navText: [
+        '<i class="fa fa-angle-left" aria-hidden="true"></i>',
+        '<i class="fa fa-angle-right" aria-hidden="true"></i>'
+    ]
+});

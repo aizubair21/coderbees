@@ -74,11 +74,12 @@ $mysqli = new DBSelect;
 
 
 <!-- JavaScript Libraries -->
-<script src="bootstrap-5.1.0-dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="bootstrap-5.1.0-dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="/coderbees/lib/easing/easing.min.js"></script>
+<script src="/coderbees/lib/owlcarousel/owl.carousel.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <!-- Contact Javascript File -->
 <script src="mail/jqBootstrapValidation.min.js"></script>
@@ -95,7 +96,8 @@ $mysqli = new DBSelect;
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <!-- Template Javascript -->
-<script src="js/custom.site.js"></script>
+<script src="/coderbees/js/custom.site.js"></script>
+<script src="/coderbees/js/main.js"></script>
 </body>
 
 </html>

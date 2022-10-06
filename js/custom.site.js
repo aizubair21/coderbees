@@ -146,3 +146,29 @@ function getNewsletter(clientEmail) {
 
 
 //method for post comment 
+function makeComment(postId, publisherId, comment) {
+    console.log(postId + "," + publisherId + "," + comment);
+    if (comment == "") {
+        toastr.info("Leave a comment first !");
+        $("#postCommentField").focus();
+
+    } else {
+        axios.post("/coderbees/function/comment.php?pId=" + postId + "&pbId=" + publisherId + "&cmt=" + comment + "&leave_comment")
+            .then((res) => {
+
+                console.log(res.data);
+                if (res.data == "error") {
+                    toastr.info("Something Wrong !");
+                }
+                if (res.data == "success") {
+                    toastr.success("Your comment successfully published.");
+                }
+                if (res.data == 'reject') {
+                    toastr.info("You can't comment right now");
+                }
+            })
+            .catch((error) => {
+                toastr.warning(error);
+            })
+    }
+}

@@ -165,12 +165,12 @@ include "header.php";
 
                     <div class="bg-light mb-3" style="padding: 30px">
                         <h3 class="mb-4 text-primary">Leave a comment</h3>
-                        <form action="<?php echo GlobalROOT_PATH ?>/function/comment.php" method="POST" class="">
+                        <form name="postCommentForm">
                             <input type="hidden" name="postId" value="<?php echo $single_post_id ?>">
                             <input type="hidden" name="publisherId" value="<?php echo $single_post["postPublisher"] ?>">
                             <div class="form-group d-flex justify-content-between align-items-center">
-                                <input type="text" id="message" name="comment" class="form-control">
-                                <input type="submit" name="leave_comment" id="get_comment" value="  comment" class="btn btn-success font-weight-semi-bold py-2 px-3">
+                                <input type="text" id="postCommentField" name="comment" class="form-control">
+                                <input type="button" name="leave_comment" onclick="makeComment(+postCommentForm.postId.value, +postCommentForm.publisherId.value, postCommentForm.comment.value)" id="get_comment" value="  comment" class="btn btn-success font-weight-semi-bold py-2 px-3">
                             </div>
                         </form>
                     </div>
@@ -272,7 +272,7 @@ include "header.php";
                                 <div class="media-body px-3">
                                     <h6><a href=""><?php echo $comments["commentUser"] ?> </a> <small><i><?php echo $comments["commentOn"] ?></i></small></h6>
                                     <p><?php echo $comments["comment"] ?></p>
-                                    <button class="btn btn-sm btn-outline-secondary">Reply</button>
+                                    <!-- <button class="btn btn-sm btn-outline-secondary">Reply</button>
                                     <div class="media mt-4">
                                         <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                         <div class="media-body">
@@ -283,7 +283,7 @@ include "header.php";
                                                 ipsum diam tempor consetetur at sit.</p>
                                             <button class="btn btn-sm btn-outline-secondary">Reply</button>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                     <?php }

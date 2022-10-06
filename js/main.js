@@ -52,7 +52,7 @@
     $(".carousel-item-1").owlCarousel({
         autoplay: true,
         smartSpeed: 1500,
-        items: 1,
+        items: 1,   
         dots: false,
         loop: true,
         nav : true,

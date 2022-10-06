@@ -8,9 +8,9 @@ if ($user = $_SESSION['user_key']) {
     $category = 'user';
 
     //check if already like
-    $stmt = mysqli_query($conn, "SELECT userId FROM follow WHERE postId = $postId");
+    $stmt = mysqli_query($conn, "SELECT userId FROM follow WHERE postId = '$postId'");
     $is_like = mysqli_fetch_assoc($stmt);
-    if ($is_like) {
+    if (!$is_like) {
         $sql = mysqli_query($conn, "DELETE FROM follow WHERE postId = $postId AND userId = $userId");
         if ($sql) {
             // $_SESSION['status'] = 'unlike';

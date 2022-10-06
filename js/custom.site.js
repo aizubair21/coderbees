@@ -1,5 +1,6 @@
+//maethod for like post
 function makeLike(id) {
-    axios.post("/coderbees/function/like_post.php?post=" + id)
+    axios.post("function/like_post.php?post=" + id)
         .then(function (response) {
 
 
@@ -27,7 +28,7 @@ function makeLike(id) {
 // method for unlike post
 function makeUnLike(id) {
     alert("unlike trigrared !");
-    axios.post("/coderbees/function/unlike_post.php?post=" + id)
+    axios.post("function/unlike_post.php?post=" + id)
         .then(function (response) {
 
             // if user not logged in on system
@@ -40,8 +41,9 @@ function makeUnLike(id) {
             };
 
             if (response.data == "success") {
-
                 toastr.success("Unliked .");
+                showPostReaction();
+
             }
 
         })
@@ -59,7 +61,7 @@ function userLogin(e, email, password, uri) {
     loginButton.innerHTML = spinner;
 
     console.log(loginButton);
-    axios.post("/coderbees/function/user.login.php?email=" + email + "&password=" + password + "&uri=" + uri)
+    axios.post("function/user.login.php?email=" + email + "&password=" + password + "&uri=" + uri)
         .then(function (response) {
 
             loginButton.innerHTML = "Login";
@@ -98,4 +100,45 @@ function userLogin(e, email, password, uri) {
 }
 
 
-//post react cou
+//method for count post reaction
+function showPostReaction() {
+    let postId = document.getElementById('post_id').value;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('post_react_show').innerHTML = this.responseText;
+        }
+    };
+    xmlhttp.open("GET", "/coderbees/function/post_react.count.php?post_id=" + postId);
+    xmlhttp.send();
+}
+
+
+//method for newsletter
+function getNewsletter(clientEmail) {
+    // alert(clientEmail);
+    let clientEmailField = document.getElementById("newsletterEmailField");
+    if (clientEmail == "") {
+        $('.newdletterEmailField').focus();
+        toastr.info("please, Give a valid email address !");
+    } else {
+        axios.post("/coderbees/function/subscribe.php?email=" + clientEmail)
+            .then((res) => {
+                
+                console.log(res.data);
+                if (res.data == "error") {
+                    toastr.alert("Something Wrong !");
+                }
+                if (res.data == "success") {
+                    toastr.success("We mailed you if anything new in here. Be with us.");
+                }
+                if (res.data == 'subscribed') {
+                    toastr.info("No need ! You already get our newsletter.");
+                }
+            })
+            .catch((error) => {
+                toastr.warning(error);
+            })
+    }
+}
+// document.getElementById('newsletterButton').addEventListener('click', getNewsletter());

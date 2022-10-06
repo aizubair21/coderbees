@@ -133,9 +133,9 @@ include "header.php";
                                     </div>
 
                                     <!-- for unlike  -->
-                                    <form action="" method="get" name="unlike_form">
+                                    <form action="" method="get" name="Unlike_form">
                                         <input type="hidden" name="post_id" value="<?php echo $single_post['postId'] ?>">
-                                        <button title="Unlike" type="button" class="btn btn-outline-secondary btn-sm" onclick="makeUnLike(unlike_form.post_id.value)"> <i class="fas fa-caret-down"></i> </button>
+                                        <button title="Unlike" type="button" class="btn btn-outline-secondary btn-sm" onclick="makeUnLike(Unlike_form.post_id.value)"> <i class="fas fa-caret-down"></i> </button>
                                     </form>
                                     <!-- <a href="<?php echo GlobalROOT_PATH ?>/function/unlike_post.php?post=<?php echo $single_post['postId'] ?>" title="Dislike" name="unlike" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-down"></i> </a> -->
                                 </div>

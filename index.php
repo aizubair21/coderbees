@@ -75,13 +75,33 @@ $setting = $set->fetch_assoc();
     .h4 {
         line-height: 20px;
     }
+
+    /* owl-carousel  */
+    .owl-item {
+        opacity: .4;
+    }
+
+    .center {
+        opacity: 1;
+        transition: all linear .3s;
+    }
+
+    .owl-stage {
+        perspective: 1000px;
+    }
+
+    .owl-item:not(.center) {
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+        /* transform: rotateY(45deg); */
+    }
 </style>
 
 <!-- Main News Slider Start -->
 <div class="container-fluid py-3">
-    <div class="container">
+    <div class="">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <div class="owl-carousel mb-3 mb-lg-0" id="owl-carousel-1">
 
                     <?php
@@ -92,7 +112,7 @@ $setting = $set->fetch_assoc();
                     $post_restlt = $mysqli->select([])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("postStatus = $post_status")->order("posts.postId")->DESC()->limit($slider_item)->get();
                     while ($posts = $post_restlt->fetch_assoc()) { ?>
 
-                        <div class="position-relative overflow-hidden slick_slider" style="height: 435px;">
+                        <div class="position-relative overflow-hidden slick_slider" style="height: 435px; margin:5px;">
 
                             <img class="img-fluid h-100" src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $posts["postImage"] ?>" style="object-fit: cover;">
                             <div class="overlay">
@@ -116,31 +136,28 @@ $setting = $set->fetch_assoc();
 
                 </div>
             </div>
-            <div class="col-lg-4 overflow-hidden">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <?php
-                        $popular_qry = $mysqli->select(['postId', 'post', 'postTitle', 'postImage', 'postCreated_at', 'postCategory', 'catName'])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1")->order("posts.view")->DESC()->limit("4")->get();
-                        while ($popular = $popular_qry->fetch_assoc()) { ?>
-                            <div class="d-flex mb-3">
-                                <div style="width:40%">
-                                    <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 100%; height: 100px">
-                                </div>
-                                <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px; width:70%">
-                                    <div class="mb-1" style="font-size: 13px;">
-                                        <a class="text-primary" href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
-                                        <span class="px-1">/</span>
-                                        <span><?php echo $popular["postCreated_at"] ?></span>
-                                    </div>
-                                    <a class="h6 m-0" href="posts.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
-                                </div>
+            <div class="row" style="margin-top: 25px;">
+                <?php
+                $popular_qry = $mysqli->select(['postId', 'post', 'postTitle', 'postImage', 'postCreated_at', 'postCategory', 'catName'])->from('posts')->join("LEFT JOIN category ON category.catId = posts.postCategory")->where("posts.postStatus = 1")->order("posts.view")->DESC()->limit("12")->get();
+                while ($popular = $popular_qry->fetch_assoc()) { ?>
+                    <div class="col-md-3">
+                        <div class="d-flex mb-3">
+                            <div style="width:40%">
+                                <img src="<?php echo GlobalROOT_PATH ?>/image/<?php echo $popular["postImage"] ?>" style="width: 100%; height: 100px">
                             </div>
-
-                        <?php } ?>
+                            <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px; width:70%">
+                                <div class="mb-1" style="font-size: 13px;">
+                                    <a class="text-primary" href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
+                                    <span class="px-1">/</span>
+                                    <span><?php echo $popular["postCreated_at"] ?></span>
+                                </div>
+                                <a class="h6 m-0" href="posts.php?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
+                <?php } ?>
             </div>
+
         </div>
     </div>
 </div>

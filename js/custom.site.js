@@ -183,7 +183,7 @@ $("#owl-carousel-1").owlCarousel({
     center:true,
     autoplay: true,
     smartSpeed: 1500,
-    items: 1,
+    items: 2,
     dots: false,
     loop: true,
     nav: true,

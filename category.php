@@ -4,8 +4,9 @@ $title = "Categories - coderbees";
 include "connection.php";
 include "header.php";
 
+//print_r($_GET);
 
-$category = $_GET["category"] ?? "";
+$category = $_GET['category'] ?? "";
 $all_category = $_GET["show"] ?? "";
 
 //for pagination
@@ -36,7 +37,7 @@ $total_page = ceil($total_row / $result_per_page);
 
 
 <!-- Breadcrumb Start -->
-<div class="container-fluid">
+<!-- <div class="container-fluid">
     <div class="container">
         <nav class="breadcrumbs">
             <a class="breadcrumbs-item" href="index.php"> <i class="fas fa-home"></i> Home</a>
@@ -44,7 +45,7 @@ $total_page = ceil($total_row / $result_per_page);
             <span class="breadcrumbs-item-active"><?php echo ($category ?? "All Blogs") ?></span>
         </nav>
     </div>
-</div>
+</div> -->
 <!-- Breadcrumb End -->
 
 
@@ -57,7 +58,7 @@ $total_page = ceil($total_row / $result_per_page);
                 <div class="row">
                     <div class="col-12">
                         <div class="d-flex align-items-center justify-content-between bg-light py-2  mb-3">
-                            <h3 class="m-0">Show blogs for category "<?php echo  $category ?? "" ?>"</h3>
+                            <h3 class="m-0">Show blogs for category "<?php echo  $category ?? $all_category ?>"</h3>
                         </div>
                     </div>
                 </div>
@@ -75,7 +76,7 @@ $total_page = ceil($total_row / $result_per_page);
                         while ($posts = mysqli_fetch_assoc($get_cat_wise_post)) { ?>
                             <div class="col-lg-6">
                                 <div class="d-flex mb-3">
-                                    <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
+                                    <img src="/coderbees/image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
                                     <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                         <div class="mb-1" style="font-size: 13px;">
                                             <a href="category.php?category=<?php echo $category ?>"> <?php echo $category ?> </a>
@@ -95,7 +96,7 @@ $total_page = ceil($total_row / $result_per_page);
                         while ($posts = mysqli_fetch_assoc($post)) { ?>
                             <div class="col-lg-6">
                                 <div class="d-flex mb-3">
-                                    <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
+                                    <img src="/coderbees/image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
                                     <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                         <div class="mb-1" style="font-size: 13px;">
                                             <a href="category.php?category=<?php echo $posts["catName"] ?>"> <?php echo $posts["catName"] ?> </a>

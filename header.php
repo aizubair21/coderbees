@@ -20,6 +20,8 @@
     <title>
         <?php
 
+        //get title from every page. 
+        //this placed before include header.php
         echo $title . " | Coderbees ";
 
         ?>
@@ -136,7 +138,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a href="<?php url_for('index.php') ?>" class="nav-item nav-link <?php if ($active == "home") {
+                        <a href="<?php url_for('home') ?>" class="nav-item nav-link <?php if ($active == "home") {
                                                                                                 echo "active";
                                                                                             } ?> ">Home</a>
                     </li>
@@ -145,13 +147,13 @@
                                                                                             echo "active";
                                                                                         } ?> ">Blog</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-item nav-link disabled <?php if ($active == "posts") {
                                                                     echo "active";
                                                                 } ?> ">Single Post</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
-                        <a href="<?php url_for('contact.php') ?>" class="nav-item nav-link <?php if ($active == "contact") {
+                        <a href="<?php url_for('contact-us') ?>" class="nav-item nav-link <?php if ($active == "contact") {
                                                                                                 echo "active";
                                                                                             } ?> ">Contact</a>
                     </li>

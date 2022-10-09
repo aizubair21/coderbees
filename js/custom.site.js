@@ -1,5 +1,6 @@
 //maethod for like post
 function makeLike(id) {
+    alert("liked");
     axios.post("function/like_post.php?post=" + id)
         .then(function (response) {
 
@@ -22,7 +23,6 @@ function makeLike(id) {
             toastr.warning(error);
         });
 }
-
 
 
 // method for unlike post
@@ -173,14 +173,8 @@ function makeComment(postId, publisherId, comment) {
     }
 }
 
-$(".slick_slide").slick({
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-});
-
 $("#owl-carousel-1").owlCarousel({
-    center:true,
+    center: true,
     autoplay: true,
     smartSpeed: 1500,
     items: 2,

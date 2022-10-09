@@ -1,7 +1,7 @@
 <?php
 include "connection.php";
 
-$single_post_id = $_GET["post_id"] ?? "";
+$single_post_id = $_GET['post_id'] ?? "";
 if (isset($_GET["post_id"])) {
 
     //get the post which url was clicked
@@ -31,7 +31,7 @@ if (isset($_GET["post_id"])) {
 }
 
 //for which item will be active in navigation item.
-$active = "posts";
+$active = "category"; //active blog 
 
 //for page title 
 $title =  $single_post['postTitle'];
@@ -47,7 +47,7 @@ include "header.php";
 
 
 <!-- Breadcrumb Start -->
-<div class="container-fluid">
+<!-- <div class="container-fluid">
     <div class="container">
         <nav class="breadcrumbs">
             <a class="breadcrumbs-item" href="index.php"> <i class="fas fa-home"></i> home</a>
@@ -55,7 +55,7 @@ include "header.php";
             <span class="breadcrumbs-item-active "><?php echo $single_post["postTitle"] ?? "" ?></span>
         </nav>
     </div>
-</div>
+</div> -->
 <!-- Breadcrumb End -->
 
 
@@ -108,7 +108,7 @@ include "header.php";
                                     <!-- for like -->
                                     <form action="" method="get" name="like_form">
                                         <input type="hidden" name="post_id" id="post_id" value="<?php echo $single_post['postId'] ?>">
-                                        <button title="like" type="button" class="btn btn-outline-secondary btn-sm" onclick="makeLike(like_form.post_id.value)"> <i class="fas fa-caret-up"></i> </button>
+                                        <button title="like" type="button" data-likeId="<?php echo $single_post['postId'] ?>" id="likeBtn" class="btn btn-outline-secondary btn-sm" onclick="makeLike(like_form.post_id.value)"> <i class="fas fa-caret-up"></i> </button>
                                     </form>
                                     <!-- <a href=" <?php echo GlobalROOT_PATH ?>/function/like_post.php?post=<?php echo $single_post['postId'] ?>" type="button" name="like" title="Like" class="btn btn-outline-secondary btn-sm"> <i class="fas fa-caret-up"></i> </a> -->
 

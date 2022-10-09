@@ -35,7 +35,7 @@
             $cat_qry = $mysql->select(["catName"])->from("category")->limit($cat_limit['category_item'])->get();
 
             while ($category = $cat_qry->fetch_assoc()) {
-                echo '<li class=" m-2"><a  href="category.php?category=' . $category["catName"] . '"style="font-size:18px;"> <i class="fas fa-caret-right px-2 ;" ></i>' . $category["catName"] . '</a></li>';
+                echo '<li class=" m-2"><a  href="<?php url_for(category/' . $category["catName"] . ') ?>"style="font-size:18px;"> <i class="fas fa-caret-right px-2 ;" ></i>' . $category["catName"] . '</a></li>';
             }
 
             ?>

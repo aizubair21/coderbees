@@ -11,7 +11,7 @@ function category_related_post($category, $conn)
             </div>
             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                 <div class="mb-1" style="font-size: 13px;">
-                    <a href="category.php?category=<?php echo $tranding['catName'] ?>"> <?php echo $tranding["catName"] ?></a>
+                    <a href="<?php url_for('category/' . $tranding["catName"]) ?>"> <?php echo $tranding["catName"] ?></a>
                     <span class="px-1">/</span>
                     <span><?php echo $tranding["postCreated_at"] ?></span>
                 </div>
@@ -33,7 +33,7 @@ function tag_related_post($tags, $conn)
             </div>
             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                 <div class="mb-1" style="font-size: 13px;">
-                    <a href="category.php?category=<?php echo $tranding['catName'] ?>"> <?php echo $tranding["catName"] ?></a>
+                    <a href="<?php url_for('category/' . $tranding["catName"]) ?>"> <?php echo $tranding["catName"] ?></a>
                     <span class="px-1">/</span>
                     <span><?php echo $tranding["postCreated_at"] ?></span>
                 </div>

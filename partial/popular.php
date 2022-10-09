@@ -31,9 +31,9 @@
                 }
             </style>
             <div class="w-100 d-flex flex-column justify-content-evenly align-items-end bg-light px-3">
-                <a class="h6 m-0 text-left" href="posts?post_id=<?php echo $popular["postId"] ?>"><?php echo $popular["postTitle"] ?></a>
+                <a class="h6 m-0 text-left" href="<?php url_for('posts/' . $popular["postId"] .'/'. str_replace(" ", "-", $popular["postTitle"])) ?>"><?php echo $popular["postTitle"] ?></a>
                 <div class="mb-1 text-left w-100" style="font-size: 13px;">
-                    <a class='text-primary' href="category.php?category=<?php echo $popular["catName"] ?>"><?php echo $popular["catName"] ?></a>
+                    <a class='text-primary' href="<?php url_for('category/' . $popular["catName"]) ?>"><?php echo $popular["catName"] ?></a>
                     <span class="px-1">/</span>
                     <span><?php echo $popular["postCreated_at"] ?></span>
                 </div>

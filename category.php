@@ -79,13 +79,13 @@ $total_page = ceil($total_row / $result_per_page);
                                     <img src="/coderbees/image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
                                     <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                         <div class="mb-1" style="font-size: 13px;">
-                                            <a href="category.php?category=<?php echo $category ?>"> <?php echo $category ?> </a>
+                                            <a href="<?php url_for('category/' . $category) ?>"> <?php echo $category ?> </a>
                                             <span class="px-1">/</span>
                                             <span> <?php echo $posts['postCreated_at'] ?> </span>
                                         </div>
-                                        <a class="h6 m-0" href="posts.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>
+                                        <a class="h6 m-0" href="<?php url_for('posts/' . $posts["postId"] .'/'. str_replace(" ", "-", $posts["postTitle"])) ?>"><?php echo $posts["postTitle"] ?></a>
 
-                                        <a class='text text-secondary width-10 py-2' href="tag.php?tags=<?php echo $posts["postTag"] ?>"><span><?php echo $posts["postTag"] ?></span></a>
+                                        <a class='text text-secondary width-10 py-2' href="<?php url_for('tags/' . $posts["postTag"]) ?>"><span><?php echo $posts["postTag"] ?></span></a>
                                     </div>
                                 </div>
                             </div>
@@ -99,13 +99,13 @@ $total_page = ceil($total_row / $result_per_page);
                                     <img src="/coderbees/image/<?php echo $posts["postImage"] ?>" style="width: 100px; height: 100px; object-fit: cover;">
                                     <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px;">
                                         <div class="mb-1" style="font-size: 13px;">
-                                            <a href="category.php?category=<?php echo $posts["catName"] ?>"> <?php echo $posts["catName"] ?> </a>
+                                            <a href="<?php url_for('category/' . $posts["catName"]) ?>"> <?php echo $posts["catName"] ?> </a>
                                             <span class="px-1">/</span>
                                             <span> <?php echo $posts['postCreated_at'] ?> </span>
                                         </div>
-                                        <a class="h6 m-0" href="posts.php?post_id=<?php echo $posts['postId'] ?>"><?php echo $posts["postTitle"] ?></a>
+                                        <a class="h6 m-0" href="<?php url_for('posts/' . $posts["postId"] .'/'. str_replace(" ", "-", $posts["postTitle"])) ?>"><?php echo $posts["postTitle"] ?></a>
 
-                                        <a class='text text-secondary width-10 py-2' href="tag.php?tags=<?php echo $posts["postTag"] ?>"><span><?php echo $posts["postTag"] ?></span></a>
+                                        <a class='text text-secondary width-10 py-2' href="<?php url_for('tags/' . $posts["postTag"]) ?>"><span><?php echo $posts["postTag"] ?></span></a>
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@ $total_page = ceil($total_row / $result_per_page);
                         while ($cat = $get_cat->fetch_assoc()) {
                         ?>
                             <div class="d-inline-block my-1">
-                                <a class="btn btn-outline-secondary btn-sm" href="catgory.php?category=<?php $cat['catName'] ?>"> <?php echo $cat["catName"] ?> </a>
+                                <a class="btn btn-outline-secondary btn-sm" href="<?php url_for('category/' . $cat["catSlug"]) ?>"> <?php echo $cat["catName"] ?> </a>
                             </div>
                         <?php
                         }

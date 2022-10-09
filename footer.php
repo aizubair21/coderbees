@@ -31,7 +31,7 @@ $mysqli = new DBSelect;
                 $cat_qry = $mysqli->select(["catId", "catName", "catSlug"])->from("category")->get();
                 if ($cat_qry->num_rows > 0) {
                     while ($cat = mysqli_fetch_assoc($cat_qry)) {
-                        echo '<a href="category.php?category=' . $cat["catName"] . '" class="btn btn-sm btn-outline-secondary m-1">' . $cat["catName"] . '</a>';
+                        echo '<a href="/coderbees/category/' . $cat['catName'] . ' " class="btn btn-sm btn-outline-secondary m-1">' . $cat["catName"] . '</a>';
                     }
                 } else {
                     echo "<button class='btn btn-outline-secondary btn-sm'>Uncategory</button>";
@@ -51,11 +51,11 @@ $mysqli = new DBSelect;
         <div class="col-lg-3 col-md-6 mb-5">
             <h4 class="font-weight-bold mb-4">Quick Links</h4>
             <div class="d-flex flex-column justify-content-star">
-                <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>About</a>
+                <a class="text-secondary mb-2" href="<?php url_for('aobut-us') ?>"><i class="fa fa-angle-right text-dark mr-2"></i>About</a>
                 <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Advertise</a>
                 <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Privacy & policy</a>
-                <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Terms & conditions</a>
-                <a class="text-secondary" href="#"><i class="fa fa-angle-right text-dark mr-2"></i>Contact</a>
+                <a class="text-secondary mb-2" href="<?php url_for("our-rools") ?>"><i class="fa fa-angle-right text-dark mr-2"></i>Terms & conditions</a>
+                <a class="text-secondary" href="<?php url_for("contact-us") ?>"><i class="fa fa-angle-right text-dark mr-2"></i>Contact</a>
             </div>
         </div>
     </div>

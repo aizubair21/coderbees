@@ -19,7 +19,7 @@ function tags($tag_sql)
                 //if every post have a tag
                 if (!empty($result['postTag'])) :
                     ?>
-                    <a href="tag.php?tags=<?php echo trim($result['postTag']) ?>" class='btn btn-outline-secondary btn-sm m-1'> <?php echo trim($result['postTag']) ?></a>
+                    <a href="<?php url_for('tags/' . $result["postTag"]) ?>" class='btn btn-outline-secondary btn-sm m-1'> <?php echo trim($result['postTag']) ?></a>
 
             <?php
 
@@ -42,12 +42,12 @@ function make_tag_for_posts($string_tags)
         foreach ($tag as $tags) {
 
             ?>
-            <a class="btn btn-outline-secondary btn-sm" href="tag.php?tags=<?php echo trim($tags) ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo trim($tags) ?> </a>
+            <a class="btn btn-outline-secondary btn-sm" href="<?php url_for('tags/' . trim($tags)) ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo trim($tags) ?> </a>
         <?php
         }
     } else {
         ?>
-        <a class="btn btn-outline-secondary btn-sm" href="tag.php?tags=<?php echo trim($string_tags) ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo trim($string_tags) ?> </a>
+        <a class="btn btn-outline-secondary btn-sm" href="<?php url_for('tags/' . trim($string_tags)) ?>"> <i class="px-1 fas fa-caret-right"></i> <?php echo trim($string_tags) ?> </a>
 <?php
     }
 }

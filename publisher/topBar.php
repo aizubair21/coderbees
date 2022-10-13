@@ -174,7 +174,7 @@
               <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $auth_publisher["publisherUser_name"] ?></span>
               <img class="img-profile rounded-circle"
                 
-                  src="uploads/image/<?php echo $auth_publisher["publisherImage"] ?>">
+                  src="/coderbees/uploads/image/<?php echo $auth_publisher["publisherImage"] ?>">
           </a>
           <!-- Dropdown - User Information -->
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

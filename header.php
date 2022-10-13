@@ -42,9 +42,9 @@
     <!-- Libraries Stylesheet -->
     <link href="/coderbees/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <!-- Add the slick-theme.css if you want default styling -->
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <!-- Add the slick-theme.css if you want default styling -->
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/coderbees/css/style.css" rel="stylesheet">
@@ -139,8 +139,8 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a href="<?php url_for('home') ?>" class="nav-item nav-link <?php if ($active == "home") {
-                                                                                                echo "active";
-                                                                                            } ?> ">Home</a>
+                                                                                        echo "active";
+                                                                                    } ?> ">Home</a>
                     </li>
                     <li class="nav-item">
                         <a href="<?php url_for('blog.php') ?>" class="nav-item nav-link <?php if ($active == "category") {
@@ -158,10 +158,11 @@
                                                                                             } ?> ">Contact</a>
                     </li>
                 </ul>
-                <form class="d-flex" action=" <?php GlobalROOT_PATH ?> search.php">
+                <form action="<?php url_for("search.php") ?>" class="d-flex" name="Search_filed" method="get">
                     <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
-                        <input type="text" class="form-control" placeholder="Keyword" name="search">
-                        <button class="input-group-text text-secondary"><i class="fa fa-search"></i></button>
+                        <input type="text" class="form-control" id="search_key" placeholder="Keyword" name="search">
+
+                        <button class="input-group-text text-secondary" type="submit"><i class="fa fa-search"></i></button>
 
                     </div>
                 </form>
@@ -178,24 +179,24 @@
                                 echo $user['userName'];
                             }
                             ?>
-                        </div>
-                        <div class="dropdown-menu rounded-0 m-0">
+                            <div class="dropdown-menu rounded-0 m-0">
 
-                            <?php
-                            if ($_SESSION["user_key"] ?? "") { ?>
+                                <?php
+                                if ($_SESSION["user_key"] ?? "") { ?>
 
-                                <a class="nav-item nav-link dropdwon-item" href="<?php url_for('logout.php') ?>" class="dropdown-item">Logout</a>
-                            <?php } else {
-                            ?>
-                                <a href="<?php url_for('login.php') ?>" class=" nav-item nav-link dropdown-item  <?php if ($active == "login") {
-                                                                                                                        echo "active";
-                                                                                                                    } ?> ">Login</a>
-                                <a href="<?php url_for('register.php') ?>" class="nav-item nav-link dropdown-item  <?php if ($active == "register") {
-                                                                                                                        echo "active";
-                                                                                                                    } ?>">Register</a>
-                            <?php
-                            }
-                            ?>
+                                    <a class="nav-item nav-link dropdwon-item" href="<?php url_for('logout.php') ?>" class="dropdown-item">Logout</a>
+                                <?php } else {
+                                ?>
+                                    <a href="<?php url_for('login.php') ?>" class=" nav-item nav-link dropdown-item  <?php if ($active == "login") {
+                                                                                                                            echo "active";
+                                                                                                                        } ?> ">Login</a>
+                                    <a href="<?php url_for('register.php') ?>" class="nav-item nav-link dropdown-item  <?php if ($active == "register") {
+                                                                                                                            echo "active";
+                                                                                                                        } ?>">Register</a>
+                                <?php
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
                 </div>

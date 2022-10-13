@@ -1,6 +1,5 @@
 <?php
 include "connection.php";
-
 if (!isset($_SESSION["publisher_key"])) {
     header("location: login.php");
 }
@@ -25,11 +24,16 @@ $key = $_SESSION["publisher_key"] ?? "";
     <title> Dashboard - coderbees </title>
 
     <!-- Custom fonts for this template-->
-    <link href="<?php PUBLISHER_PATH ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/coderbees/publisher/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/coderbees/bootstrap-5.1.0-dist/css/bootstrap.min.css">
+
     <!-- Custom styles for this template-->
-    <link href="<?php PUBLISHER_PATH ?>css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/coderbees/publisher/css/sb-admin-2.min.css" rel="stylesheet">
+
 
     <style>
         td {

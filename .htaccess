@@ -2,20 +2,24 @@ RewriteEngine On
 
 
 # #remove .php extention
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_FILENAME}.php -f
+# RewriteRule ^(.*)$ $1.php
 
 #return 404 if original request is .php
-RewriteCond %{THE_REQUEST} "^[^ ]* .*?\.PHP[? ].+$"
-RewriteRule .* - [L,R=404]
+# RewriteCond %{THE_REQUEST} "^[^ ]* .*?\.PHP[? ].+$"
+# RewriteRule .* - [L,R=404]
 
 # #home page
+RewriteRule ^$ index.php [NC,L]
 RewriteRule home index.php [NC,L]
-RewriteRule admin admin/index.php [NC,L]
-RewriteRule publicher publisher/index.php [NC,L]
+RewriteRule admin admin/login.php [NC,L]
+RewriteRule publisher publisher/login.php [NC,L]
 RewriteRule contact-us contact.php [NC,L]
 RewriteRule posts/([0-9]+)/(["a-zA-Z-_"]+) posts.php?post_id=$1&post=$2 [NC,L]
+RewriteRule search/(["a-zA-Z-_"]+) search.php?searrch=$1 [NC,L]
+
+RewriteRule home/(["a-z0-9"]) search.php?search=$1 [NC,L]
 
 RewriteRule ^category$ category.php?show=all_category [NC,L]
 RewriteRule ^category/(['a-zA-Z-_']+) category.php?category=$1 [NC,L]

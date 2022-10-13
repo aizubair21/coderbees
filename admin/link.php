@@ -28,8 +28,10 @@ function isActive($modifier)
 
 </body>
 <script src="../bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
+
 <!-- toaster_plugin -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>

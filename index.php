@@ -127,7 +127,7 @@ $setting = $set->fetch_assoc();
                                     ?>
 
                                 </div>
-                                <a class="h2 m-0 text-white font-weight-bold" href="<?php url_for('posts/' . $posts['postId'] . '/' . $posts['postTitle']) ?>"><?php echo $posts["postTitle"] ?></a>
+                                <a class="h2 m-0 text-white font-weight-bold" href="<?php url_for('posts/' . $posts['postId'] . '/' . str_replace(" ", "-", $posts['postTitle'])) ?>"><?php echo $posts["postTitle"] ?></a>
                             </div>
                         </div>
 
@@ -147,7 +147,7 @@ $setting = $set->fetch_assoc();
                             </div>
                             <div class="w-100 d-flex flex-column justify-content-center bg-light px-3" style="height: 100px; width:70%">
                                 <div class="mb-1" style="font-size: 13px;">
-                                    <a class="text-primary" href="<?php url_for('category/'.$popular["catName"]) ?>"><?php echo $popular["catName"] ?></a>
+                                    <a class="text-primary" href="<?php url_for('category/' . $popular["catName"]) ?>"><?php echo $popular["catName"] ?></a>
                                     <span class="px-1">/</span>
                                     <span><?php echo $popular["postCreated_at"] ?></span>
                                 </div>
@@ -208,7 +208,7 @@ $setting = $set->fetch_assoc();
                                     <span class="px-1">/</span>
                                     <span><?php echo $first_category["postCreated_at"] ?></span>
                                 </div>
-                                <a class="h5 m-0" href="<?php url_for('posts/' . $first_category["postId"] .'/'. str_replace(" ", "-", $first_category["postTitle"])) ?>"><?php echo $first_category["postTitle"] ?></a>
+                                <a class="h5 m-0" href="<?php url_for('posts/' . $first_category["postId"] . '/' . str_replace(" ", "-", $first_category["postTitle"])) ?>"><?php echo $first_category["postTitle"] ?></a>
                             </div>
                         </div>
                     </div>
@@ -250,7 +250,7 @@ $setting = $set->fetch_assoc();
                                     <span class="px-1">/</span>
                                     <span><?php echo $secound_category["postCreated_at"] ?></span>
                                 </div>
-                                <a class="h5 m-0" href="<?php url_for('posts/' . $secound_category["postId"] .'/'. str_replace(" ", "-", $secound_category["postTitle"]))?>"><?php echo $secound_category['postTitle'] ?></a>
+                                <a class="h5 m-0" href="<?php url_for('posts/' . $secound_category["postId"] . '/' . str_replace(" ", "-", $secound_category["postTitle"])) ?>"><?php echo $secound_category['postTitle'] ?></a>
                             </div>
                         </div>
                     </div>
@@ -299,7 +299,7 @@ $setting = $set->fetch_assoc();
                                 <img src="/coderbees/image/<?php echo $third_category["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover;">
                             </div>
                             <div class="w-100 d-flex flex-column justify-content-evenly align-items-start bg-light px-3" style="height: 100px;">
-                                <a class="h5 m-0" href="<?php url_for('posts/' . $third_category["postId"] .'/'. str_replace(" ", "-", $third_category["postTitle"])) ?>"><?php echo $third_category["postTitle"] ?></a>
+                                <a class="h5 m-0" href="<?php url_for('posts/' . $third_category["postId"] . '/' . str_replace(" ", "-", $third_category["postTitle"])) ?>"><?php echo $third_category["postTitle"] ?></a>
                                 <div class="mt-1" style="font-size: 13px;">
                                     <a class="text-primary" href="<?php url_for('category/' . $third_category["catName"]) ?>"><?php echo $third_category["catName"] ?></a>
                                     <span class="px-1">/</span>
@@ -339,7 +339,7 @@ $setting = $set->fetch_assoc();
                                 <img src="/coderbees/image/<?php echo $forth_category["postImage"] ?>" style="width: 100%; height: 100px; object-fit: cover;">
                             </div>
                             <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height: 100px;">
-                                <a class="h5 m-0" href="<?php url_for('posts/' . $forth_category["postId"] .'/'. str_replace(" ", "-", $forth_category["postTitle"])) ?>"><?php echo $forth_category["postTitle"] ?></a>
+                                <a class="h5 m-0" href="<?php url_for('posts/' . $forth_category["postId"] . '/' . str_replace(" ", "-", $forth_category["postTitle"])) ?>"><?php echo $forth_category["postTitle"] ?></a>
                                 <div class="mt-1" style="font-size: 13px;">
                                     <a class="text-primary" href="<?php url_for('category/' . $forth_category["catName"]) ?>"><?php echo $forth_category["catName"] ?></a>
                                     <span class="px-1">/</span>
@@ -438,7 +438,7 @@ $setting = $set->fetch_assoc();
 
                                         ?>
                                     </div>
-                                    <a class="h6 p-2" href="<?php url_for('posts/' . $latest["postId"] .'/'. str_replace(" ", "-", $latest["postTitle"])) ?>"><?php echo $latest['postTitle'] ?></a>
+                                    <a class="h6 p-2" href="<?php url_for('posts/' . $latest["postId"] . '/' . str_replace(" ", "-", $latest["postTitle"])) ?>"><?php echo $latest['postTitle'] ?></a>
                                 </div>
                             </div>
                         </div>

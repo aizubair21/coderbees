@@ -56,8 +56,8 @@ if (isset($_POST["login"])) {
 
                                     <input type="email" class="form-control <?php echo ($admin->emailErr) ? "is-invalid" : "" ?>" id="floatingInput" placeholder="name@example.com" name="email">
                                     <label for="floatingInput">User Email</label>
-                                    <?php $admin->isError($admin->emailErr) ?>
                                 </div>
+                                <strong><?php $admin->isError($admin->emailErr) ?></strong>
 
                                 <div class="form-floating">
                                     <input type="password" class="form-control <?php echo ($admin->passwordErr) ? "is-invalid" : "" ?>" id="floatingPassword" placeholder="Password" name="password" autocomplete="off">
@@ -97,39 +97,44 @@ if (isset($_POST["login"])) {
         let email = document.querySelector("#floatingInput");
         let password = document.querySelector("#floatingPassword");
 
-        //make a bootstrap spinner for ajux loading
-        let spinner = '<div><span class="spinner-border spinner-border-sm" role="status"></span> Verifying...</div>'
+        if (email == "" || password == "") {
+            document.getElementById("error").innerHTML = "Please, Fill The Input Field";
+        } else {
 
-        //get the login button for make ajux loading
-        let targetButton = e.target;
+            //make a bootstrap spinner for ajux loading
+            let spinner = '<div><span class="spinner-border spinner-border-sm" role="status"></span> Verifying...</div>'
 
-        //when this function call, spinner show in login button
-        targetButton.innerHTML = spinner;
+            //get the login button for make ajux loading
+            let targetButton = e.target;
 
-        axios.post("function/admin.login.php?email=" + email.value + "&password=" + password.value, )
-            .then(function(response) {
+            //when this function call, spinner show in login button
+            targetButton.innerHTML = spinner;
 
-                //empty input field after get response from server
-                email.value = "";
-                password.value = "";
+            axios.post("/coderbees/admin/function/admin.login.php?email=" + email.value + "&password=" + password.value, )
+                .then(function(response) {
 
-                if (response.data == "success") {
-                    window.location.reload();
-                } else {
+                    //empty input field after get response from server
+                    email.value = "";
+                    password.value = "";
 
-                    //whten get response from server, it stop showing spinner animation
-                    targetButton.innerHTML = "Login";
-                    document.getElementById('error').innerHTML = response.data;
+                    if (response.data == "success") {
+                        window.location.reload();
+                    } else {
 
-                }
-            })
-            .catch(function(error) {
-                //empty input field after get response
-                email.value = "";
-                password.value = "";
-                console.log(error);
-            });
+                        //whten get response from server, it stop showing spinner animation
+                        targetButton.innerHTML = "Login";
+                        document.getElementById('error').innerHTML = "Email or Password are invalid !";
+                    
+                    }
+                })
+                .catch(function(error) {
+                    //empty input field after get response
+                    email.value = "";
+                    password.value = "";
+                    console.log(error);
+                });
 
+        }
 
     })
 </script>

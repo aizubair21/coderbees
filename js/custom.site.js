@@ -1,7 +1,6 @@
 //maethod for like post
 function makeLike(id) {
-    alert("liked");
-    axios.post("function/like_post.php?post=" + id)
+    axios.post("/coderbees/function/like_post.php?post=" + id)
         .then(function (response) {
 
 
@@ -28,7 +27,7 @@ function makeLike(id) {
 // method for unlike post
 function makeUnLike(id) {
     // alert("unlike trigrared !");
-    axios.post("function/unlike_post.php?post=" + id)
+    axios.post("/coderbees/function/unlike_post.php?post=" + id)
         .then(function (response) {
 
             // console.log(response.data);

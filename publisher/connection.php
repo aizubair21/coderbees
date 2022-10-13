@@ -18,6 +18,15 @@ define('PUBLISHER_PATH', ROOT_PATH . "publisher/");
 define('CATEGORY_PATH', ROOT_PATH . "category/");
 // echo PUBLISHER_PATH;
 
+function url_for($script_url)
+{
+    //add the loading '/' if not present.
+    if ($script_url[0] != '/') {
+        $script_url = '/' . $script_url;
+    }
+
+    echo "/coderbees/" . $script_url;
+}
 
 //echo $auth_user["user_name"];
 

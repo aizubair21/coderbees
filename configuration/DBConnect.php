@@ -2,12 +2,13 @@
 
 class DBConnection
 {
-    private $host = 'localhost', $user = 'root', $password = '', $db = 'coderbees';
+    // private $host = 'localhost', $user = 'root', $password = '', $db = 'coderbees';
+    private $host = 'localhost', $user = 'root', $password = '', $db = 'coderbees', $port = '3307';
     public $mysqli;
 
     public function __construct()
     {
-        $connect = new mysqli($this->host, $this->user, $this->password, $this->db);
+        $connect = new mysqli($this->host, $this->user, $this->password, $this->db, $this->port);
         $this->mysqli = $connect;
     }
 

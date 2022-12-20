@@ -1,13 +1,6 @@
 <?php
 session_start();
 
-$conn = mysqli_connect('localhost', 'root', '', 'coderbees');
-
-$key = $_SESSION["publisher_key"] ?? '';
-
-if ($key) {
-    $GLOBALS['auth_publisher'] = getAuthPublisher($key);
-}
 
 //include "../function.php";
 
@@ -18,6 +11,15 @@ define('PUBLISHER_PATH', ROOT_PATH . "publisher/");
 define('CATEGORY_PATH', ROOT_PATH . "category/");
 // echo PUBLISHER_PATH;
 
+
+// $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
+include ROOT_PATH.'config.php';
+
+$key = $_SESSION["publisher_key"] ?? '';
+
+if ($key) {
+    $GLOBALS['auth_publisher'] = getAuthPublisher($key, $conn);
+}
 function url_for($script_url)
 {
     //add the loading '/' if not present.
@@ -71,9 +73,9 @@ function getPublisher()
 }
 
 //get current login publisher
-function getAuthPublisher($publisherId)
+function getAuthPublisher($publisherId, $conn)
 {
-    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
+    // $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
     $data = "SELECT * FROM publisher WHERE publisherId = '$publisherId'";
     $count = mysqli_num_rows($result = mysqli_query($conn, $data));
 

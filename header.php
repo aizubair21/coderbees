@@ -169,8 +169,10 @@
 
                 <div class="navbar-nav mr-5 py-0">
                     <div class="nav-item dropdown">
-                        <div class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            <i class="fas fa-user-circle"></i>
+                        <div class="nav-link d-flex align-items-center" data-toggle="dropdown">
+                            <div class="pr-1">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
                             <?php
                             if ($u_key = isset($_SESSION['user_key'])) {
                                 $conn = mysqli_connect("localhost", "root", "", "coderbees");
@@ -179,12 +181,12 @@
                                 echo $user['userName'];
                             }
                             ?>
-                            <div class="dropdown-menu rounded-0 m-0">
+                            <div class="d-flex rounded-0 m-0">
 
                                 <?php
                                 if ($_SESSION["user_key"] ?? "") { ?>
 
-                                    <a class="nav-item nav-link dropdwon-item" href="<?php url_for('logout.php') ?>" class="dropdown-item">Logout</a>
+                                    <a class="nav-item nav-link dropdown-item" href="<?php url_for('logout.php') ?>" class="dropdown-item">Logout</a>
                                 <?php } else {
                                 ?>
                                     <a href="<?php url_for('login.php') ?>" class=" nav-item nav-link dropdown-item  <?php if ($active == "login") {

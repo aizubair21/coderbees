@@ -59,8 +59,8 @@ function userLogin(e, email, password, uri) {
     let loginButton = document.getElementById('userLoginButton');
     let spinner = '<span style="font-size:14px; opacity:.5;" class="d-flex justify-content-between align-items-center"> verifying..</span ';
     loginButton.innerHTML = spinner;
-
-    console.log(loginButton);
+    
+    // console.log('login');
     axios.post("/coderbees/function/user.login.php?email=" + email + "&password=" + password + "&uri=" + uri)
         .then(function (response) {
 

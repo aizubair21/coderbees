@@ -84,7 +84,7 @@ $tags = trim($_GET["tags"] ?? "All Tags");
                             <div class="col-lg-6">
                                 <div class="d-flex mb-3">
                                     <div style="width:40%; height:100px">
-                                        <img src="image/<?php echo $posts["postImage"] ?>" style="width: 100%; height:100px; object-fit: cover;">
+                                        <img src="/coderbees/image/<?php echo $posts["postImage"] ?>" style="width: 100%; height:100px; object-fit: cover;">
                                     </div>
                                     <div class="w-100 d-flex flex-column justify-content-evenly bg-light px-3" style="height:auto">
                                         <a class="h5 m-0" href="posts.php?post_id=<?php echo $posts["postId"] ?>"><?php echo $posts["postTitle"] ?></a>

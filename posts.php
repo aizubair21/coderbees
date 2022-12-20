@@ -34,7 +34,7 @@ if (isset($_GET["post_id"])) {
 $active = "category"; //active blog 
 
 //for page title 
-$title =  $single_post['postTitle'];
+$title =  $single_post['postTitle']; //post title will be set of page title
 include "header.php";
 
 // print_r(
@@ -143,8 +143,8 @@ include "header.php";
                                 <!-- button for showing comments modals -->
                                 <button type="button" id="commentModal" class="mx-2 px-2 btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#commentsModal"> <i class="fas fa-comment pe-2"></i>
                                     <?php
-                                        $comnt = mysqli_query($conn, "SELECT * FROM comments WHERE commentsPostId = $single_post_id AND commentStatus = 1");
-                                        echo mysqli_num_rows($comnt);
+                                    $comnt = mysqli_query($conn, "SELECT * FROM comments WHERE commentsPostId = $single_post_id AND commentStatus = 1");
+                                    echo mysqli_num_rows($comnt);
                                     ?>
                                 </button>
 
@@ -233,7 +233,11 @@ include "header.php";
         </div>
     </div>
 </div>
+<?php
 
+include "footer.php";
+
+?>
 </div>
 
 <!-- Button trigger modal -->
@@ -301,12 +305,5 @@ include "header.php";
         </div>
     </div>
 </div>
-
 <!-- News With Sidebar End -->
 
-<?php
-
-include "footer.php";
-
-
-?>

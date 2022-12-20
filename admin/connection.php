@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-
+// include "/config.php";
 
 //make root relative path;
 define('A_ROOT_PATH', dirname(__DIR__) . '/');
@@ -10,20 +10,23 @@ define('l_ADMIN_PATH', A_ROOT_PATH . "admin/");
 // define('CATEGORY_PATH', ROOT_PATH."category/");
 // echo "admin root path : " . A_RO_PATH;
 include A_ROOT_PATH . "function.php";
+// define('conn', $conn);
 
+//include config.php
+include A_ROOT_PATH.'/config.php';
 
-$conn = mysqli_connect('localhost', 'root', '', 'coderbees');
+// $conn = mysqli_connect($host, $user, $password, $db, $port);
 
 $key = $_SESSION["admin_key"] ?? "";
 
 if ($key) {
-    $GLOBALS['auth_admin'] = getData($key);
+    $GLOBALS['auth_admin'] = getData($key, $conn);
 }
 //echo $auth_admin["adminUser_name"];
 
-function getData($key)
+function getData($key, $conn)
 {
-    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
+    // $conn = mysqli_connect($host, $user, $password, $db, $port);
     $data = "SELECT adminId, adminUser_name, adminEmail, adminImage FROM admin WHERE adminId=$key";
     $result = mysqli_query($conn, $data);
     if (mysqli_num_rows($result) > 0) {
@@ -32,9 +35,9 @@ function getData($key)
         return "Not found !";
     }
 }
-function getCategory($key)
+function getCategory($key, $conn)
 {
-    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
+    // $conn = mysqli_connect($host, $user, $password, $db, $port);
     $data = "SELECT * FROM category WHERE catId='$key'";
     $result = mysqli_query($conn, $data);
     if (mysqli_num_rows($result) > 0) {
@@ -44,9 +47,9 @@ function getCategory($key)
     }
 }
 
-function getPublisher($key)
+function getPublisher($key, $conn)
 {
-    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
+    // $conn = mysqli_connect($host, $user, $password, $db, $port);
     $data = "SELECT * FROM publisher WHERE publisherId='$key'";
     $result = mysqli_query($conn, $data);
     if (mysqli_num_rows($result) > 0) {
@@ -57,16 +60,16 @@ function getPublisher($key)
 }
 
 
-function getAllPublisher()
+function getAllPublisher($conn)
 {
-    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
+    // $conn = mysqli_connect($host, $user, $password, $db, $port);
     $data = "SELECT * FROM publisher";
     return mysqli_query($conn, $data);
 }
 
-function getCurd($key)
+function getCurd($key, $conn)
 {
-    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
+    // $conn = mysqli_connect($host, $user, $password, $db, $port);
     $data = "SELECT * FROM crud WHERE id='$key'";
     $result = mysqli_query($conn, $data);
     if (mysqli_num_rows($result) > 0) {
@@ -79,9 +82,9 @@ function getCurd($key)
 
 
 
-function isInAdminDatabase($user_name)
+function isInAdminDatabase($user_name, $conn)
 {
-    $conn = mysqli_connect('localhost', 'root', '', 'coderbees');
+    // $conn = mysqli_connect($host, $user, $password, $db, $port);
     $data = "SELECT * FROM admin WHERE adminUser_name='$user_name'";
     $result = mysqli_query($conn, $data);
     if (mysqli_num_rows($result) > 0) {

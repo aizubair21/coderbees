@@ -14,7 +14,8 @@ if (!isset($_SESSION["admin_key"])) {
 
 $key = $_SESSION["admin_key"] ?? "";
 // $setting = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM site_setting "));
-// print_r($setting);
+// print_r($data);
+// die();
 ?>
 
 

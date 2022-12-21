@@ -13,7 +13,7 @@ RewriteRule ^(.*)$ $1.php
 # #home page
 RewriteRule ^$ index.php [NC,L]
 RewriteRule ^home index.php [NC,L]
-RewriteRule ^admin admin/login.php [NC,L]
+RewriteRule /admin admin/login.php [NC,L]
 RewriteRule /publisher$ publisher/login.php [NC,L]
 RewriteRule contact-us contact.php [NC,L]
 

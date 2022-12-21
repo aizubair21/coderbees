@@ -59,11 +59,12 @@ function userLogin(e, email, password, uri) {
     let loginButton = document.getElementById('userLoginButton');
     let spinner = '<span style="font-size:14px; opacity:.5;" class="d-flex justify-content-between align-items-center"> verifying..</span ';
     loginButton.innerHTML = spinner;
-    
+
     // console.log('login');
     axios.post("/coderbees/function/user.login.php?email=" + email + "&password=" + password + "&uri=" + uri)
         .then(function (response) {
 
+            console.log(response.data);
             loginButton.innerHTML = "Login";
 
             //user logged in on system
@@ -80,7 +81,7 @@ function userLogin(e, email, password, uri) {
 
             //if input are empty
             if (response.data == "empty") {
-                toastr.warning("Please, Fillid up all the fields !");
+                toastr.warning("Please, Fillid up all fields !");
                 // console.log(e.target);
             }
             // console.log(response.data);

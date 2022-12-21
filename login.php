@@ -91,10 +91,8 @@ $pass_error = '';
     </div>
 </div>
 
-<!-- <script src="js/custom.site.js"></script> -->
-<?php 
+<?php
 
-include "footer.php" 
+include "footer.php"
 
 ?>
-

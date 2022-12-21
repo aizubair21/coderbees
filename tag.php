@@ -11,7 +11,7 @@ $tags = trim($_GET["tags"] ?? "All Tags");
 
 
 <!-- Breadcrumb Start -->
-<div class="container-fluid">
+<!-- <div class="container-fluid">
     <div class="container">
         <nav class="breadcurmbs">
             <a class="breadcrumbs-item" href="index.php"> <i class="fas fa-home"></i> Home</a>
@@ -19,7 +19,7 @@ $tags = trim($_GET["tags"] ?? "All Tags");
             <span class="breadcrumbs-item-active"><?php echo $tags ?></span>
         </nav>
     </div>
-</div>
+</div> -->
 <!-- Breadcrumb End -->
 
 

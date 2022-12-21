@@ -25,7 +25,7 @@ if(isset($_POST['confirm'])) {
     }
 
     if ($_POST['user_name'] != '' && $_POST['email'] != "") {
-        if($row = isInAdminDatabase($user_name)){
+        if($row = isInAdminDatabase($user_name, $conn)){
 
             $id = $row["adminId"];
 

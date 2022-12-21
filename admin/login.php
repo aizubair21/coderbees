@@ -66,7 +66,7 @@ if (isset($_POST["login"])) {
                                 </div><br>
 
                                 <div>
-                                    <button class="btn btn-primary btn-lg" name="login" type="button" id="adminLogin">Login</button>
+                                    <button class="btn btn-primary btn-lg" name="login" type="submit" >Login</button>
                                 </div>
 
                                 <hr>
@@ -110,24 +110,30 @@ if (isset($_POST["login"])) {
             //when this function call, spinner show in login button
             targetButton.innerHTML = spinner;
 
-            axios.post("/coderbees/admin/function/admin.login.php?email=" + email.value + "&password=" + password.value, )
+            axios.post("/coderbees/admin/function/admin.login.php?email=" + email.value + "&password=" + password.value)
                 .then(function(response) {
 
                     //empty input field after get response from server
                     email.value = "";
                     password.value = "";
-
+                    
+                    console.log(response);
                     if (response.data == "success") {
                         window.location.reload();
                     } else {
-
                         //whten get response from server, it stop showing spinner animation
                         targetButton.innerHTML = "Login";
+
+
                         document.getElementById('error').innerHTML = "Email or Password are invalid !";
-                    
+                        setTimeout(function() {
+                            document.getElementById('error').innerHTML = "";
+                        }, 3000)
+
                     }
                 })
                 .catch(function(error) {
+
                     //empty input field after get response
                     email.value = "";
                     password.value = "";

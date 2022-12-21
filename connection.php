@@ -27,7 +27,7 @@ $mysqli = new DBSelect;
 $key = $_SESSION["publisher_key"] ?? '';
 
 if ($key) {
-    $GLOBALS['auth_publisher'] = getPublisher($key);
+    $GLOBALS['auth_publisher'] = getPublisher($key, $conn);
 }
 
 $user_key = $_SESSION["user_key"] ?? "";

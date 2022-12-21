@@ -175,7 +175,7 @@
                             </div>
                             <?php
                             if ($u_key = isset($_SESSION['user_key'])) {
-                                $conn = mysqli_connect("localhost", "root", "", "coderbees");
+                                $conn = mysqli_connect("localhost", "root", "", "coderbees", '3307');
                                 $u = mysqli_query($conn, "SELECT * FROM users WHERE(userId = $u_key)");
                                 $user = mysqli_fetch_assoc($u);
                                 echo $user['userName'];

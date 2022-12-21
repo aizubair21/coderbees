@@ -180,7 +180,7 @@ if (isset($_POST["post"])) {
                                         <!-- post -->
                                         <div class="my-2">
                                             <label for="description" class="form-label">Post : </label>
-                                            <textarea class="form-control" name="description" id="summernote"></textarea>
+                                            <textarea class="form-control <?php echo (!empty($post_error)) ? "is-invalid" : "" ?>" name="description" id="summernote"></textarea>
                                             <?php if (empty($post_error)) : ?>
                                                 <div class="form-text text-info <?php echo (empty($post_error)) ? "is-invalid" : "" ?>">
                                                     <i class="fas fa-arrow-circle-right"></i> Describe your post
@@ -198,7 +198,7 @@ if (isset($_POST["post"])) {
                                     <div class="col-lg-4">
                                         <!-- category -->
                                         <div>
-                                            <select name="category" id="category" onchange="showCat(this.value)" class="form-select form-control <?php echo (!empty($cat_error)) ? "is-invalid" : "" ?>" aria-label="Default select example">
+                                            <select name="category" id="category" onchange="showCat(this.value)" class="form-select form-control <?php echo (!empty($cat_error)) ? 'is-invalid' : "" ?>" aria-label="Default select example">
                                                 <option> Select category </option>
                                                 <?php
                                                 $category = new DBSelect;

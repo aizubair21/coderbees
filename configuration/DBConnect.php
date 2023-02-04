@@ -3,7 +3,7 @@
 class DBConnection
 {
     // private $host = 'localhost', $user = 'root', $password = '', $db = 'coderbees';
-    private $host = 'localhost', $user = 'root', $password = '', $db = 'coderbees', $port = '3307';
+    private $host = 'localhost', $user = 'root', $password = '', $db = 'coderbees', $port = '3306';
     public $mysqli;
 
     public function __construct()
